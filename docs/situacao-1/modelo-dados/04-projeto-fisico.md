@@ -1,6 +1,6 @@
 # Projeto físico — decisões e domínios
 
-O DDL completo está em [`03-projeto-fisico.sql`](03-projeto-fisico.sql). As migrações Alembic (`src/migrations/versions/`) reproduzem esse DDL; a parte específica do PostgreSQL (extensão `btree_gist` e restrição `EXCLUDE`) só é aplicada quando o banco é PostgreSQL.
+O DDL completo está em [`03-projeto-fisico.sql`](03-projeto-fisico.sql). As migrações Alembic (`src/migrations/versions/`) reproduzem esse DDL; a parte específica do PostgreSQL (restrição `EXCLUDE`) só é aplicada quando o banco é PostgreSQL.
 
 ## SGBD escolhido
 
@@ -21,6 +21,17 @@ O material lembra que *"um tipo de dado não é o mesmo que o domínio do atribu
 | agendamentos.status | VARCHAR(15) | {agendado, cancelado, concluido} | `CHECK ... IN` |
 | agendamentos.(inicio, fim) | TIMESTAMP | fim > inicio; sem sobreposição por profissional | `CHECK` + `EXCLUDE USING gist` |
 | agendamentos.cancelado_em | TIMESTAMP | preenchido se e somente se status = cancelado | `CHECK` de equivalência |
+
+## Restrição de não sobreposição (RN02)
+
+```sql
+EXCLUDE USING gist (
+    int4range(profissional_id, profissional_id, '[]') WITH =,
+    tsrange(inicio, fim, '[)') WITH &&
+) WHERE (status = 'agendado')
+```
+
+Lê-se: "não podem existir duas linhas com status `agendado` em que o profissional seja o mesmo **e** os intervalos `[inicio, fim)` se sobreponham". O intervalo é semiaberto, então um atendimento das 10:00 às 10:30 **não** conflita com outro que começa às 10:30. O profissional é convertido em uma faixa de um único valor (`int4range`) para que a restrição use só operadores de faixa nativos do GiST, sem depender da extensão `btree_gist`.
 
 ## Integridade referencial
 

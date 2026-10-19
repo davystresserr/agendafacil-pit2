@@ -3,9 +3,9 @@
 -- As migrações Alembic em src/migrations reproduzem este DDL.
 -- =============================================================================
 
--- Extensão necessária para combinar "=" (inteiro) e "&&" (faixa) na mesma
--- restrição EXCLUDE (não sobreposição de agendamentos).
-CREATE EXTENSION IF NOT EXISTS btree_gist;
+-- Observação: a restrição EXCLUDE de agendamentos usa apenas operadores de faixa
+-- (int4range "=" e tsrange "&&"), suportados nativamente pelo GiST. Assim não é
+-- preciso instalar a extensão btree_gist.
 
 -- -----------------------------------------------------------------------------
 -- usuarios
@@ -107,7 +107,7 @@ CREATE TABLE agendamentos (
     CONSTRAINT ck_ag_cancelado CHECK ((status = 'cancelado') = (cancelado_em IS NOT NULL)),
     -- RN02: nenhum par de agendamentos ATIVOS do mesmo profissional pode se sobrepor.
     CONSTRAINT ex_ag_sem_sobreposicao EXCLUDE USING gist (
-        profissional_id WITH =,
+        int4range(profissional_id, profissional_id, '[]') WITH =,
         tsrange(inicio, fim, '[)') WITH &&
     ) WHERE (status = 'agendado')
 );
