@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% block titulo %}Minha agenda{% endblock %}
+{% block conteudo %}
+<h1>Olá, {{ profissional.usuario.primeiro_nome }}</h1>
+<p class="muted">Serviços que você realiza: {{ profissional.servicos|map(attribute='nome')|join(', ') or 'nenhum' }}</p>
+
+<section class="caixa">
+  <h2>Agenda — de hoje em diante</h2>
+  {% if agendamentos %}
+  <div class="tabela-rolagem">
+  <table class="tabela">
+    <thead><tr><th>Data/hora</th><th>Cliente</th><th>Serviço</th><th>Status</th><th>Ações</th></tr></thead>
+    <tbody>
+    {% for a in agendamentos %}
+      <tr data-testid="agendamento">
+        <td data-rotulo="Data/hora">{{ a.inicio|datahora }} – {{ a.fim|hora }}</td>
+        <td data-rotulo="Cliente">{{ a.cliente.nome }}{% if a.cliente.telefone %}<br><small class="muted">{{ a.cliente.telefone }}</small>{% endif %}
+          {% if a.observacao %}<br><small>“{{ a.observacao }}”</small>{% endif %}</td>
+        <td data-rotulo="Serviço">{{ a.servico.nome }}</td>
+        <td data-rotulo="Status"><span class="selo selo-{{ a.status }}">{{ a.status_rotulo }}</span></td>
+        <td data-rotulo="Ações" class="acoes">
+          {% if a.ativo %}
+            {% if a.inicio <= agora_ %}
+            <form method="post" action="{{ url_for('agendamentos.concluir', agendamento_id=a.id) }}" class="inline">
+              <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+              <button class="botao botao-pequeno" type="submit">Concluir</button>
+            </form>
+            {% endif %}
+            {% include "_cancelar.html" %}
+          {% else %}—{% endif %}
+        </td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  </div>
+  {% else %}
+    <p class="vazio">Nenhum atendimento agendado.</p>
+  {% endif %}
+</section>
+
+<section class="caixa" id="horarios">
+  <h2>Meus horários disponíveis</h2>
+  {% if profissional.horarios %}
+  <table class="tabela tabela-compacta">
+    <thead><tr><th>Dia</th><th>Início</th><th>Fim</th><th></th></tr></thead>
+    <tbody>
+    {% for h in profissional.horarios %}
+      <tr>
+        <td>{{ h.dia_nome }}</td><td>{{ h.hora_inicio|hora }}</td><td>{{ h.hora_fim|hora }}</td>
+        <td>
+          <form method="post" action="{{ url_for('profissional.remover_horario', horario_id=h.id) }}" class="inline" data-confirmar="Remover {{ h.dia_nome }} {{ h.hora_inicio|hora }}–{{ h.hora_fim|hora }}? Agendamentos já marcados não são afetados.">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <button class="botao botao-secundario botao-pequeno" type="submit">Remover</button>
+          </form>
+        </td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+    <p class="vazio">Cadastre seus horários para que os clientes possam agendar.</p>
+  {% endif %}
+  <form method="post" action="{{ url_for('profissional.adicionar_horario') }}" class="linha-form" data-validar>
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <label for="dia_semana">Dia</label>
+    <select id="dia_semana" name="dia_semana" required>
+      {% for d in DIAS_SEMANA %}<option value="{{ loop.index0 }}">{{ d }}</option>{% endfor %}
+    </select>
+    <label for="hora_inicio">Início</label><input id="hora_inicio" type="time" name="hora_inicio" required value="09:00">
+    <label for="hora_fim">Fim</label><input id="hora_fim" type="time" name="hora_fim" required value="18:00">
+    <button class="botao" type="submit">Adicionar</button>
+  </form>
+</section>
+{% endblock %}

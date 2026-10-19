@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block titulo %}AgendaFácil{% endblock %} · AgendaFácil</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✂️</text></svg>">
+</head>
+<body>
+<header class="topo">
+  <div class="topo-conteudo">
+    <a class="marca" href="{{ url_for('main.index') }}">✂️ AgendaFácil</a>
+    <button class="menu-botao" type="button" aria-expanded="false" aria-controls="menu" data-menu>☰ <span class="sr-only">Menu</span></button>
+    <nav id="menu" class="menu">
+      {% set ep = request.endpoint or '' %}
+      {% if not g.usuario or g.usuario.is_cliente %}
+        <a href="{{ url_for('main.index') }}" class="{{ 'ativo' if ep == 'main.index' }}">Serviços</a>
+      {% endif %}
+      {% if g.usuario %}
+        {% if g.usuario.is_cliente %}
+          <a href="{{ url_for('agendamentos.agendar') }}" class="{{ 'ativo' if ep == 'agendamentos.agendar' }}">Agendar</a>
+          <a href="{{ url_for('agendamentos.meus') }}" class="{{ 'ativo' if ep == 'agendamentos.meus' }}">Meus agendamentos</a>
+        {% elif g.usuario.is_profissional %}
+          <a href="{{ url_for('profissional.painel') }}" class="{{ 'ativo' if ep.startswith('profissional.') }}">Minha agenda</a>
+        {% elif g.usuario.is_admin %}
+          <a href="{{ url_for('admin.painel') }}" class="{{ 'ativo' if ep == 'admin.painel' }}">Painel</a>
+          <a href="{{ url_for('admin.profissionais') }}" class="{{ 'ativo' if ep == 'admin.profissionais' }}">Profissionais</a>
+          <a href="{{ url_for('admin.agendamentos') }}" class="{{ 'ativo' if ep == 'admin.agendamentos' }}">Agendamentos</a>
+        {% endif %}
+        <span class="usuario">{{ g.usuario.primeiro_nome }} <small>({{ g.usuario.papel }})</small></span>
+        <form method="post" action="{{ url_for('auth.logout') }}" class="inline">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+          <button type="submit" class="link">Sair</button>
+        </form>
+      {% else %}
+        <a href="{{ url_for('auth.login') }}" class="{{ 'ativo' if ep == 'auth.login' }}">Entrar</a>
+        <a href="{{ url_for('auth.cadastro') }}" class="botao botao-pequeno">Criar conta</a>
+      {% endif %}
+    </nav>
+  </div>
+</header>
+
+<main class="conteudo">
+  {% with mensagens = get_flashed_messages(with_categories=true) %}
+    {% if mensagens %}
+      <div class="mensagens">
+        {% for categoria, msg in mensagens %}
+          <div class="flash flash-{{ categoria }}" role="alert">
+            <span aria-hidden="true">{{ {'sucesso': '✔', 'erro': '✖', 'aviso': '⚠'}.get(categoria, 'ℹ') }}</span>
+            <span>{{ msg }}</span>
+            <button type="button" class="fechar" aria-label="Fechar mensagem" data-fechar>×</button>
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+  {% block conteudo %}{% endblock %}
+</main>
+
+<footer class="rodape">AgendaFácil · PIT Engenharia de Software II · Davy Gabriel Stresser Pereira</footer>
+<script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>

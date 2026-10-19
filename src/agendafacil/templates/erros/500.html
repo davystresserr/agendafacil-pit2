@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Erro interno · AgendaFácil</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+{# Página independente: não acessa o banco, pois pode ter sido ele a falhar. #}
+<main class="conteudo">
+  <section class="erro-pagina">
+    <p class="erro-codigo">500</p>
+    <h1>Algo deu errado do nosso lado</h1>
+    <p>Já registramos o problema; tente novamente em instantes.</p>
+    <a class="botao" href="/">Voltar ao início</a>
+  </section>
+</main>
+</body>
+</html>

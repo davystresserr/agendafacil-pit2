@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block titulo %}{{ 'Editar' if servico else 'Novo' }} serviço{% endblock %}
+{% block conteudo %}
+<section class="painel-form">
+  <h1>{{ 'Editar serviço' if servico else 'Novo serviço' }}</h1>
+  <form method="post" novalidate data-validar>
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <label for="nome">Nome *</label>
+    <input id="nome" name="nome" required minlength="2" maxlength="80" value="{{ dados.get('nome', '') }}" class="{{ 'invalido' if erros.nome }}">
+    {% if erros.nome %}<small class="erro-campo">{{ erros.nome }}</small>{% endif %}
+    <label for="preco">Preço (R$) *</label>
+    <input id="preco" name="preco" required inputmode="decimal" pattern="[0-9]+([.,][0-9]{1,2})?" placeholder="45,00" value="{{ dados.get('preco', '') }}" class="{{ 'invalido' if erros.preco }}">
+    {% if erros.preco %}<small class="erro-campo">{{ erros.preco }}</small>{% endif %}
+    <label for="duracao_min">Duração (minutos) *</label>
+    <input id="duracao_min" name="duracao_min" type="number" required min="5" max="480" step="5" value="{{ dados.get('duracao_min', '') }}" class="{{ 'invalido' if erros.duracao_min }}">
+    {% if erros.duracao_min %}<small class="erro-campo">{{ erros.duracao_min }}</small>{% endif %}
+    <label for="descricao">Descrição</label>
+    <textarea id="descricao" name="descricao" rows="3">{{ dados.get('descricao', '') }}</textarea>
+    <div class="acoes">
+      <button type="submit" class="botao">Salvar</button>
+      <a class="botao botao-secundario" href="{{ url_for('admin.painel') }}">Cancelar</a>
+    </div>
+  </form>
+</section>
+{% endblock %}

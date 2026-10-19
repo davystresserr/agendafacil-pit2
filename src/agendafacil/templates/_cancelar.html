@@ -1,0 +1,6 @@
+{# Botão de cancelar com confirmação. Requer variável "a" (agendamento). #}
+<form method="post" action="{{ url_for('agendamentos.cancelar', agendamento_id=a.id) }}" class="inline"
+      data-confirmar="Cancelar {{ a.servico.nome }} com {{ a.profissional.nome }} em {{ a.inicio|datahora }}? O horário será liberado para outros clientes.">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+  <button type="submit" class="botao botao-perigo botao-pequeno">Cancelar</button>
+</form>

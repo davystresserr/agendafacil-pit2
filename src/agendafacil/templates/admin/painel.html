@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block titulo %}Administração{% endblock %}
+{% block conteudo %}
+<h1>Administração</h1>
+<div class="indicadores">
+  <div class="indicador"><strong>{{ agendamentos_hoje }}</strong><span>agendamentos ativos hoje</span></div>
+  <div class="indicador"><strong>{{ servicos|selectattr('ativo')|list|length }}</strong><span>serviços ativos</span></div>
+  <div class="indicador"><strong>{{ profissionais|length }}</strong><span>profissionais</span></div>
+</div>
+
+<section class="caixa">
+  <div class="cabecalho-pagina">
+    <h2>Serviços</h2>
+    <a class="botao" href="{{ url_for('admin.novo_servico') }}">+ Novo serviço</a>
+  </div>
+  <div class="tabela-rolagem">
+  <table class="tabela">
+    <thead><tr><th>Nome</th><th>Preço</th><th>Duração</th><th>Status</th><th>Ações</th></tr></thead>
+    <tbody>
+    {% for s in servicos %}
+      <tr>
+        <td data-rotulo="Nome">{{ s.nome }}</td>
+        <td data-rotulo="Preço">{{ s.preco_formatado }}</td>
+        <td data-rotulo="Duração">{{ s.duracao_min }} min</td>
+        <td data-rotulo="Status"><span class="selo {{ 'selo-agendado' if s.ativo else 'selo-cancelado' }}">{{ 'Ativo' if s.ativo else 'Inativo' }}</span></td>
+        <td data-rotulo="Ações" class="acoes">
+          <a class="botao botao-secundario botao-pequeno" href="{{ url_for('admin.editar_servico', servico_id=s.id) }}">Editar</a>
+          <form method="post" action="{{ url_for('admin.alternar_servico', servico_id=s.id) }}" class="inline">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <button class="botao botao-secundario botao-pequeno" type="submit">{{ 'Desativar' if s.ativo else 'Ativar' }}</button>
+          </form>
+        </td>
+      </tr>
+    {% else %}
+      <tr><td colspan="5" class="vazio">Nenhum serviço cadastrado.</td></tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  </div>
+</section>
+{% endblock %}

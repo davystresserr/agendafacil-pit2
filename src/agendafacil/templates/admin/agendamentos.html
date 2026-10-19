@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block titulo %}Agendamentos{% endblock %}
+{% block conteudo %}
+<h1>Todos os agendamentos</h1>
+{% if agendamentos %}
+<div class="tabela-rolagem">
+<table class="tabela">
+  <thead><tr><th>Data/hora</th><th>Cliente</th><th>Profissional</th><th>Serviço</th><th>Status</th><th>Ações</th></tr></thead>
+  <tbody>
+  {% for a in agendamentos %}
+    <tr data-testid="agendamento">
+      <td data-rotulo="Data/hora">{{ a.inicio|datahora }}</td>
+      <td data-rotulo="Cliente">{{ a.cliente.nome }}</td>
+      <td data-rotulo="Profissional">{{ a.profissional.nome }}</td>
+      <td data-rotulo="Serviço">{{ a.servico.nome }}</td>
+      <td data-rotulo="Status"><span class="selo selo-{{ a.status }}">{{ a.status_rotulo }}</span></td>
+      <td data-rotulo="Ações" class="acoes">{% if a.ativo %}{% include "_cancelar.html" %}{% else %}—{% endif %}</td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+</div>
+{% else %}
+  <p class="vazio">Nenhum agendamento ainda.</p>
+{% endif %}
+{% endblock %}

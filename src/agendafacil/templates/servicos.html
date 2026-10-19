@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block titulo %}Serviços{% endblock %}
+{% block conteudo %}
+<section class="hero">
+  <h1>Agende seu horário em poucos cliques</h1>
+  <p>Escolha o serviço, o profissional e o melhor horário. Sem ligação, sem espera.</p>
+</section>
+<h2>Nossos serviços</h2>
+{% if servicos %}
+<div class="cards">
+  {% for s in servicos %}
+  <article class="card" data-testid="servico">
+    <h3>{{ s.nome }}</h3>
+    {% if s.descricao %}<p class="muted">{{ s.descricao }}</p>{% endif %}
+    <p class="preco"><strong>{{ s.preco_formatado }}</strong> · {{ s.duracao_min }} min</p>
+    {% if not g.usuario or g.usuario.is_cliente %}
+      <a class="botao" href="{{ url_for('agendamentos.agendar', servico_id=s.id) }}">Agendar</a>
+    {% endif %}
+  </article>
+  {% endfor %}
+</div>
+{% else %}
+  <p class="vazio">Nenhum serviço disponível no momento.</p>
+{% endif %}
+{% endblock %}
