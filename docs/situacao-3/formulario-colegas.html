@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Teste do AgendaFácil</title>
+<style>
+  :root{--fundo:#f6f5f2;--sup:#fff;--txt:#1f2328;--muted:#5d6670;--borda:#dcd9d2;--pri:#1d4ed8;--ok:#067647;--erro:#b42318}
+  @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--fundo:#16181c;--sup:#1f2227;--txt:#e8e6e1;--muted:#a3a9b1;--borda:#363a41;--pri:#7aa2ff;--ok:#4cc38a;--erro:#ff8a7a}}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--fundo);color:var(--txt);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+  main{max-width:880px;margin:0 auto;padding:24px 16px 64px}
+  h1{margin:.2em 0}h2{margin-top:1.6em;font-size:1.25rem}
+  .card{background:var(--sup);border:1px solid var(--borda);border-radius:10px;padding:18px;margin:16px 0}
+  .muted{color:var(--muted)}
+  label{display:block;font-weight:600;margin:12px 0 4px}
+  input[type=text],input[type=date],textarea,select{width:100%;padding:10px;border:1px solid var(--borda);border-radius:8px;font:inherit;background:var(--sup);color:var(--txt)}
+  textarea{min-height:90px;resize:vertical}
+  table{width:100%;border-collapse:collapse}
+  th,td{border-bottom:1px solid var(--borda);padding:8px;text-align:left;vertical-align:top}
+  th{font-size:.8rem;text-transform:uppercase;color:var(--muted)}
+  td.res{white-space:nowrap}
+  td.res label{display:inline-flex;gap:4px;font-weight:400;margin:0 8px 0 0}
+  .linha-erro{display:grid;grid-template-columns:90px 1fr 1fr 36px;gap:8px;margin-bottom:8px}
+  .linha-erro input{width:100%;padding:8px;border:1px solid var(--borda);border-radius:8px;font:inherit;background:var(--sup);color:var(--txt)}
+  button{font:inherit;font-weight:600;border-radius:8px;padding:10px 16px;cursor:pointer;border:1px solid var(--pri);background:var(--pri);color:#fff}
+  button.sec{background:transparent;color:var(--pri)}
+  button.x{padding:4px 8px;background:transparent;color:var(--erro);border-color:var(--borda)}
+  .acoes{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+  .prints{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;margin-top:10px}
+  .prints figure{margin:0;border:1px solid var(--borda);border-radius:8px;padding:6px;background:var(--sup)}
+  .prints img{width:100%;border-radius:4px}
+  .prints figcaption{font-size:.8rem;color:var(--muted);word-break:break-all}
+  .aviso{font-size:.9rem;color:var(--muted)}
+  @media (max-width:640px){.linha-erro{grid-template-columns:1fr}td.res label{display:flex}}
+  @media print{body{background:#fff;color:#000}.nao-imprimir{display:none!important}.card{break-inside:avoid;border-color:#bbb}}
+</style>
+</head>
+<body>
+<main>
+  <h1>Teste do AgendaFácil</h1>
+  <p class="muted">PIT Engenharia de Software II · Davy Gabriel Stresser Pereira</p>
+
+  <div class="card">
+    <p><strong>Endereço do sistema:</strong> <span id="link-app">[PENDENTE: link da aplicação]</span></p>
+    <p>Siga o roteiro, marque o resultado de cada passo, descreva os problemas e anexe prints. No fim, clique em <strong>Salvar em PDF</strong> e me envie o arquivo. Se a primeira página demorar até 1 minuto, é normal: o servidor gratuito "acorda" no primeiro acesso.</p>
+    <p class="aviso nao-imprimir">O que você digita fica salvo só neste navegador, para não perder o rascunho. Os prints não são salvos no rascunho; anexe-os antes de gerar o PDF.</p>
+  </div>
+
+  <form id="form" onsubmit="return false">
+    <div class="card">
+      <label for="nome">Nome de quem testou *</label>
+      <input type="text" id="nome" name="nome" required>
+      <label for="data">Data do teste *</label>
+      <input type="date" id="data" name="data" required>
+      <label for="dispositivo">Dispositivo e navegador</label>
+      <input type="text" id="dispositivo" name="dispositivo" placeholder="Ex.: notebook Windows + Chrome; celular Android">
+    </div>
+
+    <h2>Roteiro de teste</h2>
+    <div class="card" style="overflow-x:auto">
+      <table>
+        <thead><tr><th>#</th><th>Faça isto</th><th>Você deve ver</th><th>Resultado</th></tr></thead>
+        <tbody id="roteiro"></tbody>
+      </table>
+    </div>
+
+    <h2>1. O que testou e funcionou</h2>
+    <div class="card">
+      <textarea id="funcionou" name="funcionou" placeholder="Descreva as funcionalidades que funcionaram (ex.: cadastro, login, agendamento, cancelamento...)"></textarea>
+    </div>
+
+    <h2>2. O que testou e não funcionou, e o que deve ser corrigido</h2>
+    <div class="card">
+      <p class="muted">Uma linha por problema: o passo do roteiro, o que aconteceu e o que deveria acontecer.</p>
+      <div id="erros"></div>
+      <button type="button" class="sec nao-imprimir" id="add-erro">+ Adicionar problema</button>
+    </div>
+
+    <h2>3. Funcionalidade não testada, e por quê</h2>
+    <div class="card">
+      <textarea id="nao_testado" name="nao_testado" placeholder="Ex.: Parte B, não recebi acesso de administrador; A12, não havia horário disponível hoje"></textarea>
+    </div>
+
+    <h2>4. Sugestões de melhoria (opcional)</h2>
+    <div class="card">
+      <textarea id="sugestoes" name="sugestoes"></textarea>
+    </div>
+
+    <h2>5. Prints</h2>
+    <div class="card">
+      <label for="arquivos" class="nao-imprimir">Anexe os prints (PNG/JPG)</label>
+      <input type="file" id="arquivos" accept="image/*" multiple class="nao-imprimir">
+      <div class="prints" id="prints"></div>
+    </div>
+
+    <div class="acoes nao-imprimir">
+      <button type="button" id="pdf">Salvar em PDF</button>
+      <button type="button" class="sec" id="baixar">Baixar respostas (.txt)</button>
+      <button type="button" class="sec" id="limpar">Limpar formulário</button>
+    </div>
+  </form>
+</main>
+
+<script>
+(function(){
+  "use strict";
+  var PASSOS = [
+    ["A1","Abra o endereço do sistema.","Lista de serviços com preço e duração."],
+    ["A2","Clique em Criar conta, preencha seus dados (e-mail pode ser fictício) e senha de 8+ caracteres. Escreva a confirmação diferente de propósito.","Aviso “As senhas não conferem” antes de enviar."],
+    ["A3","Corrija a confirmação e clique em Criar conta.","“Conta criada com sucesso!” e seu nome no topo."],
+    ["A4","Clique em Sair e entre com uma senha errada.","“E-mail ou senha incorretos.”"],
+    ["A5","Entre com a senha certa.","“Olá, {seu nome}!”"],
+    ["A6","Clique em Agendar em um serviço, escolha um profissional e uma data de segunda a sábado.","Botões com horários livres."],
+    ["A7","Escolha um horário, escreva uma observação e confirme.","“Agendamento confirmado...” e o item em Meus agendamentos como Agendado."],
+    ["A8","Tente agendar de novo o mesmo horário com o mesmo profissional.","O horário não aparece mais como livre."],
+    ["A9","Escolha um domingo.","“Nenhum horário livre nesta data.”"],
+    ["A10","Em Meus agendamentos, clique em Cancelar e depois em Voltar.","Nada muda."],
+    ["A11","Clique em Cancelar e depois em Sim, confirmar.","“Agendamento cancelado” e status Cancelado."],
+    ["A12","Agende para hoje, a menos de 2 horas a partir de agora (se houver horário).","“Cancelamento indisponível (menos de 2h)”."],
+    ["A13","Acesse o endereço do sistema + /admin/","“Acesso negado”."],
+    ["A14","Acesse o endereço + /pagina-que-nao-existe","“Página não encontrada” com botão para voltar."],
+    ["A15","Repita A1, A6 e A7 no celular.","Tela ajustada ao celular e menu ☰ funcionando."],
+    ["B1","(Opcional) Entre como profissional.","Agenda com os atendimentos."],
+    ["B2","(Opcional) Adicione um horário de domingo, das 10:00 às 12:00.","“Horário adicionado.”"],
+    ["B3","(Opcional) Entre como administrador e crie um serviço com preço 0.","Erro sobre o preço."],
+    ["B4","(Opcional) Crie um serviço válido.","Serviço novo listado na página inicial."]
+  ];
+  var CHAVE = "agendafacil-formulario-v1";
+  var tbody = document.getElementById("roteiro");
+  PASSOS.forEach(function(p){
+    var tr = document.createElement("tr");
+    tr.innerHTML = "<td><strong>"+p[0]+"</strong></td><td>"+p[1]+"</td><td>"+p[2]+"</td>"+
+      '<td class="res">'+["OK","Falhou","Não testei"].map(function(r){
+        return '<label><input type="radio" name="passo_'+p[0]+'" value="'+r+'"> '+r+'</label>';
+      }).join("")+"</td>";
+    tbody.appendChild(tr);
+  });
+
+  var errosDiv = document.getElementById("erros");
+  function addErro(v){
+    v = v || ["","",""];
+    var d = document.createElement("div");
+    d.className = "linha-erro";
+    d.innerHTML = '<input placeholder="Passo" aria-label="Passo"><input placeholder="O que aconteceu" aria-label="O que aconteceu">'+
+      '<input placeholder="O que deveria acontecer / correção" aria-label="Correção sugerida"><button type="button" class="x nao-imprimir" aria-label="Remover">×</button>';
+    var ins = d.querySelectorAll("input");
+    ins.forEach(function(el,i){ el.value = v[i] || ""; el.addEventListener("input", salvar); });
+    d.querySelector("button").onclick = function(){ d.remove(); salvar(); };
+    errosDiv.appendChild(d);
+  }
+  document.getElementById("add-erro").onclick = function(){ addErro(); };
+
+  function coletar(){
+    var f = document.getElementById("form"), dados = {};
+    ["nome","data","dispositivo","funcionou","nao_testado","sugestoes"].forEach(function(k){ dados[k] = f[k].value; });
+    dados.passos = {};
+    PASSOS.forEach(function(p){
+      var m = f.querySelector('input[name="passo_'+p[0]+'"]:checked');
+      dados.passos[p[0]] = m ? m.value : "";
+    });
+    dados.erros = Array.prototype.map.call(errosDiv.children, function(d){
+      return Array.prototype.map.call(d.querySelectorAll("input"), function(i){ return i.value; });
+    });
+    return dados;
+  }
+  function salvar(){ try { localStorage.setItem(CHAVE, JSON.stringify(coletar())); } catch(e) {} }
+  function carregar(){
+    var dados = null;
+    try { dados = JSON.parse(localStorage.getItem(CHAVE) || "null"); } catch(e) {}
+    var f = document.getElementById("form");
+    if (!dados) { addErro(); return; }
+    ["nome","data","dispositivo","funcionou","nao_testado","sugestoes"].forEach(function(k){ f[k].value = dados[k] || ""; });
+    Object.keys(dados.passos || {}).forEach(function(k){
+      var el = f.querySelector('input[name="passo_'+k+'"][value="'+dados.passos[k]+'"]');
+      if (el) el.checked = true;
+    });
+    (dados.erros && dados.erros.length ? dados.erros : [null]).forEach(addErro);
+  }
+  document.getElementById("form").addEventListener("input", salvar);
+  document.getElementById("form").addEventListener("change", salvar);
+  carregar();
+
+  document.getElementById("arquivos").addEventListener("change", function(ev){
+    var alvo = document.getElementById("prints");
+    Array.prototype.forEach.call(ev.target.files, function(arq){
+      var r = new FileReader();
+      r.onload = function(){
+        var fig = document.createElement("figure");
+        fig.innerHTML = '<img alt=""><figcaption></figcaption>';
+        fig.querySelector("img").src = r.result;
+        fig.querySelector("img").alt = arq.name;
+        fig.querySelector("figcaption").textContent = arq.name;
+        alvo.appendChild(fig);
+      };
+      r.readAsDataURL(arq);
+    });
+  });
+
+  function validar(){
+    var f = document.getElementById("form");
+    if (!f.nome.value.trim() || !f.data.value) {
+      alert("Preencha seu nome e a data do teste antes de salvar.");
+      (f.nome.value.trim() ? f.data : f.nome).focus();
+      return false;
+    }
+    return true;
+  }
+  document.getElementById("pdf").onclick = function(){ if (validar()) window.print(); };
+  document.getElementById("baixar").onclick = function(){
+    if (!validar()) return;
+    var d = coletar(), linhas = [
+      "TESTE DO AGENDAFÁCIL", "Nome: "+d.nome, "Data: "+d.data, "Dispositivo: "+d.dispositivo, "", "ROTEIRO:"
+    ];
+    PASSOS.forEach(function(p){ linhas.push(p[0]+" - "+(d.passos[p[0]] || "(sem resposta)")); });
+    linhas.push("", "O QUE FUNCIONOU:", d.funcionou, "", "O QUE NÃO FUNCIONOU / CORREÇÃO:");
+    d.erros.filter(function(e){ return e.join("").trim(); }).forEach(function(e){
+      linhas.push("- Passo "+e[0]+": "+e[1]+" | Correção: "+e[2]);
+    });
+    linhas.push("", "NÃO TESTADO E POR QUÊ:", d.nao_testado, "", "SUGESTÕES:", d.sugestoes);
+    var blob = new Blob([linhas.join("\n")], {type: "text/plain;charset=utf-8"});
+    var a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "teste-agendafacil-"+(d.nome || "colega").toLowerCase().replace(/[^a-z0-9]+/g, "-")+".txt";
+    a.click();
+  };
+  document.getElementById("limpar").onclick = function(){
+    if (!confirm("Apagar tudo o que foi preenchido?")) return;
+    try { localStorage.removeItem(CHAVE); } catch(e) {}
+    location.reload();
+  };
+})();
+</script>
+</body>
+</html>
