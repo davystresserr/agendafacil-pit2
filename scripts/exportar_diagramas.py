@@ -41,7 +41,8 @@ def main():
         for md in FONTES:
             for i, codigo in enumerate(blocos_mermaid(md), start=1):
                 sufixo = "" if i == 1 else f"-{i}"
-                destino = md.with_name(md.stem + sufixo + ".png")
+                nome = "ihc-mapa-telas" if md.stem == "ihc" else md.stem
+                destino = md.with_name(nome + sufixo + ".png")
                 html = PAGINA.format(cdn=MERMAID_CDN, codigo=codigo.replace("<", "&lt;").replace(">", "&gt;"))
                 pagina.set_content(html)
                 pagina.wait_for_selector("body[data-ok='1']", timeout=30000)

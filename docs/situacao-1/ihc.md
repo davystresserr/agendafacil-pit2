@@ -44,7 +44,7 @@ flowchart TD
 
 ## 3. Wireframes
 
-Os wireframes de baixa fidelidade estão em [`wireframes/`](wireframes/index.html) (HTML + CSS simples, abrem em qualquer navegador). Há imagens deles em `wireframes/png/`.
+Os wireframes de baixa fidelidade estão em [`wireframes/`](wireframes/index.html) (HTML + CSS simples, abrem em qualquer navegador). Há imagens deles em `wireframes/png/`. O mapa de telas exportado está em [`ihc-mapa-telas.png`](ihc-mapa-telas.png).
 
 | # | Tela | Arquivo | Atores |
 |---|---|---|---|
