@@ -8,7 +8,7 @@ Sistema web de agendamento para salões e barbearias, desenvolvido no **PIT Enge
 |---|---|
 | Aplicação em funcionamento | [PENDENTE] |
 | Vídeo de apresentação | [PENDENTE] |
-| Repositório | [PENDENTE] |
+| Repositório | https://github.com/davystresserr/agendafacil-pit2 |
 
 > **Sobre o PIT I:** os documentos originais do PIT I não estavam disponíveis. O planejamento (escopo, UML, IHC e dados) foi **reconstruído do zero** a partir da ideia original e revisado conforme o material do PIT II. Ver [`docs/situacao-1/escopo.md`](docs/situacao-1/escopo.md).
 
@@ -57,7 +57,7 @@ src/
 Requisitos: Python 3.12 e Docker (para o PostgreSQL). Sem Docker, use qualquer PostgreSQL 14+ e ajuste `DATABASE_URL`.
 
 ```bash
-git clone https://github.com/<seu-usuario>/agendafacil-pit2.git
+git clone https://github.com/davystresserr/agendafacil-pit2.git
 cd agendafacil-pit2
 python3.12 -m venv .venv
 source .venv/bin/activate              # Windows: .venv\Scripts\activate
