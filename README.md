@@ -6,7 +6,7 @@ Sistema web de agendamento para salões e barbearias, desenvolvido no **PIT Enge
 
 | | |
 |---|---|
-| Aplicação em funcionamento | [PENDENTE] |
+| Aplicação em funcionamento | https://agendafacil-l7je.onrender.com |
 | Vídeo de apresentação | [PENDENTE] |
 | Repositório | https://github.com/davystresserr/agendafacil-pit2 |
 

@@ -2,7 +2,8 @@
 
 Obrigado por testar! Você não precisa conhecer o sistema: siga o roteiro abaixo e anote o que aconteceu. Seja sincero, porque os erros que você encontrar vão me ajudar a melhorar o sistema.
 
-- **Endereço do sistema:** [PENDENTE: link da aplicação]
+- **Endereço do sistema:** https://agendafacil-l7je.onrender.com
+- **Formulário online (Google Forms):** https://docs.google.com/forms/d/e/1FAIpQLSdCHuDmWIJvqfAmrotsPYw6zXVYmXEVRbMB9U2246BEsTLVqA/viewform
 - **Versão em formulário interativo (com espaço para anexar prints):** abra o arquivo [`formulario-colegas.html`](formulario-colegas.html) no navegador, preencha e use **Salvar em PDF**.
 - **Como enviar:** me mande o PDF (ou este arquivo preenchido) e os prints.
 
