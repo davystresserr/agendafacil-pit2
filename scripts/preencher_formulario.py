@@ -1,8 +1,8 @@
 """Preenche o formulário da atividade (PIT_atividade_8.docx) sem alterar sua estrutura.
 
 Uso: python scripts/preencher_formulario.py [--repo URL] [--app URL] [--video URL]
-Links não informados ficam como [PENDENTE]. Os 5 testes dos colegas ficam [PENDENTE]
-até serem preenchidos com resultados reais.
+Links não informados ficam como [PENDENTE]. Os testes dos 5 colegas vêm de COLEGAS
+(respostas reais do Google Forms, detalhadas no laudo).
 """
 import argparse
 import copy
