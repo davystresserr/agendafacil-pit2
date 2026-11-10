@@ -31,7 +31,7 @@ Marque **OK** se funcionou como descrito, ou **Falhou** e descreva o problema. S
 | A10 | Em **Meus agendamentos**, clique em **Cancelar** e depois em **Voltar**. | Nada muda. | |
 | A11 | Clique em **Cancelar** e depois em **Sim, confirmar**. | "Agendamento cancelado" e status "Cancelado". | |
 | A12 | Faça um agendamento para **hoje**, para daqui a menos de 2 horas (se houver horário). | Em **Meus agendamentos** aparece "Cancelamento indisponível (menos de 2h)". | |
-| A13 | Digite no navegador o endereço do sistema seguido de `/admin/`. | "Acesso negado". | |
+| A13 | **Logado como cliente**, digite no navegador o endereço do sistema seguido de `/admin/`. | "Acesso negado". (Sem login, aparece a tela de login.) | |
 | A14 | Digite o endereço seguido de `/pagina-que-nao-existe`. | "Página não encontrada" com botão para voltar. | |
 | A15 | Repita A1, A6 e A7 **no celular**. | Tela ajustada ao celular, menu ☰ funcionando. | |
 

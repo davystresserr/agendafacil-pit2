@@ -11,7 +11,7 @@
 | Casos de teste do plano (CT-01 a CT-37) | 37 aprovados ([plano](plano-testes.md)) |
 | Defeitos encontrados na verificação interna | 4 (todos corrigidos), seção 3 |
 | Testes de aceitação com colegas | 4 de 5 realizados, seção 4 (colega 5: [PENDENTE: aguardando teste real]) |
-| Defeitos apontados pelos colegas | 2: C-01 corrigido; C-02 em análise (seção 5) |
+| Defeitos apontados pelos colegas | 1 corrigido (C-01); 1 relato encerrado sem defeito (C-02), seção 5 |
 
 **Escala de severidade**
 
@@ -116,7 +116,7 @@ Defeitos reais encontrados por mim durante a verificação (revisões, `flask db
 | ID | Descrição | Encontrado por | Evidência (`docs/evidencias/colegas/`) | Severidade | Correção aplicada | Status |
 |---|---|---|---|---|---|---|
 | C-01 | O campo telefone do cadastro aceitava valores sem número algum, como "((((((((" ou "--------", porque a validação só conferia os caracteres permitidos. | Colega 1 (Andrew) | Relato no formulário (passo A3) | Média | O servidor passou a exigir DDD e número (10 ou 11 dígitos, aceitando +55) e grava o telefone sempre no formato (43) 99999-0000; o campo do formulário recusa o valor antes do envio. Testes: `test_telefone_sem_digitos_suficientes_e_recusado`, `test_telefone_valido_e_formatado`. | Corrigido |
-| C-02 | Passo A13 marcado como Falhou com o comentário "Eu consegui acessar com o admin". | Colega 4 (Arthur Furtado) | Relato no formulário (passo A13) | [PENDENTE: confirmar com o colega] | Não reproduzido: logado como cliente, `/admin/` responde "Acesso negado" (403) e, sem login, redireciona para o login (CT-06, `test_auth_controller.py::test_controle_de_acesso_por_papel`). [PENDENTE: confirmar com o colega como entrou como administrador] | Em análise |
+| C-02 | Passo A13 marcado como Falhou com o comentário "Eu consegui acessar com o admin". | Colega 4 (Arthur Furtado) | Relato no formulário (passo A13) | — | Não é defeito do sistema. Em conversa, o colega confirmou que viu a tela de login: ele estava sem login, e nesse caso `/admin/` redireciona para o login, como esperado. Logado como cliente, a página responde "Acesso negado" (CT-06, `test_auth_controller.py::test_controle_de_acesso_por_papel`). A causa foi o texto do passo A13, que não dizia que era preciso estar logado; o texto foi corrigido. | Encerrado (não é defeito) |
 
 > Para cada defeito: reproduzir, criar um teste automatizado que falhe, corrigir, rodar `pytest` e registrar a correção no [changelog](changelog-melhorias.md).
 

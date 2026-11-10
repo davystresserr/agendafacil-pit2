@@ -46,7 +46,7 @@ function criarFormulario() {
       'A10. Em Meus agendamentos, clique em Cancelar e depois em Voltar → nada muda.\n' +
       'A11. Clique em Cancelar e depois em Sim, confirmar → "Agendamento cancelado" e status "Cancelado".\n' +
       'A12. Agende para hoje, daqui a menos de 2 horas (se houver horário) → "Cancelamento indisponível (menos de 2h)".\n' +
-      'A13. Digite o endereço seguido de /admin/ → "Acesso negado".\n' +
+      'A13. Logado como cliente, digite o endereço seguido de /admin/ → "Acesso negado". (Sem login, aparece a tela de login.)\n' +
       'A14. Digite o endereço seguido de /pagina-que-nao-existe → "Página não encontrada" com botão para voltar.\n' +
       'A15. Repita A1, A6 e A7 no celular → tela ajustada e menu ☰ funcionando.'
     );

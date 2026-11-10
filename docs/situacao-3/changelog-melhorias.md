@@ -12,8 +12,8 @@ Testes feitos por 4 colegas pelo Google Forms entre 28 e 31/10/2026 (laudo, seç
 ### Melhorado
 - Telefone salvo sempre no formato (43) 99999-0000, qualquer que seja a forma digitada (sugestão do Colega 1, Andrew).
 
-### Em análise
-- C-02 (Colega 4, Arthur Furtado): relatou acesso ao administrador no passo A13. Não reproduzido (CT-06). [PENDENTE: confirmar com o colega]
+### Esclarecido
+- C-02 (Colega 4, Arthur Furtado): relatou acesso ao administrador no passo A13. Não era defeito: sem login, `/admin/` leva à tela de login, e foi ela que o colega viu. O texto do passo A13 no formulário passou a dizer que o teste deve ser feito logado como cliente.
 
 ### Não aplicado
 - Integração com o Google Agenda (Colega 3, Davi Inoue) — motivo: fora do escopo desta versão (depende de login com Google e da API do Google Calendar).
