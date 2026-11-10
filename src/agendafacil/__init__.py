@@ -20,7 +20,7 @@ def create_app(config_object=None):
         raise RuntimeError("Defina a variável SECRET_KEY em produção.")
 
     if config_object is ProductionConfig:
-        # Render fica atrás de um proxy reverso (e do Cloudflare): respeita X-Forwarded-Proto/For.
+        # A Vercel fica atrás de um proxy reverso (e do Cloudflare): respeita X-Forwarded-Proto/For.
         from werkzeug.middleware.proxy_fix import ProxyFix
         app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1)
 

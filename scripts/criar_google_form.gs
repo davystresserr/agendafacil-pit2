@@ -6,7 +6,7 @@
  * arquivo, ajuste LINK_DO_SITE e execute a função criarFormulario.
  * Os links do formulário aparecem no "Registro de execução".
  */
-const LINK_DO_SITE = 'https://agendafacil-l7je.onrender.com';
+const LINK_DO_SITE = 'https://agendafacil-wine.vercel.app';
 
 function criarFormulario() {
   const form = FormApp.create('Teste do AgendaFácil');

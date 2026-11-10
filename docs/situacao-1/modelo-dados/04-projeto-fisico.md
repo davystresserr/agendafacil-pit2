@@ -4,7 +4,7 @@ O DDL completo está em [`03-projeto-fisico.sql`](03-projeto-fisico.sql). As mig
 
 ## SGBD escolhido
 
-**PostgreSQL 16**: livre, popular e bem suportado pelo Render. Atende à orientação do material ("nada de usar SGBD obscuros"). O SQLite é usado **somente** nos testes automatizados.
+**PostgreSQL 16**: livre, popular e oferecido gratuitamente por serviços como o Neon, usado em produção. Atende à orientação do material ("nada de usar SGBD obscuros"). O SQLite é usado **somente** nos testes automatizados.
 
 ## Domínio × tipo de dado
 
@@ -55,4 +55,4 @@ Lê-se: "não podem existir duas linhas com status `agendado` em que o profissio
 
 ## Fuso horário
 
-Os horários são armazenados como `TIMESTAMP` (sem fuso) no horário local do salão (`America/Sao_Paulo`, configurável em `TZ_APP`). A aplicação calcula "agora" nesse fuso, o que evita a confusão de horários quando o servidor (Render) roda em UTC.
+Os horários são armazenados como `TIMESTAMP` (sem fuso) no horário local do salão (`America/Sao_Paulo`, configurável em `TZ_APP`). A aplicação calcula "agora" nesse fuso, o que evita a confusão de horários quando o servidor (Vercel) roda em UTC.

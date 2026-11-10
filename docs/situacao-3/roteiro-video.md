@@ -11,7 +11,7 @@
 
 | Tempo | O que mostrar | O que falar (sugestão) |
 |---|---|---|
-| **0:00–0:30** | Tela inicial do AgendaFácil. | "Sou Davy Gabriel Stresser Pereira, RGM 36963089. Este é o AgendaFácil, um sistema web de agendamento para salões e barbearias, feito no PIT de Engenharia de Software II com Python/Flask, PostgreSQL e hospedado no Render." |
+| **0:00–0:30** | Tela inicial do AgendaFácil. | "Sou Davy Gabriel Stresser Pereira, RGM 36963089. Este é o AgendaFácil, um sistema web de agendamento para salões e barbearias, feito no PIT de Engenharia de Software II com Python/Flask, PostgreSQL e hospedado na Vercel." |
 | **0:30–1:00** | README no GitHub; pastas `docs/situacao-1, 2, 3`; diagrama de classes e DER. | "A documentação do PIT I foi revisada: escopo, UML, IHC, modelo de dados normalizado até a 3FN e dicionário de dados. O código segue MVC com uma camada de serviços para as regras de negócio." |
 | **1:00–2:00** | Cadastro de cliente (mostrar aviso "As senhas não conferem"), login, escolha do serviço → profissional → data → horário → confirmar. | "O cliente agenda em quatro passos. O sistema só mostra horários dentro da jornada do profissional, no futuro e que comportam a duração do serviço." |
 | **2:00–2:40** | Janela anônima com outro cliente tentando o **mesmo** horário → mensagem "acabou de ser ocupado". | "A regra mais importante: não pode haver dois agendamentos no mesmo horário. Ela é garantida no código e também no banco, com uma restrição EXCLUDE do PostgreSQL." |

@@ -97,7 +97,7 @@ Salões de beleza e barbearias de pequeno porte costumam controlar a agenda em c
 | RNF04 | Segurança | Validação de entrada no servidor (sempre) e no cliente (HTML5 + JavaScript). Consultas parametrizadas via ORM (sem SQL concatenado). |
 | RNF05 | Usabilidade | Agendar um horário em no máximo 4 passos; mensagens claras de erro e sucesso; layout responsivo a partir de 360 px. |
 | RNF06 | Usabilidade | Seguir os princípios de IHC do material: clareza, consistência, simplicidade, controle do usuário, recuperação de erros e feedback imediato. |
-| RNF07 | Disponibilidade | Hospedagem em nuvem (Render) com HTTPS e domínio via Cloudflare; meta de 99% de disponibilidade mensal. |
+| RNF07 | Disponibilidade | Hospedagem em nuvem (Vercel, com banco no Neon) com HTTPS e domínio via Cloudflare; meta de 99% de disponibilidade mensal. |
 | RNF08 | Manutenibilidade | Arquitetura MVC com camada de serviços; cobertura de testes automatizados acima de 70%. |
 | RNF09 | Portabilidade | Funcionar nas versões atuais de Chrome, Firefox, Safari e Edge. |
 | RNF10 | Integridade | Regras críticas (unicidade de e-mail, valores positivos, não sobreposição) garantidas também por restrições no PostgreSQL. |

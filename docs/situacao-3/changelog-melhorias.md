@@ -6,6 +6,9 @@ Formato baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/). 
 
 Testes feitos por 4 colegas pelo Google Forms entre 28 e 31/10/2026 (laudo, seção 4). Colega 5: [PENDENTE: aguardando teste real].
 
+### Alterado
+- Hospedagem trocada do Render para a Vercel e banco PostgreSQL movido para o Neon (São Paulo). Motivo: no plano gratuito do Render o site mostrava uma tela de carregamento de até 1 minuto a cada acesso depois de parado, e o banco gratuito expirava em 30 dias. `render.yaml` e `start.sh` removidos; `vercel.json` adicionado; passo a passo em `docs/deploy.md`.
+
 ### Corrigido
 - C-01 (Colega 1, Andrew): o telefone do cadastro aceitava valores sem número, como "((((((((". O servidor passou a exigir DDD e número (10 ou 11 dígitos, aceitando +55) e o campo do formulário recusa o valor antes do envio. Testes: `test_telefone_sem_digitos_suficientes_e_recusado`, `test_telefone_valido_e_formatado`.
 

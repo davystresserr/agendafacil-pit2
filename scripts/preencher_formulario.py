@@ -67,7 +67,7 @@ def main():
 
     # Codificação
     t = d.tables[0]
-    respostas = ["Python (Flask)", "PostgreSQL", "Render (com domínio via Cloudflare)", "Web"]
+    respostas = ["Python (Flask)", "PostgreSQL", "Vercel, com banco no Neon (domínio via Cloudflare)", "Web"]
     for i, texto in enumerate(respostas):
         escrever_celula(t.rows[i], texto)
     modo = t.rows[4].cells[1]

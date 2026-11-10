@@ -3,7 +3,7 @@ import os
 
 def _database_url():
     url = os.environ.get("DATABASE_URL", "postgresql+psycopg://agendafacil:agendafacil@localhost:5432/agendafacil")
-    # O Render fornece "postgres://" ou "postgresql://"; o SQLAlchemy precisa do driver explícito.
+    # Neon e outros provedores fornecem "postgres://" ou "postgresql://"; o SQLAlchemy precisa do driver explícito.
     if url.startswith("postgres://"):
         url = "postgresql+psycopg://" + url[len("postgres://"):]
     elif url.startswith("postgresql://"):

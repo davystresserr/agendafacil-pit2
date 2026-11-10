@@ -6,7 +6,7 @@ Sistema web de agendamento para salões e barbearias, desenvolvido no **PIT Enge
 
 | | |
 |---|---|
-| Aplicação em funcionamento | https://agendafacil-l7je.onrender.com |
+| Aplicação em funcionamento | https://agendafacil-wine.vercel.app |
 | Vídeo de apresentação | [PENDENTE] |
 | Repositório | https://github.com/davystresserr/agendafacil-pit2 |
 
@@ -21,7 +21,7 @@ Sistema web de agendamento para salões e barbearias, desenvolvido no **PIT Enge
 
 ## Stack
 
-Python 3.12 · Flask · Flask-SQLAlchemy · Flask-Migrate (Alembic) · PostgreSQL · Jinja2 + HTML5/CSS3/JavaScript puro · pytest + pytest-cov + Playwright · Render (hospedagem) + Neon (PostgreSQL) + Cloudflare (domínio)
+Python 3.12 · Flask · Flask-SQLAlchemy · Flask-Migrate (Alembic) · PostgreSQL · Jinja2 + HTML5/CSS3/JavaScript puro · pytest + pytest-cov + Playwright · Vercel (hospedagem) + Neon (PostgreSQL) + Cloudflare (domínio)
 
 ## Arquitetura (MVC + serviços)
 
@@ -47,7 +47,7 @@ src/
 | [`docs/situacao-2`](docs/situacao-2) | Relatório de testes e manual do usuário |
 | [`docs/situacao-3`](docs/situacao-3) | Plano de testes (V&V), formulário para colegas, laudo de qualidade, changelog e roteiro do vídeo |
 | [`docs/evidencias`](docs/evidencias) | Prints das telas (gerados com Playwright) |
-| [`docs/deploy.md`](docs/deploy.md) | Deploy no Render e domínio no Cloudflare |
+| [`docs/deploy.md`](docs/deploy.md) | Deploy na Vercel, banco no Neon e domínio no Cloudflare |
 | `src/` | Código da aplicação |
 | `tests/` | Testes unitários, de integração e ponta a ponta |
 | `entrega/` | Formulário da atividade preenchido |
@@ -96,4 +96,4 @@ python scripts/gerar_evidencias.py     # prints das telas em docs/evidencias/
 
 ## Deploy
 
-Render via Blueprint ([`render.yaml`](render.yaml)) + banco no Neon + domínio no Cloudflare: passo a passo em [`docs/deploy.md`](docs/deploy.md).
+Vercel ([`vercel.json`](vercel.json)) + banco no Neon + domínio no Cloudflare: passo a passo em [`docs/deploy.md`](docs/deploy.md).
