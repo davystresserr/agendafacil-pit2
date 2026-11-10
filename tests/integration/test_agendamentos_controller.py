@@ -124,3 +124,14 @@ def test_usuario_profissional_sem_cadastro_de_profissional(client, dados):
     criar_usuario("Sem Perfil", "semperfil@teste.com", Papel.PROFISSIONAL)
     login(client, "semperfil@teste.com")
     assert client.get("/profissional/").status_code == 403
+
+
+def test_link_google_agenda_em_meus_agendamentos(client, dados):
+    # sugestão dos colegas: levar o agendamento para o Google Agenda
+    login(client, "ana@teste.com")
+    agendar(client, dados)
+    html = client.get("/meus-agendamentos").get_data(as_text=True)
+    assert "https://calendar.google.com/calendar/render?action=TEMPLATE" in html
+    assert "dates=20261020T100000%2F20261020T" in html and "ctz=America%2FSao_Paulo" in html
+    client.post(f"/agendamentos/{Agendamento.query.one().id}/cancelar")
+    assert "calendar.google.com" not in client.get("/meus-agendamentos").get_data(as_text=True)

@@ -79,6 +79,7 @@ label.horario input{position:absolute;opacity:0}
 label.horario span{display:inline-block;padding:8px 14px;border:1px solid var(--primaria);border-radius:8px;color:var(--primaria);cursor:pointer;font-weight:600}
 label.horario input:checked+span{background:var(--primaria);color:#fff}
 label.horario input:focus-visible+span{outline:3px solid #93b4ff}
+.link-agenda{display:inline-block;margin:0 12px 6px 0}
 label.horario.indisponivel span{border-color:var(--borda);background:var(--borda);color:var(--muted);cursor:not-allowed;text-decoration:line-through;font-weight:400}
 label.horario.indisponivel span span{text-decoration:none}
 .legenda-horarios{display:flex;align-items:center;gap:6px;font-size:.9rem;color:var(--muted);margin:0 0 8px}

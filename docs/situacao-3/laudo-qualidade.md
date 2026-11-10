@@ -6,7 +6,7 @@
 
 | Indicador | Valor |
 |---|---|
-| Casos de teste automatizados | 98 executados, 97 aprovados e 1 pulado (o de PostgreSQL, que roda só com banco configurado) ([relatório](../situacao-2/relatorio-testes.md)) |
+| Casos de teste automatizados | 99 executados, 98 aprovados e 1 pulado (o de PostgreSQL, que roda só com banco configurado) ([relatório](../situacao-2/relatorio-testes.md)) |
 | Cobertura de código | 96% |
 | Casos de teste do plano (CT-01 a CT-37) | 37 aprovados ([plano](plano-testes.md)) |
 | Defeitos encontrados na verificação interna | 4 (todos corrigidos), seção 3 |
@@ -85,7 +85,7 @@ Defeitos reais encontrados por mim durante a verificação (revisões, `flask db
 | Nome | Davi Inoue |
 | Data do teste e dispositivo | 31/10/2026 · notebook Windows + Chrome |
 | O que testou e funcionou | Partes A e B completas (A1 a A15 e B1 a B4): todos OK. "Bem intuitivo e responsivo." |
-| O que testou e não funcionou, e o que deve ser corrigido | Nenhuma falha. Sugestões: enviar WhatsApp ou e-mail com os dados do agendamento e integrar com o Google Agenda. |
+| O que testou e não funcionou, e o que deve ser corrigido | Nenhuma falha. Sugestões: enviar WhatsApp ou e-mail com os dados do agendamento e integrar com o Google Agenda (a integração com o Google Agenda foi aplicada, ver changelog). |
 | Funcionalidade não testada, e por quê | Nenhuma. |
 | Evidências (prints) | 1 print enviado pelo Google Forms (pasta do formulário no Google Drive). |
 

@@ -17,6 +17,9 @@
       <td data-rotulo="Profissional">{{ a.profissional.nome }}</td>
       <td data-rotulo="Status"><span class="selo selo-{{ a.status }}">{{ a.status_rotulo }}</span></td>
       <td data-rotulo="Ação">
+        {% if a.ativo and a.inicio > agora_ %}
+          <a class="link-agenda" href="{{ a|google_agenda }}" target="_blank" rel="noopener">📅 Adicionar ao Google Agenda</a>
+        {% endif %}
         {% if a.pode_ser_cancelado_por_cliente(agora_) %}
           {% include "_cancelar.html" %}
         {% elif a.ativo %}
