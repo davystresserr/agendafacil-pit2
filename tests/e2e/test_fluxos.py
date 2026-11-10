@@ -57,6 +57,7 @@ def test_e2e_horario_ocupado(browser, servidor, entrar):
     try:
         # cria o segundo cliente pelo cadastro
         page_b.goto(f"{servidor}/cadastro")
+        expect(page_b.locator("[data-erro-confirmacao]")).to_be_hidden()  # D-05: aparecia com a tela vazia
         page_b.fill("#nome", "Bruno Segundo")
         page_b.fill("#email", "bruno.e2e@teste.com")
         page_b.fill("#senha", "senha-bruno-1")

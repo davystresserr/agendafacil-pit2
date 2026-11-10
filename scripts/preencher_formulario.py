@@ -120,8 +120,8 @@ def main():
         "Laudo completo: docs/situacao-3/laudo-qualidade.md (no repositório indicado acima).",
         "Evidências (prints das telas): docs/evidencias/. Plano de testes de verificação e validação: "
         "docs/situacao-3/plano-testes.md. Relatório de testes automatizados: docs/situacao-2/relatorio-testes.md.",
-        "Resumo: 116 testes automatizados aprovados, cobertura de 97%; 4 defeitos na verificação interna (D-01 a "
-        "D-04), todos corrigidos. Testes dos 5 colegas: 1 defeito de severidade média (C-01, corrigido) e 1 relato "
+        "Resumo: 116 testes automatizados aprovados, cobertura de 97%; 5 defeitos na verificação interna (D-01 a "
+        "D-05), todos corrigidos. Testes dos 5 colegas: 1 defeito de severidade média (C-01, corrigido) e 1 relato "
         "encerrado por não ser defeito (C-02); 4 de 6 sugestões aplicadas. Parecer: aprovado, sem defeito crítico "
         "ou alto aberto.",
         "Correções após os testes: docs/situacao-3/changelog-melhorias.md.",

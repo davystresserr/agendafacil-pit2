@@ -9,7 +9,7 @@
 | Casos de teste automatizados | 117 executados, 116 aprovados e 1 pulado (o de PostgreSQL, que roda só com banco configurado) ([relatório](../situacao-2/relatorio-testes.md)) |
 | Cobertura de código | 96% |
 | Casos de teste do plano (CT-01 a CT-37) | 37 aprovados ([plano](plano-testes.md)) |
-| Defeitos encontrados na verificação interna | 4 (todos corrigidos), seção 3 |
+| Defeitos encontrados na verificação interna | 5 (todos corrigidos), seção 3 |
 | Testes de aceitação com colegas | 5 de 5 realizados (28/10 a 10/11/2026), seção 4 |
 | Defeitos apontados pelos colegas | 1 corrigido (C-01); 1 relato encerrado sem defeito (C-02), seção 5 |
 
@@ -51,6 +51,7 @@ Defeitos reais encontrados por mim durante a verificação (revisões, `flask db
 | D-02 | Os nomes de 2 índices nos models (`ix_agendamentos_servico_id`, `ix_profissional_servico_servico_id`) divergiam do DDL (`ix_ag_servico`, `ix_ps_servico`); uma futura `flask db migrate` geraria uma migração indevida. | Saída do `flask db check`: `New upgrade operations detected` (VR-01) | Média | Índices declarados explicitamente nos models com os nomes do DDL. | Corrigido: `No new upgrade operations detected.` |
 | D-03 | No diagrama de casos de uso exportado em PNG, os rótulos `<<include>>` e `<<extend>>` apareciam como `<>`, porque o texto era tratado como tag HTML. | `docs/situacao-1/uml/casos-de-uso.png` (versão anterior) | Baixa | Rótulos trocados por guillemets («include», «extend») e PNG regenerado. | Corrigido |
 | D-04 | Teste E2E de cancelamento falhava: o seletor do card "Barba" também casava com "Corte + barba" (strict mode do Playwright). Era defeito do teste, não do sistema. | Saída do pytest: `strict mode violation ... resolved to 2 elements` | Baixa | O seletor passou a casar o título exato do card. | Corrigido: 3/3 E2E aprovados |
+| D-05 | Na tela de cadastro, a mensagem "As senhas não conferem." aparecia logo ao abrir a página, com os campos vazios: a regra CSS `.erro-campo{display:block}` anulava o atributo `hidden`. Encontrado durante a gravação do vídeo. | Quadros da gravação de `/cadastro` (10/11/2026) | Baixa | Regra global `[hidden]{display:none!important}`. Teste E2E: `test_e2e_horario_ocupado` confere que a mensagem começa oculta. | Corrigido |
 
 ## 4. Testes de aceitação com colegas
 
@@ -124,7 +125,7 @@ Defeitos reais encontrados por mim durante a verificação (revisões, `flask db
 
 A versão publicada (https://agendafacil-wine.vercel.app) **atende ao critério de aprovação** do plano de testes: não há defeito Crítico ou Alto aberto.
 
-- **Verificação interna:** 4 defeitos (D-01 a D-04), todos corrigidos.
+- **Verificação interna:** 5 defeitos (D-01 a D-05), todos corrigidos.
 - **Testes dos 5 colegas:** 1 defeito de severidade Média (C-01, telefone sem validação de dígitos), corrigido e coberto por teste automatizado; 1 relato (C-02) investigado e encerrado por não ser defeito, com o texto do roteiro de teste corrigido. Os passos executados pelos colegas passaram, exceto esses dois casos.
 - **Sugestões dos colegas:** 4 de 6 aplicadas (telefone formatado, cores dos horários, Google Agenda e agendamento sem cadastro); as 2 restantes estão justificadas no [changelog](changelog-melhorias.md).
 - **Testes automatizados:** 116 aprovados (e 1 de PostgreSQL, executado com banco configurado), cobertura de 97%.

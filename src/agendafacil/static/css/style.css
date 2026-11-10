@@ -14,6 +14,7 @@ a{color:var(--primaria)}
 h1,h2{font-family:var(--titulo);font-weight:400;letter-spacing:.04em;color:var(--couro);line-height:1.05}
 h1{font-size:2.6rem;margin:.2em 0 .5em}h2{font-size:1.9rem;margin:1.1em 0 .5em}
 h3{font-family:var(--rotulo);font-weight:600;text-transform:uppercase;letter-spacing:.03em;color:var(--couro);margin:.2em 0 .4em}
+[hidden]{display:none!important}  /* senão regras como .erro-campo{display:block} mostram o elemento */
 .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
 .muted{color:var(--muted)}
 :focus-visible{outline:3px solid #c58b2a;outline-offset:2px}

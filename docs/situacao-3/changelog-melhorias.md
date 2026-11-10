@@ -26,6 +26,9 @@ Testes feitos por 5 colegas pelo Google Forms entre 28/10 e 10/11/2026 (laudo, s
 
 - Tela de agendamento mais visual: serviços em grade de quadros com foto; profissionais com foto (campo novo `foto_url`, migração `0003_foto_profissional`, preenchido pelo admin; sem foto aparecem as iniciais); data escolhida num calendário do mês, como no Google Agenda, em que só os dias de expediente ficam clicáveis e os horários aparecem ao tocar no dia. O campo "Observação" saiu da tela para deixar o agendamento mais rápido (a coluna continua no banco). Testes: CT-42 e CT-43.
 
+### Corrigido (verificação interna)
+- D-05: a mensagem "As senhas não conferem." aparecia ao abrir o cadastro, com os campos vazios; o atributo `hidden` passou a valer sempre (`[hidden]{display:none!important}`).
+
 ### Esclarecido
 - C-02 (Colega 4, Arthur Furtado): relatou acesso ao administrador no passo A13. Não era defeito: sem login, `/admin/` leva à tela de login, e foi ela que o colega viu. O texto do passo A13 no formulário passou a dizer que o teste deve ser feito logado como cliente.
 
