@@ -6,7 +6,7 @@
 
 | Indicador | Valor |
 |---|---|
-| Casos de teste automatizados | 108 executados, 107 aprovados e 1 pulado (o de PostgreSQL, que roda só com banco configurado) ([relatório](../situacao-2/relatorio-testes.md)) |
+| Casos de teste automatizados | 117 executados, 116 aprovados e 1 pulado (o de PostgreSQL, que roda só com banco configurado) ([relatório](../situacao-2/relatorio-testes.md)) |
 | Cobertura de código | 96% |
 | Casos de teste do plano (CT-01 a CT-37) | 37 aprovados ([plano](plano-testes.md)) |
 | Defeitos encontrados na verificação interna | 4 (todos corrigidos), seção 3 |

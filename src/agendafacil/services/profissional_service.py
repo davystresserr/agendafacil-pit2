@@ -4,7 +4,7 @@ from ..extensions import db
 from ..models import HorarioDisponivel, Papel, Profissional, Servico
 from . import auth_service
 from .erros import RegraNegocioError, ValidacaoError
-from .validacao import converter_hora, converter_int, limpar
+from .validacao import converter_hora, converter_int, limpar, validar_foto_url
 
 
 def listar_ativos():
@@ -19,7 +19,9 @@ def que_realizam(servico: Servico):
     return [p for p in servico.profissionais if p.ativo and p.usuario.ativo]
 
 
-def cadastrar(nome, email, senha, especialidade=None, bio=None, servico_ids=()) -> Profissional:
+def cadastrar(nome, email, senha, especialidade=None, bio=None, servico_ids=(), foto_url=None) -> Profissional:
+    erros_foto = {}
+    foto_url = validar_foto_url(foto_url, erros_foto)
     ids = {i for i in (converter_int(x) for x in servico_ids) if i}
     servicos = Servico.query.filter(Servico.id.in_(ids)).all() if ids else []
     try:
@@ -27,12 +29,15 @@ def cadastrar(nome, email, senha, especialidade=None, bio=None, servico_ids=()) 
     except ValidacaoError as e:
         if not servicos:
             e.erros["servicos"] = "Selecione pelo menos um serviço."
+        e.erros.update(erros_foto)
         raise
     if not servicos:
+        erros_foto["servicos"] = "Selecione pelo menos um serviço."
+    if erros_foto:
         db.session.rollback()
-        raise ValidacaoError({"servicos": "Selecione pelo menos um serviço."})
+        raise ValidacaoError(erros_foto)
     profissional = Profissional(usuario=usuario, especialidade=limpar(especialidade)[:80] or None,
-                                bio=limpar(bio) or None, servicos=servicos)
+                                bio=limpar(bio) or None, foto_url=foto_url, servicos=servicos)
     db.session.add(profissional)
     try:
         db.session.commit()

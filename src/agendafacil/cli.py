@@ -17,9 +17,14 @@ SERVICOS = [
     ("Corte feminino", "Corte com lavagem e finalização.", Decimal("80.00"), 60),
 ]
 
+# Fotos de demonstração do Unsplash (licença livre): Jeppe Mønster e Michael Dagonakis.
+FOTO_CARLOS = "https://images.unsplash.com/photo-1598524374912-6b0b0bab43dd?w=400&h=400&fit=crop&crop=faces&q=70"
+FOTO_ANA = "https://images.unsplash.com/photo-1617690825153-8bb0a8e3c911?w=400&h=400&fit=crop&crop=faces&q=70"
 PROFISSIONAIS = [
-    ("Carlos Barbeiro", "carlos@agendafacil.com", "Barbeiro", ["Corte masculino", "Barba", "Corte + barba"]),
-    ("Ana Cabeleireira", "ana@agendafacil.com", "Cabeleireira", ["Escova", "Corte feminino", "Corte masculino"]),
+    ("Carlos Barbeiro", "carlos@agendafacil.com", "Barbeiro", ["Corte masculino", "Barba", "Corte + barba"],
+     FOTO_CARLOS),
+    ("Ana Cabeleireira", "ana@agendafacil.com", "Cabeleireira", ["Escova", "Corte feminino", "Corte masculino"],
+     FOTO_ANA),
 ]
 
 
@@ -44,10 +49,10 @@ def popular(senha: str):
     _usuario("Administrador", "admin@agendafacil.com", Papel.ADMIN, senha)
     _usuario("Cliente Demonstração", "cliente@agendafacil.com", Papel.CLIENTE, senha)
 
-    for nome, email, esp, nomes_serv in PROFISSIONAIS:
+    for nome, email, esp, nomes_serv, foto in PROFISSIONAIS:
         u = _usuario(nome, email, Papel.PROFISSIONAL, senha)
         if u.profissional is None:
-            p = Profissional(usuario=u, especialidade=esp, servicos=[servicos[n] for n in nomes_serv])
+            p = Profissional(usuario=u, especialidade=esp, foto_url=foto, servicos=[servicos[n] for n in nomes_serv])
             for dia in range(0, 6):  # segunda a sábado
                 p.horarios.append(HorarioDisponivel(dia_semana=dia, hora_inicio=time(9), hora_fim=time(12)))
                 p.horarios.append(HorarioDisponivel(dia_semana=dia, hora_inicio=time(13), hora_fim=time(19)))

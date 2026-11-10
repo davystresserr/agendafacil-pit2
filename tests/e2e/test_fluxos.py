@@ -15,8 +15,9 @@ def ir_para_horarios(page, servidor, servico="Corte masculino", profissional="Ca
     card = page.locator("[data-testid=servico]").filter(has=page.get_by_role("heading", name=servico, exact=True))
     card.get_by_role("link", name="Agendar").click()
     page.get_by_role("link", name=f"Escolher {profissional}").click()
-    page.fill("#data", dia.isoformat())
-    page.get_by_role("button", name="Ver horários").click()
+    if page.locator(f'[data-dia="{dia.isoformat()}"]').count() == 0:  # dia no mês seguinte
+        page.get_by_role("link", name="Próximo mês").click()
+    page.locator(f'[data-dia="{dia.isoformat()}"]').click()
     expect(page.get_by_role("heading", name=re.compile("Horários em"))).to_be_visible()
     return dia
 
@@ -25,7 +26,6 @@ def test_e2e_agendar_horario(page, servidor, entrar):
     entrar()
     dia = ir_para_horarios(page, servidor)
     page.locator("label.horario", has_text="10:00").click()
-    page.fill("#observacao", "Teste E2E agendar")
     page.get_by_role("button", name="Confirmar agendamento").click()
 
     expect(page).to_have_url(re.compile("/meus-agendamentos$"))

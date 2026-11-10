@@ -28,10 +28,10 @@ Se o e-mail já estiver cadastrado, o sistema avisa e mantém o que você digito
 - **Sair:** clique em **Sair** no menu.
 
 ### 2.3 Agendar um horário
-1. Na página inicial, escolha o serviço e clique em **Agendar** (ou use **Agendar** no menu).
-2. **Passo 2:** escolha o profissional.
-3. **Passo 3:** escolha a data. Os horários livres aparecem automaticamente; só são mostrados horários dentro do expediente do profissional, no futuro e que comportam a duração do serviço.
-4. Clique no horário desejado (ele fica azul), escreva uma observação se quiser e clique em **Confirmar agendamento**.
+1. Na página inicial, clique em **Agendar** num serviço (ou use **Agendar** no menu e toque no quadro do serviço, com a foto).
+2. **Passo 2:** toque no quadro do profissional (com a foto dele).
+3. **Passo 3:** no calendário do mês, toque no dia. Só ficam clicáveis os dias de expediente do profissional, de hoje até 60 dias; use **‹** e **›** para trocar de mês. Os horários do dia aparecem logo abaixo: só são oferecidos horários dentro do expediente, no futuro e que comportam a duração do serviço.
+4. Toque no horário desejado (ele fica destacado) e clique em **Confirmar agendamento**.
 5. Você vai para **Meus agendamentos**, com a mensagem de confirmação.
 
 **Sem cadastro:** não é preciso criar conta. Sem entrar no sistema, faça os mesmos passos; no último, informe **seu nome** e **celular (WhatsApp)**. Depois de confirmar, abre a página **Seu agendamento**, com um link privado: guarde-o para ver ou cancelar de outro aparelho. No mesmo aparelho, o agendamento também aparece em **Meus agendamentos** (por até 31 dias).

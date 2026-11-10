@@ -85,7 +85,7 @@ pytest -m e2e                          # só os testes ponta a ponta
 PG_TEST_URL=postgresql+psycopg://agendafacil:agendafacil@localhost:5432/agendafacil_teste pytest -m pg
 ```
 
-Última execução: **107 testes aprovados (e 1 de PostgreSQL, que roda com `PG_TEST_URL`), cobertura de 96%**. Ver [`docs/situacao-2/relatorio-testes.md`](docs/situacao-2/relatorio-testes.md).
+Última execução: **116 testes aprovados (e 1 de PostgreSQL, que roda com `PG_TEST_URL`), cobertura de 97%**. Ver [`docs/situacao-2/relatorio-testes.md`](docs/situacao-2/relatorio-testes.md).
 
 Scripts auxiliares:
 
@@ -100,4 +100,4 @@ Vercel ([`vercel.json`](vercel.json)) + banco no Neon + domínio no Cloudflare: 
 
 ## Créditos das fotos
 
-Fotos dos serviços do [Unsplash](https://unsplash.com), sob a [licença Unsplash](https://unsplash.com/license) (uso livre), carregadas direto do Unsplash: Mr Shave (barba), Michael DeMoya (corte masculino), Nate Johnston (corte + barba), Farhad Ibrahimzade (corte feminino), Adam Winger (escova) e Allef Vinicius (demais serviços).
+Fotos dos serviços do [Unsplash](https://unsplash.com), sob a [licença Unsplash](https://unsplash.com/license) (uso livre), carregadas direto do Unsplash: Mr Shave (barba), Michael DeMoya (corte masculino), Nate Johnston (corte + barba), Farhad Ibrahimzade (corte feminino), Adam Winger (escova) e Allef Vinicius (demais serviços). Fotos dos profissionais de demonstração: Jeppe Mønster (Carlos) e Michael Dagonakis (Ana).

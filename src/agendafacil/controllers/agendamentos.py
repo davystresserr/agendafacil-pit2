@@ -1,4 +1,5 @@
-from datetime import timedelta
+from calendar import Calendar
+from datetime import date, datetime, timedelta
 
 from flask import Blueprint, abort, flash, g, redirect, render_template, request, session, url_for
 
@@ -12,6 +13,33 @@ from ..services.validacao import converter_data, converter_datahora, converter_i
 
 bp = Blueprint("agendamentos", __name__)
 LINKS_MAX = 20  # agendamentos sem conta lembrados neste aparelho (cookie de sessão)
+
+
+MESES = ["janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho", "agosto", "setembro", "outubro",
+         "novembro", "dezembro"]
+
+
+def _calendario(profissional, ref: date, data_min: date, data_max: date) -> dict:
+    """Mês no formato do Google Agenda (semana começando no domingo); só dias de expediente são clicáveis."""
+    primeiro = ref.replace(day=1)
+    expediente = {h.dia_semana for h in profissional.horarios}
+    anterior = (primeiro - timedelta(days=1)).replace(day=1)
+    proximo = (primeiro + timedelta(days=32)).replace(day=1)
+    return {
+        "titulo": f"{MESES[primeiro.month - 1]} de {primeiro.year}",
+        "mes": primeiro.month,
+        "semanas": Calendar(firstweekday=6).monthdatescalendar(primeiro.year, primeiro.month),
+        "disponivel": lambda d: data_min <= d <= data_max and d.weekday() in expediente,
+        "anterior": anterior if anterior >= data_min.replace(day=1) else None,
+        "proximo": proximo if proximo <= data_max else None,
+    }
+
+
+def _mes(valor) -> date | None:
+    try:
+        return datetime.strptime(valor or "", "%Y-%m").date()
+    except ValueError:
+        return None
 
 
 def _so_cliente_ou_visitante():
@@ -43,10 +71,13 @@ def agendar():
     horarios = (agendamento_service.horarios_do_dia(profissional, servico, data, agora_)
                 if servico and profissional and data else [])
     passo = 1 if not servico else 2 if not profissional else 3
+    data_min, data_max = agora_.date(), agora_.date() + timedelta(days=60)
+    calendario = (_calendario(profissional, data or _mes(request.args.get("mes")) or data_min, data_min, data_max)
+                  if servico and profissional else None)
     return render_template(
         "agendamentos/agendar.html", servicos=servico_service.listar_ativos(), servico=servico,
         profissionais=profissionais, profissional=profissional, data=data, horarios=horarios, passo=passo,
-        data_min=agora_.date().isoformat(), data_max=(agora_.date() + timedelta(days=60)).isoformat(),
+        calendario=calendario, hoje=data_min,
     )
 
 

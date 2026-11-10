@@ -156,3 +156,37 @@ dialog .acoes{justify-content:flex-end}
   .tabela-compacta thead{display:table-header-group}
   .tabela-compacta tr{display:table-row}.tabela-compacta td{display:table-cell}
 }
+
+/* Agendar: escolhas em grade, foto do profissional e calendário do mês */
+.escolhas{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:14px}
+.escolha{display:flex;flex-direction:column;background:#fff8ea;border:1.5px solid var(--borda);border-radius:10px;overflow:hidden;text-decoration:none;color:var(--texto);transition:border-color .15s,transform .15s}
+.escolha:hover,.escolha:focus-visible{border-color:var(--primaria);transform:translateY(-2px)}
+.escolha img:not(.avatar){width:100%;height:auto;aspect-ratio:4/3;object-fit:cover;display:block;background:var(--borda)}
+.escolha-nome{font-family:var(--rotulo);font-weight:600;text-transform:uppercase;letter-spacing:.03em;color:var(--couro);padding:10px 12px 0}
+.escolha-info{color:var(--muted);font-size:.9rem;padding:2px 12px 12px}
+.escolha-profissional{align-items:center;text-align:center;padding:18px 12px}
+.escolha-profissional .escolha-nome,.escolha-profissional .escolha-info{padding:0}
+.escolha-profissional .escolha-nome{margin-top:10px}
+.escolha-profissional .botao{margin-top:10px}
+.avatar{width:96px;height:96px;border-radius:50%;object-fit:cover;border:3px solid var(--couro);outline:2px dashed #a07d5c;outline-offset:3px;background:var(--borda);flex:none}
+.avatar-iniciais{display:inline-flex;align-items:center;justify-content:center;font-family:var(--titulo);font-size:2.4rem;color:var(--creme);background:var(--primaria)}
+.resumo{display:flex;align-items:center;gap:12px;margin:0 0 10px}
+.resumo p{margin:0}
+.resumo .avatar,.resumo-foto{width:48px;height:48px;border-width:2px;outline:0;border-radius:50%;object-fit:cover;border:2px solid var(--couro)}
+.resumo .avatar-iniciais{font-size:1.3rem}
+.nome-com-foto{display:inline-flex;align-items:center;gap:10px}
+.nome-com-foto .avatar{width:40px;height:40px;border-width:2px;outline:0}
+.nome-com-foto .avatar-iniciais{font-size:1.1rem}
+.calendario{max-width:420px;background:#fff8ea;border:1.5px solid var(--borda);border-radius:10px;padding:12px}
+.cal-topo{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.cal-titulo{font-family:var(--titulo);font-weight:400;font-size:1.5rem;letter-spacing:.04em;color:var(--couro);text-transform:capitalize}
+.cal-nav{width:36px;height:36px;display:inline-flex;align-items:center;justify-content:center;border-radius:50%;font-size:1.6rem;text-decoration:none;color:var(--couro)}
+a.cal-nav:hover{background:var(--borda)}
+.cal-grade{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center}
+.cal-semana{font-family:var(--rotulo);font-size:.8rem;color:var(--muted);padding:4px 0}
+.dia{aspect-ratio:1;display:flex;align-items:center;justify-content:center;border-radius:50%;text-decoration:none;font-weight:600;color:var(--primaria);border:1.5px solid transparent}
+a.dia:hover{background:var(--info-bg)}
+.dia.off{color:#bba98c;font-weight:400}
+.dia.fora{opacity:.55}
+.dia.hoje{border-color:var(--couro)}
+.dia.selecionado{background:var(--primaria);color:var(--creme);opacity:1}

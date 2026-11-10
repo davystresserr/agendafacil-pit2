@@ -43,6 +43,13 @@ def validar_telefone(telefone: str, erros: dict) -> str | None:
     return f"({digitos[:2]}) {digitos[2:-4]}-{digitos[-4:]}"
 
 
+def validar_foto_url(url: str, erros: dict) -> str | None:
+    url = limpar(url)
+    if url and (not url.startswith("https://") or len(url) > 500 or any(c.isspace() for c in url)):
+        erros["foto_url"] = "Informe o endereço da foto começando com https://."
+    return url or None
+
+
 def validar_senha(senha: str, confirmacao: str | None, erros: dict) -> str:
     senha = senha or ""
     if len(senha) < SENHA_MIN:

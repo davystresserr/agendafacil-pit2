@@ -9,7 +9,7 @@ def agendar(client, dados, inicio="2026-10-20T10:00"):
 
 def test_fluxo_de_agendamento_em_passos(client, dados):
     login(client, "ana@teste.com")
-    assert "Qual serviço você deseja?" in client.get("/agendar").get_data(as_text=True)
+    assert "Escolha o serviço" in client.get("/agendar").get_data(as_text=True)
     html = client.get(f"/agendar?servico_id={dados['corte'].id}").get_data(as_text=True)
     assert "Escolha o profissional" in html and "Carlos Barbeiro" in html
     html = client.get(f"/agendar?servico_id={dados['corte'].id}&profissional_id={dados['profissional'].id}"
@@ -183,3 +183,24 @@ def test_login_mantem_agendamentos_sem_conta_do_aparelho(client, dados):
     login(client, "ana@teste.com")
     with client.session_transaction() as s:
         assert s["links"] == [Agendamento.query.one().token]
+
+
+def test_calendario_do_mes_so_libera_dias_de_expediente(client, dados):
+    base = f"/agendar?servico_id={dados['corte'].id}&profissional_id={dados['profissional'].id}"
+    html = client.get(base).get_data(as_text=True)  # "hoje" fixo: 19/10/2026 (segunda)
+    assert "outubro de 2026" in html and 'data-dia="2026-10-20"' in html
+    assert 'data-dia="2026-10-25"' not in html  # domingo: sem expediente
+    assert 'data-dia="2026-10-18"' not in html  # passado
+    assert "Mês anterior" not in html and "Próximo mês" in html
+    assert 'aria-current="date"' in client.get(base + "&data=2026-10-20").get_data(as_text=True)
+    novembro = client.get(base + "&mes=2026-11").get_data(as_text=True)
+    assert "novembro de 2026" in novembro and 'data-dia="2026-11-03"' in novembro and "Mês anterior" in novembro
+    assert "outubro de 2026" in client.get(base + "&mes=invalido").get_data(as_text=True)
+
+
+def test_escolha_mostra_foto_do_servico_e_iniciais_do_profissional(client, dados):
+    html = client.get(f"/agendar?servico_id={dados['corte'].id}").get_data(as_text=True)
+    assert "images.unsplash.com" in html and 'class="avatar avatar-iniciais"' in html and ">CB<" in html
+    dados["profissional"].foto_url = "https://exemplo.com/carlos.jpg"
+    html = client.get(f"/agendar?servico_id={dados['corte'].id}").get_data(as_text=True)
+    assert 'src="https://exemplo.com/carlos.jpg"' in html

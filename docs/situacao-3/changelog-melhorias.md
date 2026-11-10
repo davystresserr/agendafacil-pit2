@@ -24,6 +24,8 @@ Testes feitos por 4 colegas pelo Google Forms entre 28 e 31/10/2026 (laudo, seç
 
 - Foto ilustrativa em cada serviço da página inicial (em moldura redonda, no estilo do tema), escolhida pelo tipo de serviço: corte masculino, barba, corte + barba, corte feminino e escova; serviços novos cadastrados pelo admin recebem uma foto geral de barbearia. Fotos do Unsplash (licença livre), com créditos no README. Teste: `test_foto_do_servico_pelo_nome`.
 
+- Tela de agendamento mais visual: serviços em grade de quadros com foto; profissionais com foto (campo novo `foto_url`, migração `0003_foto_profissional`, preenchido pelo admin; sem foto aparecem as iniciais); data escolhida num calendário do mês, como no Google Agenda, em que só os dias de expediente ficam clicáveis e os horários aparecem ao tocar no dia. O campo "Observação" saiu da tela para deixar o agendamento mais rápido (a coluna continua no banco). Testes: CT-42 e CT-43.
+
 ### Esclarecido
 - C-02 (Colega 4, Arthur Furtado): relatou acesso ao administrador no passo A13. Não era defeito: sem login, `/admin/` leva à tela de login, e foi ela que o colega viu. O texto do passo A13 no formulário passou a dizer que o teste deve ser feito logado como cliente.
 

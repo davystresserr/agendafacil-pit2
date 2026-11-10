@@ -33,6 +33,7 @@ CREATE TABLE profissionais (
     usuario_id     INTEGER      NOT NULL,
     especialidade  VARCHAR(80),
     bio            TEXT,
+    foto_url       VARCHAR(500),     -- endereço https da foto (opcional)
     ativo          BOOLEAN      NOT NULL DEFAULT TRUE,
     CONSTRAINT uq_profissionais_usuario UNIQUE (usuario_id),
     CONSTRAINT fk_profissionais_usuario FOREIGN KEY (usuario_id)

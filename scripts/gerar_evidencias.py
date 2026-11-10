@@ -160,6 +160,8 @@ def main():
         m.click("button:has-text('Entrar')")
         m.goto(f"{url}/meus-agendamentos")
         foto(m, "21-mobile-meus-agendamentos")
+        m.goto(f"{url}/agendar?servico_id=1&profissional_id=1&data={dia.isoformat()}")
+        foto(m, "23-mobile-calendario-horarios")
         m.click("[data-menu]")
         foto(m, "22-mobile-menu", full=False)
         nav.close()

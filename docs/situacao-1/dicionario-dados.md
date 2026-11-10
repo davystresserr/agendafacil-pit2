@@ -27,6 +27,7 @@ Dados de trabalho dos usuários com papel `profissional`.
 | usuario_id | INTEGER | Sim | id existente em `usuarios` | FK, UK | Usuário correspondente (relação 1:1) |
 | especialidade | VARCHAR(80) | Não | até 80 caracteres | | Ex.: "Barbeiro", "Cabeleireira" |
 | bio | TEXT | Não | texto livre | | Apresentação exibida ao cliente |
+| foto_url | VARCHAR(500) | Não | endereço começando com `https://`; sem foto, o sistema mostra as iniciais | | Foto do profissional exibida na escolha do profissional |
 | ativo | BOOLEAN | Sim | padrão true | | Profissional inativo não aparece para agendamento |
 
 ## servicos

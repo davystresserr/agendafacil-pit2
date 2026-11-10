@@ -74,7 +74,8 @@ def profissionais():
         f = request.form
         try:
             prof = profissional_service.cadastrar(f.get("nome"), f.get("email"), f.get("senha"),
-                                                  f.get("especialidade"), f.get("bio"), f.getlist("servicos"))
+                                                  f.get("especialidade"), f.get("bio"), f.getlist("servicos"),
+                                                  f.get("foto_url"))
             flash(f"Profissional {prof.nome} cadastrado.", "sucesso")
             return redirect(url_for("admin.profissionais"))
         except ValidacaoError as e:

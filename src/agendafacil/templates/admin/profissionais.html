@@ -9,7 +9,7 @@
     <tbody>
     {% for p in profissionais %}
       <tr>
-        <td data-rotulo="Nome">{{ p.nome }}</td>
+        <td data-rotulo="Nome"><span class="nome-com-foto">{% include "_avatar.html" %} {{ p.nome }}</span></td>
         <td data-rotulo="E-mail">{{ p.usuario.email }}</td>
         <td data-rotulo="Especialidade">{{ p.especialidade or '—' }}</td>
         <td data-rotulo="Serviços">{{ p.servicos|map(attribute='nome')|join(', ') }}</td>
@@ -33,6 +33,8 @@
       <div><label for="senha">Senha inicial * <small class="muted">(mín. 8)</small></label><input id="senha" name="senha" type="password" required minlength="8" autocomplete="new-password" class="{{ 'invalido' if erros.senha }}"></div>
       <div><label for="especialidade">Especialidade</label><input id="especialidade" name="especialidade" maxlength="80" value="{{ dados.get('especialidade', '') }}"></div>
     </div>
+    <label for="foto_url">Foto (endereço da imagem) <small class="muted">opcional; sem foto, aparecem as iniciais</small></label>
+    <input id="foto_url" name="foto_url" type="url" maxlength="500" placeholder="https://..." value="{{ dados.get('foto_url', '') }}" class="{{ 'invalido' if erros.foto_url }}">
     <label for="bio">Apresentação</label>
     <textarea id="bio" name="bio" rows="2">{{ dados.get('bio', '') }}</textarea>
     <fieldset class="{{ 'invalido' if erros.servicos }}">

@@ -15,6 +15,7 @@ class Profissional(db.Model):
     usuario_id = db.Column(db.Integer, db.ForeignKey("usuarios.id", ondelete="CASCADE"), nullable=False, unique=True)
     especialidade = db.Column(db.String(80))
     bio = db.Column(db.Text)
+    foto_url = db.Column(db.String(500))
     ativo = db.Column(db.Boolean, nullable=False, default=True, server_default=db.true())
 
     usuario = db.relationship("Usuario", back_populates="profissional")
@@ -27,6 +28,11 @@ class Profissional(db.Model):
     @property
     def nome(self) -> str:
         return self.usuario.nome if self.usuario else ""
+
+    @property
+    def iniciais(self) -> str:
+        partes = self.nome.split()
+        return (partes[0][0] + (partes[-1][0] if len(partes) > 1 else "")).upper() if partes else "?"
 
     def realiza(self, servico) -> bool:
         return any(s.id == servico.id for s in self.servicos)

@@ -79,3 +79,15 @@ def test_horarios_do_profissional(db, dados):
     profissional_service.remover_horario(p, h.id)
     with pytest.raises(RegraNegocioError, match="não encontrado"):
         profissional_service.remover_horario(p, h.id)
+
+
+def test_cadastrar_profissional_com_foto_valida_endereco(dados):
+    from agendafacil.services import profissional_service
+    from agendafacil.services.erros import ValidacaoError
+    with pytest.raises(ValidacaoError) as e:
+        profissional_service.cadastrar("Rui Barbeiro", "rui@x.com", "senha-1234", servico_ids=[dados["corte"].id],
+                                       foto_url="javascript:alert(1)")
+    assert "foto_url" in e.value.erros
+    p = profissional_service.cadastrar("Rui Barbeiro", "rui@x.com", "senha-1234", servico_ids=[dados["corte"].id],
+                                       foto_url=" https://exemplo.com/rui.jpg ")
+    assert p.foto_url == "https://exemplo.com/rui.jpg" and p.iniciais == "RB"

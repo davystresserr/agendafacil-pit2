@@ -11,47 +11,72 @@
 
 <section class="caixa">
   {% if not servico %}
-    <form method="get" class="linha-form">
-      <label for="servico_id">Qual serviço você deseja?</label>
-      <select id="servico_id" name="servico_id" required>
-        <option value="">Selecione...</option>
-        {% for s in servicos %}<option value="{{ s.id }}">{{ s.nome }} — {{ s.preco_formatado }} ({{ s.duracao_min }} min)</option>{% endfor %}
-      </select>
-      <button class="botao" type="submit">Continuar</button>
-    </form>
+    <h2>Escolha o serviço</h2>
+    <div class="escolhas">
+      {% for s in servicos %}
+        <a class="escolha" href="{{ url_for('agendamentos.agendar', servico_id=s.id) }}">
+          <img src="{{ s.nome|foto_servico }}" alt="" width="480" height="360" loading="lazy">
+          <span class="escolha-nome">{{ s.nome }}</span>
+          <span class="escolha-info">{{ s.preco_formatado }} · {{ s.duracao_min }} min</span>
+        </a>
+      {% else %}
+        <p class="vazio">Nenhum serviço disponível no momento.</p>
+      {% endfor %}
+    </div>
   {% else %}
-    <p><strong>Serviço:</strong> {{ servico.nome }} ({{ servico.duracao_min }} min, {{ servico.preco_formatado }})
-      <a href="{{ url_for('agendamentos.agendar') }}">trocar</a></p>
+    <div class="resumo">
+      <img class="resumo-foto" src="{{ servico.nome|foto_servico }}" alt="" width="480" height="360">
+      <p><strong>Serviço:</strong> {{ servico.nome }} ({{ servico.duracao_min }} min, {{ servico.preco_formatado }})
+        <a href="{{ url_for('agendamentos.agendar') }}">trocar</a></p>
+    </div>
 
     {% if not profissional %}
       <h2>Escolha o profissional</h2>
       {% if profissionais %}
-      <div class="cards">
+      <div class="escolhas escolhas-profissionais">
         {% for p in profissionais %}
-          <article class="card">
-            <h3>{{ p.nome }}</h3>
-            {% if p.especialidade %}<p class="muted">{{ p.especialidade }}</p>{% endif %}
-            <a class="botao" href="{{ url_for('agendamentos.agendar', servico_id=servico.id, profissional_id=p.id) }}">Escolher {{ p.usuario.primeiro_nome }}</a>
-          </article>
+          <a class="escolha escolha-profissional" href="{{ url_for('agendamentos.agendar', servico_id=servico.id, profissional_id=p.id) }}">
+            {% include "_avatar.html" %}
+            <span class="escolha-nome">{{ p.nome }}</span>
+            {% if p.especialidade %}<span class="escolha-info">{{ p.especialidade }}</span>{% endif %}
+            <span class="botao botao-pequeno">Escolher {{ p.usuario.primeiro_nome }}</span>
+          </a>
         {% endfor %}
       </div>
       {% else %}
         <p class="vazio">Nenhum profissional realiza este serviço no momento.</p>
       {% endif %}
     {% else %}
-      <p><strong>Profissional:</strong> {{ profissional.nome }}
-        <a href="{{ url_for('agendamentos.agendar', servico_id=servico.id) }}">trocar</a></p>
+      <div class="resumo">
+        {% with p = profissional %}{% include "_avatar.html" %}{% endwith %}
+        <p><strong>Profissional:</strong> {{ profissional.nome }}
+          <a href="{{ url_for('agendamentos.agendar', servico_id=servico.id) }}">trocar</a></p>
+      </div>
 
-      <form method="get" class="linha-form">
-        <input type="hidden" name="servico_id" value="{{ servico.id }}">
-        <input type="hidden" name="profissional_id" value="{{ profissional.id }}">
-        <label for="data">Data</label>
-        <input id="data" type="date" name="data" required min="{{ data_min }}" max="{{ data_max }}" value="{{ data.isoformat() if data else '' }}" data-auto-enviar>
-        <button class="botao botao-secundario" type="submit">Ver horários</button>
-      </form>
+      <h2>Escolha o dia</h2>
+      {% set cal = calendario %}
+      <div class="calendario">
+        <div class="cal-topo">
+          {% if cal.anterior %}<a class="cal-nav" href="{{ url_for('agendamentos.agendar', servico_id=servico.id, profissional_id=profissional.id, mes=cal.anterior.strftime('%Y-%m')) }}" aria-label="Mês anterior">‹</a>{% else %}<span class="cal-nav"></span>{% endif %}
+          <strong class="cal-titulo">{{ cal.titulo }}</strong>
+          {% if cal.proximo %}<a class="cal-nav" href="{{ url_for('agendamentos.agendar', servico_id=servico.id, profissional_id=profissional.id, mes=cal.proximo.strftime('%Y-%m')) }}" aria-label="Próximo mês">›</a>{% else %}<span class="cal-nav"></span>{% endif %}
+        </div>
+        <div class="cal-grade">
+          {% for d in ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'] %}<span class="cal-semana" aria-hidden="true">{{ d }}</span>{% endfor %}
+          {% for semana in cal.semanas %}{% for d in semana %}
+            {% set classes = ('fora ' if d.month != cal.mes else '') ~ ('hoje ' if d == hoje else '') ~ ('selecionado' if d == data else '') %}
+            {% if cal.disponivel(d) %}
+              <a class="dia {{ classes }}" data-dia="{{ d.isoformat() }}" aria-label="{{ d|data_br }} ({{ d|dia_semana }})"{% if d == data %} aria-current="date"{% endif %}
+                 href="{{ url_for('agendamentos.agendar', servico_id=servico.id, profissional_id=profissional.id, data=d.isoformat()) }}#horarios">{{ d.day }}</a>
+            {% else %}
+              <span class="dia off {{ classes }}" aria-hidden="true">{{ d.day }}</span>
+            {% endif %}
+          {% endfor %}{% endfor %}
+        </div>
+      </div>
 
       {% if data %}
-        <h2>Horários em {{ data|data_br }} ({{ data|dia_semana }})</h2>
+        <h2 id="horarios">Horários em {{ data|data_br }} ({{ data|dia_semana }})</h2>
         {% if horarios|selectattr(1)|list %}
         <form method="post" action="{{ url_for('agendamentos.confirmar') }}" data-validar>
           <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
@@ -75,13 +100,13 @@
           <label for="telefone">Celular (WhatsApp)</label>
           <input id="telefone" name="telefone" type="tel" required maxlength="20" pattern="(?=(?:[^0-9]*[0-9]){10,13}[^0-9]*$)[0-9 +\(\)\-]{8,20}" title="DDD e número, ex.: (43) 99999-0000" autocomplete="tel" placeholder="(43) 99999-0000">
           {% endif %}
-          <label for="observacao">Observação (opcional)</label>
-          <input id="observacao" name="observacao" maxlength="255" placeholder="Ex.: prefiro máquina 2 nas laterais">
           <button type="submit" class="botao">Confirmar agendamento</button>
         </form>
         {% else %}
           <p class="vazio">Nenhum horário livre nesta data. Tente outro dia.</p>
         {% endif %}
+      {% else %}
+        <p class="muted">Toque em um dia do calendário para ver os horários.</p>
       {% endif %}
     {% endif %}
   {% endif %}

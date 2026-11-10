@@ -1,0 +1,2 @@
+{# Foto redonda do profissional "p", ou as iniciais quando não há foto. #}
+{% if p.foto_url %}<img class="avatar" src="{{ p.foto_url }}" alt="Foto de {{ p.nome }}" width="96" height="96" loading="lazy">{% else %}<span class="avatar avatar-iniciais" aria-hidden="true">{{ p.iniciais }}</span>{% endif %}
