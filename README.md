@@ -101,3 +101,5 @@ Vercel ([`vercel.json`](vercel.json)) + banco no Neon + domínio no Cloudflare: 
 ## Créditos das fotos
 
 Fotos dos serviços do [Unsplash](https://unsplash.com), sob a [licença Unsplash](https://unsplash.com/license) (uso livre), carregadas direto do Unsplash: Mr Shave (barba), Michael DeMoya (corte masculino), Nate Johnston (corte + barba), Farhad Ibrahimzade (corte feminino), Adam Winger (escova) e Allef Vinicius (demais serviços). Fotos dos profissionais de demonstração: Jeppe Mønster (Carlos) e Michael Dagonakis (Ana).
+
+Música de fundo do vídeo de apresentação: "Bossa Antigua", de Kevin MacLeod ([incompetech.com](https://incompetech.com)), licença [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
