@@ -4,7 +4,7 @@ Formato baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/). 
 
 ## [Não lançado]: correções após os testes dos colegas
 
-Testes feitos por 4 colegas pelo Google Forms entre 28 e 31/10/2026 (laudo, seção 4). Colega 5: [PENDENTE: aguardando teste real].
+Testes feitos por 5 colegas pelo Google Forms entre 28/10 e 10/11/2026 (laudo, seção 4).
 
 ### Alterado
 - Hospedagem trocada do Render para a Vercel e banco PostgreSQL movido para o Neon (São Paulo). Motivo: no plano gratuito do Render o site mostrava uma tela de carregamento de até 1 minuto a cada acesso depois de parado, e o banco gratuito expirava em 30 dias. `render.yaml` e `start.sh` removidos; `vercel.json` adicionado; passo a passo em `docs/deploy.md`.

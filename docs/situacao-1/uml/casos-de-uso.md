@@ -7,6 +7,7 @@ flowchart LR
     Cliente([👤 Cliente])
     Profissional([👤 Profissional])
     Admin([👤 Administrador])
+    Visitante([👤 Visitante sem cadastro])
 
     subgraph Sistema["AgendaFácil"]
         UC01((Cadastrar-se))
@@ -22,7 +23,12 @@ flowchart LR
         UC11((Gerenciar serviços))
         UC12((Cadastrar profissional))
         UC13((Ver todos os agendamentos))
+        UC14((Ver agendamento pelo link))
     end
+
+    Visitante --- UC03
+    Visitante --- UC04
+    Visitante --- UC14
 
     Cliente --- UC01
     Cliente --- UC02
@@ -42,7 +48,8 @@ flowchart LR
     Admin --- UC07
 
     UC04 -. "«include»" .-> UC05
-    UC04 -. "«include»" .-> UC02
+    UC04 -. "«extend» (cliente com conta)" .-> UC02
+    UC14 -. "«extend» (≥ 2h antes)" .-> UC07
     UC07 -. "«extend» (≥ 2h antes, se cliente)" .-> UC06
 ```
 
@@ -63,3 +70,4 @@ flowchart LR
 | UC11 | Gerenciar serviços | Admin | Logado como admin | Serviço criado/alterado/ativado/desativado |
 | UC12 | Cadastrar profissional | Admin | E-mail não cadastrado | Usuário `profissional` + Profissional criados |
 | UC13 | Ver todos os agendamentos | Admin | Logado como admin | Lista exibida |
+| UC14 | Ver agendamento pelo link | Visitante sem cadastro | Link privado recebido ao agendar (RF15, RN08) | Vê o agendamento, adiciona ao Google Agenda ou cancela (≥ 2h antes) |

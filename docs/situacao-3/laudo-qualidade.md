@@ -1,6 +1,6 @@
 # Laudo de qualidade — AgendaFácil
 
-**Versão avaliada:** 1.0.0 · **Responsável:** Davy Gabriel Stresser Pereira (RGM 36963089) · **Emissão:** 19/10/2026 (parcial: aguardando os testes dos colegas)
+**Versão avaliada:** 1.0.0 · **Responsável:** Davy Gabriel Stresser Pereira (RGM 36963089) · **Emissão:** 19/10/2026 · **Atualização final:** 10/11/2026
 
 ## 1. Resumo
 
@@ -10,7 +10,7 @@
 | Cobertura de código | 96% |
 | Casos de teste do plano (CT-01 a CT-37) | 37 aprovados ([plano](plano-testes.md)) |
 | Defeitos encontrados na verificação interna | 4 (todos corrigidos), seção 3 |
-| Testes de aceitação com colegas | 4 de 5 realizados, seção 4 (colega 5: [PENDENTE: aguardando teste real]) |
+| Testes de aceitação com colegas | 5 de 5 realizados (28/10 a 10/11/2026), seção 4 |
 | Defeitos apontados pelos colegas | 1 corrigido (C-01); 1 relato encerrado sem defeito (C-02), seção 5 |
 
 **Escala de severidade**
@@ -54,7 +54,7 @@ Defeitos reais encontrados por mim durante a verificação (revisões, `flask db
 
 ## 4. Testes de aceitação com colegas
 
-> Cada colega seguiu o roteiro do [formulário](formulario-colegas.md), respondido pelo Google Forms entre 28 e 31/10/2026. As respostas abaixo resumem o que cada um escreveu; trechos entre aspas são literais.
+> Cada colega seguiu o roteiro do [formulário](formulario-colegas.md), respondido pelo Google Forms entre 28/10 e 10/11/2026. O colega 5 testou a versão já com as melhorias (agendamento sem cadastro, novo visual e calendário). As respostas abaixo resumem o que cada um escreveu; trechos entre aspas são literais.
 
 ### 4.1 Colega 1
 
@@ -104,12 +104,12 @@ Defeitos reais encontrados por mim durante a verificação (revisões, `flask db
 
 | Campo | Resposta |
 |---|---|
-| Nome | [PENDENTE: aguardando teste real] |
-| Data do teste | [PENDENTE: aguardando teste real] |
-| O que testou e funcionou | [PENDENTE: aguardando teste real] |
-| O que testou e não funcionou, e o que deve ser corrigido | [PENDENTE: aguardando teste real] |
-| Funcionalidade não testada, e por quê | [PENDENTE: aguardando teste real] |
-| Evidências (prints) | [PENDENTE: aguardando teste real] |
+| Nome | Cris |
+| Data do teste e dispositivo | 10/11/2026 · Chrome |
+| O que testou e funcionou | Parte A completa (A1 a A15): todos OK. "Testei todos os passos e OK." |
+| O que testou e não funcionou, e o que deve ser corrigido | "Nada." Sem sugestões. |
+| Funcionalidade não testada, e por quê | Parte B marcada como "Não testei" (sem acesso de profissional e administrador); na pergunta 3 respondeu "Não". |
+| Evidências (prints) | Sem prints. |
 
 ## 5. Defeitos apontados pelos colegas
 
@@ -122,4 +122,10 @@ Defeitos reais encontrados por mim durante a verificação (revisões, `flask db
 
 ## 6. Parecer final
 
-[PENDENTE: aguardando teste real. Preencher depois dos 5 testes e das correções, informando se a versão atende ao critério de aprovação do plano de testes: nenhum defeito Crítico ou Alto aberto.]
+A versão publicada (https://agendafacil-wine.vercel.app) **atende ao critério de aprovação** do plano de testes: não há defeito Crítico ou Alto aberto.
+
+- **Verificação interna:** 4 defeitos (D-01 a D-04), todos corrigidos.
+- **Testes dos 5 colegas:** 1 defeito de severidade Média (C-01, telefone sem validação de dígitos), corrigido e coberto por teste automatizado; 1 relato (C-02) investigado e encerrado por não ser defeito, com o texto do roteiro de teste corrigido. Os passos executados pelos colegas passaram, exceto esses dois casos.
+- **Sugestões dos colegas:** 4 de 6 aplicadas (telefone formatado, cores dos horários, Google Agenda e agendamento sem cadastro); as 2 restantes estão justificadas no [changelog](changelog-melhorias.md).
+- **Testes automatizados:** 116 aprovados (e 1 de PostgreSQL, executado com banco configurado), cobertura de 97%.
+- **Limitação conhecida:** a Parte B (profissional e administrador) foi testada por apenas 1 colega; ela é coberta pelos testes automatizados e pelas evidências 15 a 19.

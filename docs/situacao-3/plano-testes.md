@@ -107,10 +107,10 @@ Coluna **Automação**: arquivo e teste que executam o caso. Coluna **Resultado 
 
 | ID | Testador | Data | Resultado |
 |---|---|---|---|
-| VA-01 | Colega 1 | [PENDENTE: aguardando teste real] | [PENDENTE] |
-| VA-02 | Colega 2 | [PENDENTE: aguardando teste real] | [PENDENTE] |
-| VA-03 | Colega 3 | [PENDENTE: aguardando teste real] | [PENDENTE] |
-| VA-04 | Colega 4 | [PENDENTE: aguardando teste real] | [PENDENTE] |
-| VA-05 | Colega 5 | [PENDENTE: aguardando teste real] | [PENDENTE] |
+| VA-01 | Colega 1 (Andrew) | 28/10/2026 | Parte A OK; 1 defeito (C-01, corrigido); Parte B não testada |
+| VA-02 | Colega 2 (Theo Nicoleli) | 29/10/2026 | Passos testados OK (11 de 15 da Parte A); sem defeitos |
+| VA-03 | Colega 3 (Davi Inoue) | 31/10/2026 | Partes A e B completas OK; sem defeitos |
+| VA-04 | Colega 4 (Arthur Furtado) | 31/10/2026 | Parte A OK, exceto A13 (C-02, não era defeito); Parte B não testada |
+| VA-05 | Colega 5 (Cris) | 10/11/2026 | Parte A completa OK; Parte B não testada |
 
 Os detalhes de cada teste ficam em [`laudo-qualidade.md`](laudo-qualidade.md).

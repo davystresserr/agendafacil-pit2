@@ -13,7 +13,6 @@ import docx
 RAIZ = Path(__file__).resolve().parents[1]
 MODELO = RAIZ / "entrega" / "modelo" / "PIT_atividade_8.docx"
 SAIDA = RAIZ / "entrega" / "PIT_atividade_8_preenchido.docx"
-PENDENTE_TESTE = "[PENDENTE: aguardando teste real]"
 
 
 def run_como(paragrafo, texto, modelo_run=None, negrito=False):
@@ -41,6 +40,33 @@ def acrescentar_na_celula(celula, texto):
     p = celula.paragraphs[-1]
     ref = p.runs[0] if p.runs else None
     run_como(p, " " + texto, ref, negrito=False)
+
+
+COLEGAS = [
+    ("Andrew", "28/10/2026",
+     "Parte A completa (A1 a A15) no celular Android + Chrome: cadastro, login, agendamento, cancelamento e "
+     "telas de erro.",
+     "O cadastro aceitava telefone só com símbolos, como \"((((((((\". Corrigir para aceitar só números e formatar "
+     "no padrão (xx) xxxxx-xxxx. Corrigido (C-01).",
+     "Parte B (profissional e administrador): testou apenas como cliente."),
+    ("Theo Nicoleli", "29/10/2026",
+     "A1 a A8, A12, A14 e A15 no iPhone: cadastro, login, agendamento, horário ocupado e celular.",
+     "Nada. Sugeriu agendar só com o telefone, sem tantos dados: aplicado como agendamento sem cadastro.",
+     "A9, A10, A11, A13 e a Parte B: quis testar só como cliente."),
+    ("Davi Inoue", "31/10/2026",
+     "Partes A e B completas (A1 a A15 e B1 a B4) no notebook Windows + Chrome.",
+     "Nada. Sugeriu aviso por WhatsApp ou e-mail e integração com o Google Agenda: Google Agenda aplicado.",
+     "Nenhuma."),
+    ("Arthur Furtado", "31/10/2026",
+     "A1 a A12, A14 e A15 no iPhone + Safari.",
+     "A13 marcado como falha (\"consegui acessar com o admin\"): era a tela de login, não defeito (C-02); o texto "
+     "do passo foi corrigido. Sugeriu cores diferentes para horários livres e ocupados: aplicado.",
+     "Parte B: não recebeu acesso."),
+    ("Cris", "10/11/2026",
+     "Parte A completa (A1 a A15) no Chrome.",
+     "Nada.",
+     "Parte B (profissional e administrador): marcada como não testada."),
+]
 
 
 def main():
@@ -80,12 +106,12 @@ def main():
     escrever_celula(t.rows[6], a.app)
     escrever_celula(t.rows[7], a.video)
 
-    # Testes da solução: 5 tabelas de colegas
-    for tabela in d.tables[1:6]:
-        acrescentar_na_celula(tabela.rows[0].cells[0], PENDENTE_TESTE)
-        acrescentar_na_celula(tabela.rows[0].cells[1], PENDENTE_TESTE)
-        for linha in tabela.rows[1:4]:
-            acrescentar_na_celula(linha.cells[0], PENDENTE_TESTE)
+    # Testes da solução: 5 tabelas de colegas (respostas reais do Google Forms; detalhes no laudo)
+    for tabela, (nome, data, funcionou, falhou, nao_testado) in zip(d.tables[1:6], COLEGAS):
+        acrescentar_na_celula(tabela.rows[0].cells[0], nome)
+        acrescentar_na_celula(tabela.rows[0].cells[1], data)
+        for linha, texto in zip(tabela.rows[1:4], (funcionou, falhou, nao_testado)):
+            acrescentar_na_celula(linha.cells[0], texto)
 
     # Laudo de qualidade: referências (usa os parágrafos vazios já existentes)
     i_laudo = next(i for i, p in enumerate(ps) if p.text.startswith("Insira a seguir o laudo"))
@@ -94,8 +120,10 @@ def main():
         "Laudo completo: docs/situacao-3/laudo-qualidade.md (no repositório indicado acima).",
         "Evidências (prints das telas): docs/evidencias/. Plano de testes de verificação e validação: "
         "docs/situacao-3/plano-testes.md. Relatório de testes automatizados: docs/situacao-2/relatorio-testes.md.",
-        "Resumo da versão 1.0.0: 87 testes automatizados aprovados, cobertura de 97%; 4 defeitos encontrados na "
-        "verificação interna (D-01 a D-04), todos corrigidos. Defeitos dos testes dos colegas: " + PENDENTE_TESTE + ".",
+        "Resumo: 116 testes automatizados aprovados, cobertura de 97%; 4 defeitos na verificação interna (D-01 a "
+        "D-04), todos corrigidos. Testes dos 5 colegas: 1 defeito de severidade média (C-01, corrigido) e 1 relato "
+        "encerrado por não ser defeito (C-02); 4 de 6 sugestões aplicadas. Parecer: aprovado, sem defeito crítico "
+        "ou alto aberto.",
         "Correções após os testes: docs/situacao-3/changelog-melhorias.md.",
     ]
     vazios = [p for p in ps[i_laudo + 1:] if not p.text.strip()][:len(linhas)]
