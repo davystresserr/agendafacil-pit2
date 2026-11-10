@@ -14,11 +14,13 @@ Testes feitos por 4 colegas pelo Google Forms entre 28 e 31/10/2026 (laudo, seç
 
 ### Melhorado
 - Telefone salvo sempre no formato (43) 99999-0000, qualquer que seja a forma digitada (sugestão do Colega 1, Andrew).
-- Na escolha do horário, os horários já ocupados ou passados deixaram de ser escondidos: aparecem em cinza, riscados e sem poder ser escolhidos, ao lado dos livres em azul, com legenda (sugestão do Colega 4, Arthur Furtado). Testes: `test_horarios_do_dia_marcam_ocupado_como_indisponivel`, `test_e2e_horario_ocupado`. Evidência: `docs/evidencias/12-horario-ocupado.png`.
+- Na escolha do horário, os horários já ocupados ou passados deixaram de ser escondidos: aparecem em cinza, riscados e sem poder ser escolhidos, ao lado dos livres na cor de destaque do tema (azul na primeira versão, vermelho tijolo no tema de barbearia), com legenda (sugestão do Colega 4, Arthur Furtado). Testes: `test_horarios_do_dia_marcam_ocupado_como_indisponivel`, `test_e2e_horario_ocupado`. Evidência: `docs/evidencias/12-horario-ocupado.png`.
 
 - Botão "Adicionar ao Google Agenda" em Meus agendamentos, para agendamentos futuros: abre o Google Agenda com serviço, profissional, data, hora e observação já preenchidos, sem precisar de login com Google no sistema (sugestão do Colega 3, Davi Inoue). Teste: `test_link_google_agenda_em_meus_agendamentos`. Evidência: `docs/evidencias/09-agendamento-confirmado.png`.
 
 - Agendamento sem cadastro (RF15, RN08): sem entrar no sistema, o cliente informa só nome e celular. Depois de confirmar, recebe um link privado (`/a/<token>`) para ver, levar ao Google Agenda e cancelar; o aparelho lembra esses agendamentos em "Meus agendamentos". A conta continua opcional. Banco: migração `0002_agendamento_sem_conta` (`cliente_id` passa a aceitar nulo; colunas `cliente_nome`, `cliente_telefone`, `token`; restrições `ck_ag_cliente` e `uq_ag_token`). Sugestão do Colega 2, Theo Nicoleli. Testes: CT-38 a CT-41.
+
+- Identidade visual de barbearia (tema "Vintage"): papel creme, marrom couro e vermelho tijolo; faixa do poste de barbeiro no topo; títulos em letra de letreiro (Bebas Neue e Oswald); página inicial com destaque "Tradição em cada corte" e serviços em formato de cardápio; botões e horários arredondados. Escolhido entre três prévias (`docs/previas-design.html` e `docs/previas-design.png`). Só CSS e textos dos templates; nenhuma regra mudou.
 
 ### Esclarecido
 - C-02 (Colega 4, Arthur Furtado): relatou acesso ao administrador no passo A13. Não era defeito: sem login, `/admin/` leva à tela de login, e foi ela que o colega viu. O texto do passo A13 no formulário passou a dizer que o teste deve ser feito logado como cliente.

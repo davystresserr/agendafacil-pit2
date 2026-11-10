@@ -2,17 +2,21 @@
 {% block titulo %}Serviços{% endblock %}
 {% block conteudo %}
 <section class="hero">
-  <h1>Agende seu horário em poucos cliques</h1>
-  <p>Escolha o serviço, o profissional e o melhor horário. Sem ligação, sem espera.</p>
+  <p class="selo-hero" aria-hidden="true">★ Barbearia ★</p>
+  <h1>Tradição em cada corte</h1>
+  <p>Escolha o serviço, o profissional e o melhor horário. Sem ligação, sem espera, direto do celular.</p>
+  {% if not g.usuario or g.usuario.is_cliente %}
+    <a class="botao" href="{{ url_for('agendamentos.agendar') }}">Agendar agora</a>
+  {% endif %}
 </section>
-<h2>Nossos serviços</h2>
+<h2 class="titulo-secao">Serviços</h2>
 {% if servicos %}
 <div class="cards">
   {% for s in servicos %}
   <article class="card" data-testid="servico">
     <h3>{{ s.nome }}</h3>
     {% if s.descricao %}<p class="muted">{{ s.descricao }}</p>{% endif %}
-    <p class="preco"><strong>{{ s.preco_formatado }}</strong> · {{ s.duracao_min }} min</p>
+    <p class="preco">{{ s.preco_formatado }}<span class="duracao">{{ s.duracao_min }} min</span></p>
     {% if not g.usuario or g.usuario.is_cliente %}
       <a class="botao" href="{{ url_for('agendamentos.agendar', servico_id=s.id) }}">Agendar</a>
     {% endif %}

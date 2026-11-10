@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prévias de design · AgendaFácil</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;800&family=Bebas+Neue&family=Oswald:wght@500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box}
+  body{margin:0;background:#e9e6e1;font:15px/1.5 Inter,system-ui,sans-serif;color:#222}
+  .pagina{max-width:1240px;margin:0 auto;padding:28px 16px 48px}
+  .pagina>h1{font:600 22px Inter;margin:0 0 4px}
+  .pagina>p{margin:0 0 24px;color:#555}
+  .opcoes{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:28px;align-items:start}
+  .rotulo{font:600 15px Inter;margin:0 0 4px}
+  .desc{margin:0 0 12px;color:#555;font-size:14px}
+  .celular{width:360px;max-width:100%;margin:0 auto;border-radius:34px;border:10px solid #111;overflow:hidden;box-shadow:0 18px 40px rgba(0,0,0,.25)}
+  .tela{height:820px;overflow:hidden}
+  .listras{height:8px;background:repeating-linear-gradient(-45deg,#c62828 0 10px,#fff 10px 20px,#1e3a8a 20px 30px,#fff 30px 40px)}
+  .topo{display:flex;align-items:center;justify-content:space-between;padding:14px 18px}
+  .marca{display:flex;align-items:center;gap:8px}
+  .menu{width:30px;height:20px;display:flex;flex-direction:column;justify-content:space-between}
+  .menu i{display:block;height:2px;border-radius:2px}
+  .hero{padding:26px 20px 24px}
+  .hero h2{margin:0 0 8px;line-height:1.05}
+  .hero p{margin:0 0 16px;font-size:14px}
+  .btn{display:inline-block;padding:11px 18px;border-radius:6px;font-weight:600;font-size:14px;text-decoration:none}
+  .secao{padding:16px 18px 0}
+  .secao h3{margin:0 0 10px}
+  .servico{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;border-radius:10px;margin-bottom:10px}
+  .servico b{display:block;font-size:15px}
+  .servico small{font-size:12.5px}
+  .chip{display:inline-block;padding:7px 11px;border-radius:6px;font-size:13px;font-weight:600;margin:0 6px 8px 0}
+  .x{text-decoration:line-through;font-weight:400}
+
+  /* A: Clássica */
+  .a .tela{background:#f6f1e7}
+  .a .topo{background:#141414;color:#f6f1e7}
+  .a .marca{font:800 20px 'Playfair Display',serif;color:#d4a94a}
+  .a .menu i{background:#d4a94a}
+  .a .hero{background:#141414;color:#f6f1e7;border-bottom:3px solid #d4a94a}
+  .a .hero small{color:#d4a94a;letter-spacing:.18em;font-size:11px;font-weight:600}
+  .a .hero h2{font:800 30px 'Playfair Display',serif;margin-top:6px}
+  .a .hero p{color:#cfc6b6}
+  .a .btn{background:#d4a94a;color:#141414}
+  .a .secao h3{font:600 20px 'Playfair Display',serif;color:#141414}
+  .a .servico{background:#fff;border:1px solid #e3d9c6}
+  .a .servico small{color:#7a6f5f}
+  .a .preco{font:600 16px 'Playfair Display',serif;color:#9a7322}
+  .a .chip{border:1.5px solid #141414;color:#141414}
+  .a .chip.sel{background:#141414;color:#d4a94a}
+  .a .chip.x{border-color:#ddd3c2;background:#ebe3d4;color:#9b9284}
+
+  /* B: Vintage */
+  .b .tela{background:#efe4cf}
+  .b .topo{background:#efe4cf;border-bottom:2px solid #3b2418}
+  .b .marca{font:28px 'Bebas Neue',sans-serif;color:#3b2418;letter-spacing:.04em}
+  .b .menu i{background:#3b2418}
+  .b .hero{text-align:center;background:#7a2e1f;color:#f3e6cc;margin:14px;border-radius:4px;outline:2px dashed #f3e6cc;outline-offset:-8px}
+  .b .hero small{font:16px 'Bebas Neue';letter-spacing:.3em;color:#f0c987}
+  .b .hero h2{font:44px 'Bebas Neue',sans-serif;letter-spacing:.03em}
+  .b .btn{background:#f3e6cc;color:#7a2e1f;border-radius:30px}
+  .b .secao h3{font:26px 'Bebas Neue';letter-spacing:.06em;color:#3b2418;text-align:center}
+  .b .servico{background:transparent;border-radius:0;border-bottom:1px dashed #a07d5c;padding:10px 4px}
+  .b .servico b{font:600 16px Oswald;color:#3b2418;text-transform:uppercase;letter-spacing:.03em}
+  .b .servico small{color:#7c6048}
+  .b .preco{font:600 17px Oswald;color:#7a2e1f}
+  .b .chip{background:#fff8ea;border:1.5px solid #7a2e1f;color:#7a2e1f;border-radius:30px}
+  .b .chip.sel{background:#7a2e1f;color:#f3e6cc}
+  .b .chip.x{border-color:#cdb99a;background:#e2d4ba;color:#9d8a70}
+
+  /* C: Urbana */
+  .c .tela{background:#111214;color:#ececec}
+  .c .topo{background:#111214;border-bottom:1px solid #26282c}
+  .c .marca{font:30px 'Bebas Neue',sans-serif;color:#fff;letter-spacing:.05em}
+  .c .marca span{color:#f2b33d}
+  .c .menu i{background:#fff}
+  .c .hero{background:linear-gradient(180deg,rgba(17,18,20,.2),#111214),repeating-linear-gradient(90deg,#1b1d21 0 2px,#16171a 2px 14px)}
+  .c .hero small{color:#f2b33d;font-weight:600;letter-spacing:.2em;font-size:11px}
+  .c .hero h2{font:48px 'Bebas Neue',sans-serif;line-height:.95;margin-top:6px}
+  .c .hero p{color:#a9abb1}
+  .c .btn{background:#f2b33d;color:#111214}
+  .c .secao h3{font:24px 'Bebas Neue';letter-spacing:.06em}
+  .c .servico{background:#1b1d21;border:1px solid #2a2d33}
+  .c .servico small{color:#9a9ca2}
+  .c .preco{font:600 16px Oswald;color:#f2b33d}
+  .c .chip{border:1.5px solid #f2b33d;color:#f2b33d}
+  .c .chip.sel{background:#f2b33d;color:#111214}
+  .c .chip.x{border-color:#2a2d33;background:#1f2125;color:#5e6168}
+</style>
+</head>
+<body>
+<div class="pagina">
+  <h1>Prévias de design do AgendaFácil</h1>
+  <p>Três caminhos para dar cara de barbearia. Cada celular mostra o início do site e a escolha de horário (livre, escolhido e ocupado).</p>
+  <div class="opcoes">
+
+    <section class="a">
+      <p class="rotulo">Opção A · Clássica</p>
+      <p class="desc">Preto e dourado, títulos com serifa, faixa do poste de barbeiro. Elegante e tradicional.</p>
+      <div class="celular"><div class="tela">
+        <div class="listras"></div>
+        <div class="topo"><span class="marca">✂ AgendaFácil</span><span class="menu"><i></i><i></i><i></i></span></div>
+        <div class="hero">
+          <small>BARBEARIA · DESDE 2026</small>
+          <h2>Corte na régua, horário na mão.</h2>
+          <p>Escolha o serviço, o barbeiro e o horário. Sem ligação, sem espera.</p>
+          <a class="btn" href="#">Agendar agora</a>
+        </div>
+        <div class="secao">
+          <h3>Nossos serviços</h3>
+          <div class="servico"><div><b>Corte masculino</b><small>30 min</small></div><span class="preco">R$ 45</span></div>
+          <div class="servico"><div><b>Barba</b><small>30 min · toalha quente</small></div><span class="preco">R$ 35</span></div>
+          <div class="servico"><div><b>Corte + barba</b><small>60 min</small></div><span class="preco">R$ 70</span></div>
+          <h3 style="margin-top:14px">Horários · quinta</h3>
+          <span class="chip">09:00</span><span class="chip x">09:30</span><span class="chip sel">10:00</span><span class="chip">10:30</span><span class="chip x">11:00</span><span class="chip">11:30</span>
+        </div>
+      </div></div>
+    </section>
+
+    <section class="b">
+      <p class="rotulo">Opção B · Vintage</p>
+      <p class="desc">Papel creme, marrom couro e vermelho tijolo, letras de letreiro antigo. Clima de barbearia de bairro.</p>
+      <div class="celular"><div class="tela">
+        <div class="listras"></div>
+        <div class="topo"><span class="marca">✂ AgendaFácil</span><span class="menu"><i></i><i></i><i></i></span></div>
+        <div class="hero">
+          <small>★ BARBEARIA ★</small>
+          <h2>Tradição em cada corte</h2>
+          <p>Marque seu horário em 1 minuto, direto do celular.</p>
+          <a class="btn" href="#">Agendar agora</a>
+        </div>
+        <div class="secao">
+          <h3>— Serviços —</h3>
+          <div class="servico"><div><b>Corte masculino</b><small>30 min</small></div><span class="preco">R$ 45</span></div>
+          <div class="servico"><div><b>Barba</b><small>30 min · toalha quente</small></div><span class="preco">R$ 35</span></div>
+          <div class="servico"><div><b>Corte + barba</b><small>60 min</small></div><span class="preco">R$ 70</span></div>
+          <h3 style="margin-top:14px">— Horários · quinta —</h3>
+          <span class="chip">09:00</span><span class="chip x">09:30</span><span class="chip sel">10:00</span><span class="chip">10:30</span><span class="chip x">11:00</span><span class="chip">11:30</span>
+        </div>
+      </div></div>
+    </section>
+
+    <section class="c">
+      <p class="rotulo">Opção C · Urbana</p>
+      <p class="desc">Fundo escuro, amarelo âmbar e letras condensadas. Moderna, estilo barber shop atual.</p>
+      <div class="celular"><div class="tela">
+        <div class="topo"><span class="marca">AGENDA<span>FÁCIL</span></span><span class="menu"><i></i><i></i><i></i></span></div>
+        <div class="hero">
+          <small>BARBER SHOP</small>
+          <h2>Seu estilo.<br>Seu horário.</h2>
+          <p>Escolha o serviço, o barbeiro e o horário em poucos toques.</p>
+          <a class="btn" href="#">Agendar agora</a>
+        </div>
+        <div class="secao">
+          <h3>Serviços</h3>
+          <div class="servico"><div><b>Corte masculino</b><small>30 min</small></div><span class="preco">R$ 45</span></div>
+          <div class="servico"><div><b>Barba</b><small>30 min · toalha quente</small></div><span class="preco">R$ 35</span></div>
+          <div class="servico"><div><b>Corte + barba</b><small>60 min</small></div><span class="preco">R$ 70</span></div>
+          <h3 style="margin-top:14px">Horários · quinta</h3>
+          <span class="chip">09:00</span><span class="chip x">09:30</span><span class="chip sel">10:00</span><span class="chip">10:30</span><span class="chip x">11:00</span><span class="chip">11:30</span>
+        </div>
+      </div></div>
+    </section>
+
+  </div>
+</div>
+</body>
+</html>
