@@ -34,7 +34,7 @@ def agendar():
     if data and data < agora_.date():
         flash("Escolha uma data a partir de hoje.", "aviso")
         data = None
-    horarios = (agendamento_service.horarios_livres(profissional, servico, data, agora_)
+    horarios = (agendamento_service.horarios_do_dia(profissional, servico, data, agora_)
                 if servico and profissional and data else [])
     passo = 1 if not servico else 2 if not profissional else 3
     return render_template(

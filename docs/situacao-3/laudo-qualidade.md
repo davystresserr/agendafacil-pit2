@@ -6,8 +6,8 @@
 
 | Indicador | Valor |
 |---|---|
-| Casos de teste automatizados | 87 executados, 87 aprovados ([relatório](../situacao-2/relatorio-testes.md)) |
-| Cobertura de código | 97% |
+| Casos de teste automatizados | 98 executados, 97 aprovados e 1 pulado (o de PostgreSQL, que roda só com banco configurado) ([relatório](../situacao-2/relatorio-testes.md)) |
+| Cobertura de código | 96% |
 | Casos de teste do plano (CT-01 a CT-37) | 37 aprovados ([plano](plano-testes.md)) |
 | Defeitos encontrados na verificação interna | 4 (todos corrigidos), seção 3 |
 | Testes de aceitação com colegas | 4 de 5 realizados, seção 4 (colega 5: [PENDENTE: aguardando teste real]) |
@@ -96,7 +96,7 @@ Defeitos reais encontrados por mim durante a verificação (revisões, `flask db
 | Nome | Arthur Furtado |
 | Data do teste e dispositivo | 31/10/2026 · iPhone + Safari |
 | O que testou e funcionou | A1 a A12, A14 e A15 OK. "Tudo." |
-| O que testou e não funcionou, e o que deve ser corrigido | A13 marcado como Falhou: "Eu consegui acessar com o admin". Registrado como C-02. Sugestão: horários disponíveis em azul e indisponíveis em cinza. |
+| O que testou e não funcionou, e o que deve ser corrigido | A13 marcado como Falhou: "Eu consegui acessar com o admin". Registrado como C-02. Sugestão: horários disponíveis em azul e indisponíveis em cinza (aplicada, ver changelog). |
 | Funcionalidade não testada, e por quê | Parte B: "não recebi acesso". |
 | Evidências (prints) | Sem prints. |
 

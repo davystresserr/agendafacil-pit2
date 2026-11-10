@@ -29,8 +29,9 @@ def _ocupados(profissional_id: int, inicio: datetime, fim: datetime, ignorar_id=
     return q.all()
 
 
-def horarios_livres(profissional: Profissional, servico: Servico, dia: date, agora: datetime) -> list[datetime]:
-    """Inícios possíveis no dia: dentro da jornada, no futuro e sem sobreposição."""
+def horarios_do_dia(profissional: Profissional, servico: Servico, dia: date,
+                    agora: datetime) -> list[tuple[datetime, bool]]:
+    """Inícios da jornada no dia, cada um com True se está livre (no futuro e sem sobreposição)."""
     if not (profissional.ativo and servico.ativo and profissional.realiza(servico)):
         return []
     duracao = timedelta(minutes=servico.duracao_min)
@@ -38,7 +39,7 @@ def horarios_livres(profissional: Profissional, servico: Servico, dia: date, ago
     inicio_dia = datetime.combine(dia, datetime.min.time())
     ocupados = _ocupados(profissional.id, inicio_dia, inicio_dia + timedelta(days=1))
 
-    livres = []
+    horarios = {}
     for faixa in profissional.horarios:
         if faixa.dia_semana != dia.weekday():
             continue
@@ -46,10 +47,15 @@ def horarios_livres(profissional: Profissional, servico: Servico, dia: date, ago
         limite = datetime.combine(dia, faixa.hora_fim)
         while candidato + duracao <= limite:
             fim = candidato + duracao
-            if candidato > agora and not any(a.inicio < fim and a.fim > candidato for a in ocupados):
-                livres.append(candidato)
+            horarios[candidato] = candidato > agora and not any(
+                a.inicio < fim and a.fim > candidato for a in ocupados)
             candidato += passo
-    return sorted(set(livres))
+    return sorted(horarios.items())
+
+
+def horarios_livres(profissional: Profissional, servico: Servico, dia: date, agora: datetime) -> list[datetime]:
+    """Inícios possíveis no dia: dentro da jornada, no futuro e sem sobreposição."""
+    return [h for h, livre in horarios_do_dia(profissional, servico, dia, agora) if livre]
 
 
 def agendar(cliente: Usuario, profissional: Profissional, servico: Servico, inicio: datetime,

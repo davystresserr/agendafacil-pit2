@@ -17,7 +17,7 @@ def ir_para_horarios(page, servidor, servico="Corte masculino", profissional="Ca
     page.get_by_role("link", name=f"Escolher {profissional}").click()
     page.fill("#data", dia.isoformat())
     page.get_by_role("button", name="Ver horários").click()
-    expect(page.get_by_role("heading", name=re.compile("Horários livres"))).to_be_visible()
+    expect(page.get_by_role("heading", name=re.compile("Horários em"))).to_be_visible()
     return dia
 
 
@@ -76,7 +76,9 @@ def test_e2e_horario_ocupado(browser, servidor, entrar):
         page_b.get_by_role("button", name="Confirmar agendamento").click()
         expect(page_b.get_by_role("alert")).to_contain_text("acabou de ser ocupado")
         expect(page_b).to_have_url(re.compile("/agendar"))
-        expect(page_b.locator("label.horario", has_text="14:00")).to_have_count(0)
+        ocupado = page_b.locator("label.horario.indisponivel", has_text="14:00")
+        expect(ocupado).to_have_count(1)
+        expect(ocupado.locator("input")).to_be_disabled()
     finally:
         ctx_a.close()
         ctx_b.close()

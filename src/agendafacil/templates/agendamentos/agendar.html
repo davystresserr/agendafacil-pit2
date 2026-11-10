@@ -51,16 +51,21 @@
       </form>
 
       {% if data %}
-        <h2>Horários livres em {{ data|data_br }} ({{ data|dia_semana }})</h2>
-        {% if horarios %}
+        <h2>Horários em {{ data|data_br }} ({{ data|dia_semana }})</h2>
+        {% if horarios|selectattr(1)|list %}
         <form method="post" action="{{ url_for('agendamentos.confirmar') }}" data-validar>
           <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
           <input type="hidden" name="servico_id" value="{{ servico.id }}">
           <input type="hidden" name="profissional_id" value="{{ profissional.id }}">
+          <p class="legenda-horarios"><span class="cor livre"></span> Disponível <span class="cor ocupado"></span> Indisponível</p>
           <fieldset class="horarios">
             <legend class="sr-only">Horários</legend>
-            {% for h in horarios %}
+            {% for h, livre in horarios %}
+              {% if livre %}
               <label class="horario"><input type="radio" name="inicio" value="{{ h.isoformat(timespec='minutes') }}" required> <span>{{ h|hora }}</span></label>
+              {% else %}
+              <label class="horario indisponivel"><input type="radio" disabled> <span>{{ h|hora }}<span class="sr-only"> (indisponível)</span></span></label>
+              {% endif %}
             {% endfor %}
           </fieldset>
           <label for="observacao">Observação (opcional)</label>

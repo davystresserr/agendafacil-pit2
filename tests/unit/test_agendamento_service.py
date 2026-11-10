@@ -120,3 +120,10 @@ def test_listagens(dados):
     assert svc.do_profissional(dados["profissional"], a_partir_de=em(12)) == [a2]
     assert len(svc.todos()) == 2
     assert svc.contar_do_dia(TERCA) == 2
+
+
+def test_horarios_do_dia_marcam_ocupado_como_indisponivel(dados):
+    # sugestão do colega 4: mostrar os indisponíveis em cinza em vez de escondê-los
+    svc.agendar(dados["cliente"], dados["profissional"], dados["corte"], em(10), AGORA)
+    horarios = dict(svc.horarios_do_dia(dados["profissional"], dados["corte"], TERCA, AGORA))
+    assert horarios[em(10)] is False and horarios[em(11)] is True

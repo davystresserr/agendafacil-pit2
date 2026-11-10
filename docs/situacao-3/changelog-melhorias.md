@@ -11,6 +11,7 @@ Testes feitos por 4 colegas pelo Google Forms entre 28 e 31/10/2026 (laudo, seç
 
 ### Melhorado
 - Telefone salvo sempre no formato (43) 99999-0000, qualquer que seja a forma digitada (sugestão do Colega 1, Andrew).
+- Na escolha do horário, os horários já ocupados ou passados deixaram de ser escondidos: aparecem em cinza, riscados e sem poder ser escolhidos, ao lado dos livres em azul, com legenda (sugestão do Colega 4, Arthur Furtado). Testes: `test_horarios_do_dia_marcam_ocupado_como_indisponivel`, `test_e2e_horario_ocupado`. Evidência: `docs/evidencias/12-horario-ocupado.png`.
 
 ### Esclarecido
 - C-02 (Colega 4, Arthur Furtado): relatou acesso ao administrador no passo A13. Não era defeito: sem login, `/admin/` leva à tela de login, e foi ela que o colega viu. O texto do passo A13 no formulário passou a dizer que o teste deve ser feito logado como cliente.
@@ -20,7 +21,6 @@ Testes feitos por 4 colegas pelo Google Forms entre 28 e 31/10/2026 (laudo, seç
 - Aviso por WhatsApp ou e-mail após agendar (Colega 3, Davi Inoue) — motivo: fora do escopo; exige serviço pago de envio de mensagens.
 - Cadastro e login próprios para profissional (Colega 1, Andrew) — motivo: conflita com a regra de negócio; o profissional é cadastrado pelo administrador do salão (RF13).
 - Agendar só com o telefone, sem conta (Colega 2, Theo Nicoleli) — motivo: conflita com a regra de negócio; a conta é o que permite ver e cancelar os próprios agendamentos.
-- Horários disponíveis em azul e indisponíveis em cinza (Colega 4, Arthur Furtado) — motivo: [PENDENTE: decidir se será aplicado]
 
 Modelo de registro:
 
