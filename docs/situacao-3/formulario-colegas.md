@@ -7,8 +7,6 @@ Obrigado por testar! Você não precisa conhecer o sistema: siga o roteiro abaix
 - **Versão em formulário interativo (com espaço para anexar prints):** abra o arquivo [`formulario-colegas.html`](formulario-colegas.html) no navegador, preencha e use **Salvar em PDF**.
 - **Como enviar:** me mande o PDF (ou este arquivo preenchido) e os prints.
 
-> Dica: se a primeira página demorar até 1 minuto para abrir, é normal. O servidor gratuito "acorda" no primeiro acesso.
-
 ---
 
 ## Roteiro de teste (passo a passo)

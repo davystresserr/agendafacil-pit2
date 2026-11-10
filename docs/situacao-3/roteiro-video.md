@@ -3,7 +3,7 @@
 > **Atenção à duração:** o material da Situação 3 pede um vídeo "de até cinco minutos", mas o formulário da entrega e a seção "Problema em Foco" falam em vídeo narrado com "no mínimo 5 min". Para atender aos dois, o roteiro mira **exatamente 5:00**. Confirme com o tutor se houver dúvida.
 
 **Preparação antes de gravar**
-- Abrir o sistema publicado e "acordar" o servidor 2 minutos antes (plano gratuito).
+- Abrir o sistema publicado antes de começar a gravar.
 - Deixar abertas três abas: (1) cliente deslogado, (2) janela anônima para o segundo cliente, (3) repositório no GitHub.
 - Ter logins de profissional e admin à mão (não mostrar a senha na tela).
 - Gravar em 1080p com microfone; sugestão: OBS Studio ou o gravador do próprio sistema operacional.

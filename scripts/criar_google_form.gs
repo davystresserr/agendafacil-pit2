@@ -14,7 +14,6 @@ function criarFormulario() {
     'Obrigado por testar! Você não precisa conhecer o sistema: siga o roteiro e marque o que aconteceu. ' +
     'Seja sincero, os erros que você encontrar vão ajudar a melhorar o sistema.\n\n' +
     'Endereço do sistema: ' + LINK_DO_SITE + '\n\n' +
-    'Se a primeira página demorar até 1 minuto para abrir, é normal: o servidor gratuito "acorda" no primeiro acesso.\n' +
     'Se algo der erro, tire um print (Windows: Win+Shift+S · Mac: Cmd+Shift+4 · celular: botões de print).'
   );
   form.setCollectEmail(false);
