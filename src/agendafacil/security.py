@@ -10,6 +10,7 @@ from .extensions import db
 from .models import Usuario
 
 CSRF_CAMPO = "csrf_token"
+LINKS_SESSAO = "links"  # tokens dos agendamentos sem conta feitos neste aparelho
 
 
 class CSRFError(Exception):
@@ -45,7 +46,10 @@ def carregar_usuario():
 
 
 def iniciar_sessao(usuario: Usuario):
+    links = session.get(LINKS_SESSAO)
     session.clear()  # evita fixação de sessão
+    if links:
+        session[LINKS_SESSAO] = links
     session["usuario_id"] = usuario.id
     csrf_token()
 

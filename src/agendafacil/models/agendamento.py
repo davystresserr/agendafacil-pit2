@@ -20,6 +20,10 @@ class Agendamento(db.Model):
         db.CheckConstraint("status IN ('agendado', 'cancelado', 'concluido')", name="ck_ag_status"),
         db.CheckConstraint("fim > inicio", name="ck_ag_periodo"),
         db.CheckConstraint("(status = 'cancelado') = (cancelado_em IS NOT NULL)", name="ck_ag_cancelado"),
+        # Sem conta: o cliente se identifica por nome e telefone e gerencia o agendamento por um link com token.
+        db.CheckConstraint("cliente_id IS NOT NULL OR (cliente_nome IS NOT NULL AND cliente_telefone IS NOT NULL "
+                           "AND token IS NOT NULL)", name="ck_ag_cliente"),
+        db.UniqueConstraint("token", name="uq_ag_token"),
         db.Index("ix_ag_profissional_inicio", "profissional_id", "inicio"),
         db.Index("ix_ag_cliente_inicio", "cliente_id", "inicio"),
         db.Index("ix_ag_servico", "servico_id"),
@@ -28,7 +32,10 @@ class Agendamento(db.Model):
     )
 
     id = db.Column(db.Integer, primary_key=True)
-    cliente_id = db.Column(db.Integer, db.ForeignKey("usuarios.id", ondelete="RESTRICT"), nullable=False)
+    cliente_id = db.Column(db.Integer, db.ForeignKey("usuarios.id", ondelete="RESTRICT"))
+    cliente_nome = db.Column(db.String(100))
+    cliente_telefone = db.Column(db.String(20))
+    token = db.Column(db.String(64))
     profissional_id = db.Column(db.Integer, db.ForeignKey("profissionais.id", ondelete="RESTRICT"), nullable=False)
     servico_id = db.Column(db.Integer, db.ForeignKey("servicos.id", ondelete="RESTRICT"), nullable=False)
     inicio = db.Column(db.DateTime, nullable=False)
@@ -42,6 +49,14 @@ class Agendamento(db.Model):
     cliente = db.relationship("Usuario", back_populates="agendamentos", foreign_keys=[cliente_id])
     profissional = db.relationship("Profissional", back_populates="agendamentos")
     servico = db.relationship("Servico")
+
+    @property
+    def nome_do_cliente(self) -> str:
+        return self.cliente.nome if self.cliente else self.cliente_nome
+
+    @property
+    def telefone_do_cliente(self) -> str | None:
+        return self.cliente.telefone if self.cliente else self.cliente_telefone
 
     @property
     def ativo(self) -> bool:

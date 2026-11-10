@@ -82,3 +82,21 @@ def test_e2e_horario_ocupado(browser, servidor, entrar):
     finally:
         ctx_a.close()
         ctx_b.close()
+
+
+def test_e2e_agendar_sem_conta_pelo_celular(browser, servidor):
+    """Visitante agenda pelo celular só com nome e telefone e volta ao agendamento pelo menu."""
+    ctx = browser.new_context(viewport={"width": 375, "height": 812})
+    page = ctx.new_page()
+    try:
+        ir_para_horarios(page, servidor, servico="Barba")
+        page.locator("label.horario:not(.indisponivel)", has_text="11:00").click()
+        page.fill("#nome", "Visitante Celular")
+        page.fill("#telefone", "43999992222")
+        page.get_by_role("button", name="Confirmar agendamento").click()
+        expect(page.get_by_role("heading", name="Seu agendamento")).to_be_visible()
+        expect(page.get_by_text("(43) 99999-2222")).to_be_visible()
+        page.goto(f"{servidor}/meus-agendamentos")
+        expect(page.locator("[data-testid=agendamento]", has_text="Barba")).to_have_count(1)
+    finally:
+        ctx.close()

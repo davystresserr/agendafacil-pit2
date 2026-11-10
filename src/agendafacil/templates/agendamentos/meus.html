@@ -32,6 +32,9 @@
 </table>
 </div>
 {% else %}
-  <p class="vazio">Você ainda não tem agendamentos. <a href="{{ url_for('agendamentos.agendar') }}">Agende agora</a>.</p>
+  <p class="vazio">Você ainda não tem agendamentos{% if not g.usuario %} neste aparelho{% endif %}. <a href="{{ url_for('agendamentos.agendar') }}">Agende agora</a>.</p>
+{% endif %}
+{% if not g.usuario %}
+  <p class="muted">Aqui aparecem os agendamentos feitos sem cadastro neste aparelho. Em outro aparelho, use o link que aparece depois de agendar, ou <a href="{{ url_for('auth.login') }}">entre na sua conta</a>.</p>
 {% endif %}
 {% endblock %}

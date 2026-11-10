@@ -34,6 +34,8 @@ Se o e-mail já estiver cadastrado, o sistema avisa e mantém o que você digito
 4. Clique no horário desejado (ele fica azul), escreva uma observação se quiser e clique em **Confirmar agendamento**.
 5. Você vai para **Meus agendamentos**, com a mensagem de confirmação.
 
+**Sem cadastro:** não é preciso criar conta. Sem entrar no sistema, faça os mesmos passos; no último, informe **seu nome** e **celular (WhatsApp)**. Depois de confirmar, abre a página **Seu agendamento**, com um link privado: guarde-o para ver ou cancelar de outro aparelho. No mesmo aparelho, o agendamento também aparece em **Meus agendamentos** (por até 31 dias).
+
 Em qualquer passo, use o link **trocar** para mudar o serviço ou o profissional.
 
 Se outra pessoa reservar o mesmo horário segundos antes de você, aparece "Este horário acabou de ser ocupado. Escolha outro horário." e a lista é atualizada (print `12-horario-ocupado.png`).
@@ -42,6 +44,8 @@ Se outra pessoa reservar o mesmo horário segundos antes de você, aparece "Este
 1. Clique em **Meus agendamentos**.
 2. Cada agendamento mostra data/hora, serviço, profissional e status (**Agendado**, **Cancelado** ou **Concluído**).
 3. Para cancelar, clique em **Cancelar** e confirme em **Sim, confirmar**. O horário volta a ficar disponível.
+
+Para levar o agendamento para a sua agenda do celular, use **📅 Adicionar ao Google Agenda**.
 
 **Regra:** o cliente só pode cancelar com **pelo menos 2 horas de antecedência**. Depois desse prazo o botão some e aparece "Cancelamento indisponível (menos de 2h). Fale com o salão."
 

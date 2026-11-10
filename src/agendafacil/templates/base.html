@@ -17,6 +17,10 @@
       {% if not g.usuario or g.usuario.is_cliente %}
         <a href="{{ url_for('main.index') }}" class="{{ 'ativo' if ep == 'main.index' }}">Serviços</a>
       {% endif %}
+      {% if not g.usuario %}
+        <a href="{{ url_for('agendamentos.agendar') }}" class="{{ 'ativo' if ep == 'agendamentos.agendar' }}">Agendar</a>
+        <a href="{{ url_for('agendamentos.meus') }}" class="{{ 'ativo' if ep == 'agendamentos.meus' }}">Meus agendamentos</a>
+      {% endif %}
       {% if g.usuario %}
         {% if g.usuario.is_cliente %}
           <a href="{{ url_for('agendamentos.agendar') }}" class="{{ 'ativo' if ep == 'agendamentos.agendar' }}">Agendar</a>

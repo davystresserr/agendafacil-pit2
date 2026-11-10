@@ -1,16 +1,22 @@
 from datetime import timedelta
 
-from flask import Blueprint, abort, flash, g, redirect, render_template, request, url_for
+from flask import Blueprint, abort, flash, g, redirect, render_template, request, session, url_for
 
 from ..extensions import db
 from ..models import Agendamento, Papel, Profissional, Servico
 from ..relogio import agora
-from ..security import login_obrigatorio, papel_obrigatorio
+from ..security import LINKS_SESSAO, login_obrigatorio, papel_obrigatorio
 from ..services import agendamento_service, profissional_service, servico_service
 from ..services.erros import RegraNegocioError
 from ..services.validacao import converter_data, converter_datahora, converter_int
 
 bp = Blueprint("agendamentos", __name__)
+LINKS_MAX = 20  # agendamentos sem conta lembrados neste aparelho (cookie de sessão)
+
+
+def _so_cliente_ou_visitante():
+    if g.usuario is not None and not g.usuario.is_cliente:
+        abort(403)
 
 
 def _obter(modelo, valor, somente_ativo=True):
@@ -21,8 +27,8 @@ def _obter(modelo, valor, somente_ativo=True):
 
 
 @bp.get("/agendar")
-@papel_obrigatorio(Papel.CLIENTE)
 def agendar():
+    _so_cliente_ou_visitante()
     agora_ = agora()
     servico = _obter(Servico, request.args.get("servico_id"))
     profissional = _obter(Profissional, request.args.get("profissional_id"))
@@ -45,8 +51,8 @@ def agendar():
 
 
 @bp.post("/agendar")
-@papel_obrigatorio(Papel.CLIENTE)
 def confirmar():
+    _so_cliente_ou_visitante()
     f = request.form
     servico = _obter(Servico, f.get("servico_id"))
     profissional = _obter(Profissional, f.get("profissional_id"))
@@ -57,20 +63,48 @@ def confirmar():
         flash("Escolha serviço, profissional e horário.", "erro")
         return redirect(voltar)
     try:
-        ag = agendamento_service.agendar(g.usuario, profissional, servico, inicio, agora(), f.get("observacao"))
+        if g.usuario:
+            ag = agendamento_service.agendar(g.usuario, profissional, servico, inicio, agora(), f.get("observacao"))
+        else:
+            ag = agendamento_service.agendar_sem_conta(f.get("nome"), f.get("telefone"), profissional, servico,
+                                                       inicio, agora(), f.get("observacao"))
     except RegraNegocioError as e:
         flash(str(e), "erro")
         return redirect(voltar)
     flash(f"Agendamento confirmado: {servico.nome} com {profissional.nome} em "
           f"{ag.inicio:%d/%m/%Y} às {ag.inicio:%H:%M}.", "sucesso")
-    return redirect(url_for("agendamentos.meus"))
+    if g.usuario:
+        return redirect(url_for("agendamentos.meus"))
+    session.permanent = True  # lembra o agendamento neste aparelho por 31 dias
+    session[LINKS_SESSAO] = ([ag.token] + session.get(LINKS_SESSAO, []))[:LINKS_MAX]
+    return redirect(url_for("agendamentos.pelo_link", token=ag.token))
 
 
 @bp.get("/meus-agendamentos")
-@papel_obrigatorio(Papel.CLIENTE)
 def meus():
-    return render_template("agendamentos/meus.html", agendamentos=agendamento_service.do_cliente(g.usuario),
-                           agora_=agora())
+    _so_cliente_ou_visitante()
+    if g.usuario:
+        agendamentos = agendamento_service.do_cliente(g.usuario)
+    else:
+        agendamentos = agendamento_service.pelos_tokens(session.get(LINKS_SESSAO, []))
+    return render_template("agendamentos/meus.html", agendamentos=agendamentos, agora_=agora())
+
+
+@bp.get("/a/<token>")
+def pelo_link(token):
+    ag = agendamento_service.pelo_token(token) or abort(404)
+    return render_template("agendamentos/link.html", a=ag, agora_=agora())
+
+
+@bp.post("/a/<token>/cancelar")
+def cancelar_pelo_link(token):
+    ag = agendamento_service.pelo_token(token) or abort(404)
+    try:
+        agendamento_service.cancelar_pelo_link(ag, agora())
+        flash("Agendamento cancelado. O horário foi liberado.", "sucesso")
+    except RegraNegocioError as e:
+        flash(str(e), "erro")
+    return redirect(url_for("agendamentos.pelo_link", token=token))
 
 
 @bp.post("/agendamentos/<int:agendamento_id>/cancelar")

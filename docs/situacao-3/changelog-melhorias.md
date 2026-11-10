@@ -18,13 +18,14 @@ Testes feitos por 4 colegas pelo Google Forms entre 28 e 31/10/2026 (laudo, seç
 
 - Botão "Adicionar ao Google Agenda" em Meus agendamentos, para agendamentos futuros: abre o Google Agenda com serviço, profissional, data, hora e observação já preenchidos, sem precisar de login com Google no sistema (sugestão do Colega 3, Davi Inoue). Teste: `test_link_google_agenda_em_meus_agendamentos`. Evidência: `docs/evidencias/09-agendamento-confirmado.png`.
 
+- Agendamento sem cadastro (RF15, RN08): sem entrar no sistema, o cliente informa só nome e celular. Depois de confirmar, recebe um link privado (`/a/<token>`) para ver, levar ao Google Agenda e cancelar; o aparelho lembra esses agendamentos em "Meus agendamentos". A conta continua opcional. Banco: migração `0002_agendamento_sem_conta` (`cliente_id` passa a aceitar nulo; colunas `cliente_nome`, `cliente_telefone`, `token`; restrições `ck_ag_cliente` e `uq_ag_token`). Sugestão do Colega 2, Theo Nicoleli. Testes: CT-38 a CT-41.
+
 ### Esclarecido
 - C-02 (Colega 4, Arthur Furtado): relatou acesso ao administrador no passo A13. Não era defeito: sem login, `/admin/` leva à tela de login, e foi ela que o colega viu. O texto do passo A13 no formulário passou a dizer que o teste deve ser feito logado como cliente.
 
 ### Não aplicado
 - Aviso por WhatsApp ou e-mail após agendar (Colega 3, Davi Inoue) — motivo: fora do escopo; exige serviço pago de envio de mensagens.
 - Cadastro e login próprios para profissional (Colega 1, Andrew) — motivo: conflita com a regra de negócio; o profissional é cadastrado pelo administrador do salão (RF13).
-- Agendar só com o telefone, sem conta (Colega 2, Theo Nicoleli) — motivo: conflita com a regra de negócio; a conta é o que permite ver e cancelar os próprios agendamentos.
 
 Modelo de registro:
 

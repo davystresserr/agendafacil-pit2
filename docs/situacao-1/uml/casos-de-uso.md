@@ -53,7 +53,7 @@ flowchart LR
 | UC01 | Cadastrar-se | Cliente | E-mail ainda não cadastrado | Usuário com papel `cliente` criado |
 | UC02 | Fazer login | Todos | Usuário cadastrado e ativo | Sessão autenticada |
 | UC03 | Consultar serviços | Todos | — | Lista de serviços ativos exibida |
-| UC04 | Agendar horário | Cliente | Logado; serviço e profissional ativos | Agendamento `agendado` criado |
+| UC04 | Agendar horário | Cliente (ou visitante sem cadastro, RF15) | Logado, ou nome e celular informados; serviço e profissional ativos | Agendamento `agendado` criado |
 | UC05 | Consultar horários livres | Cliente | Serviço, profissional e data escolhidos | Lista de horários livres exibida |
 | UC06 | Ver meus agendamentos | Cliente | Logado | Lista exibida |
 | UC07 | Cancelar agendamento | Cliente, Profissional, Admin | Agendamento `agendado`; cliente: ≥ 2h de antecedência | Status `cancelado`; horário liberado |

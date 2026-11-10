@@ -30,7 +30,7 @@ Coluna **Automação**: arquivo e teste que executam o caso. Coluna **Resultado 
 | CT-04 | RF02 | Usuários dos 3 papéis | Login com cada papel | Cliente → início; profissional → /profissional/; admin → /admin/ | ✅ Conforme esperado | `test_auth_controller.py::test_login_redireciona_por_papel_e_next` |
 | CT-05 | RNF03 | — | Login com `?next=https://malicioso.com` | Redireciona para "/" (bloqueia redirecionamento externo) | ✅ Conforme esperado | idem CT-04 |
 | CT-06 | RNF03 | Logado como cliente | Acessar /admin/ e /profissional/ | Página 403 "Acesso negado" | ✅ Conforme esperado | `test_auth_controller.py::test_controle_de_acesso_por_papel` |
-| CT-07 | RNF03 | Não logado | Acessar /meus-agendamentos | Redireciona para /login com aviso | ✅ Conforme esperado | `test_auth_controller.py::test_rota_protegida_exige_login` |
+| CT-07 | RNF03 | Não logado | Acessar /profissional/ | Redireciona para /login com aviso | ✅ Conforme esperado | `test_auth_controller.py::test_rota_protegida_exige_login` |
 | CT-08 | RNF03 | CSRF ativo | POST /login sem token; depois com token válido | Sem token: "Sua sessão expirou"; com token: segue para a autenticação | ✅ Conforme esperado | `test_auth_controller.py::test_csrf_bloqueia_post_sem_token` |
 | CT-09 | RNF02 | — | Definir senha e inspecionar o registro | `senha_hash` diferente da senha; verificação correta/incorreta funciona | ✅ Conforme esperado | `unit/test_models.py::test_senha_e_armazenada_como_hash` |
 
@@ -86,6 +86,10 @@ Coluna **Automação**: arquivo e teste que executam o caso. Coluna **Resultado 
 | CT-35 | IHC | Rota que lança exceção | Acessar a rota | Página 500 personalizada; transação desfeita | ✅ Conforme esperado | `test_auth_controller.py::test_erro_500_personalizado_e_rollback` |
 | CT-36 | RNF05 | Navegador | Cadastro com confirmação de senha diferente | Campo destacado e "As senhas não conferem" antes do envio | ✅ Conforme esperado (inspeção visual) | Print `docs/evidencias/04-cadastro-validacao-cliente.png` (script Playwright) |
 | CT-37 | RNF05 | Celular 390 px | Abrir início, menu e "Meus agendamentos" | Layout em coluna, menu ☰, tabela em cartões, sem rolagem horizontal | ✅ Conforme esperado (inspeção visual) | Prints `20-mobile-servicos.png`, `21-mobile-meus-agendamentos.png`, `22-mobile-menu.png` |
+| CT-38 | RF15 | Visitante sem login | Agendar informando nome e celular | Página "Seu agendamento" com link privado; aparece em "Meus agendamentos" do mesmo aparelho | ✅ Conforme esperado | `test_agendamentos_controller.py::test_visitante_agenda_sem_conta_e_ve_pelo_link`, `test_fluxos.py::test_e2e_agendar_sem_conta_pelo_celular` |
+| CT-39 | RN08 | Agendamento sem conta | Outro aparelho abre "Meus agendamentos" e um token inválido; depois usa o link certo para cancelar | Não vê o agendamento; token inválido dá 404; com o link, cancela | ✅ Conforme esperado | `test_agendamentos_controller.py::test_visitante_cancela_pelo_link_e_outro_aparelho_nao_ve` |
+| CT-40 | RF15, RN03 | Agendamento sem conta | Cancelar pelo link com menos de 2h | Mensagem de cancelamento tardio | ✅ Conforme esperado | `test_agendamento_service.py::test_cancelar_pelo_link_respeita_2_horas` |
+| CT-41 | RF15 | Visitante sem login | Agendar com nome de 1 letra, sem celular ou com celular só de símbolos | Agendamento recusado com mensagem por campo | ✅ Conforme esperado | `test_agendamento_service.py::test_agendar_sem_conta_valida_nome_telefone_e_horario`, `test_agendamentos_controller.py::test_visitante_com_dados_invalidos_nao_agenda` |
 
 ## 3. Verificação estática (revisões e inspeções)
 

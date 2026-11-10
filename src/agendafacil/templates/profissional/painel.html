@@ -14,7 +14,7 @@
     {% for a in agendamentos %}
       <tr data-testid="agendamento">
         <td data-rotulo="Data/hora">{{ a.inicio|datahora }} – {{ a.fim|hora }}</td>
-        <td data-rotulo="Cliente">{{ a.cliente.nome }}{% if a.cliente.telefone %}<br><small class="muted">{{ a.cliente.telefone }}</small>{% endif %}
+        <td data-rotulo="Cliente">{{ a.nome_do_cliente }}{% if a.telefone_do_cliente %}<br><small class="muted">{{ a.telefone_do_cliente }}</small>{% endif %}
           {% if a.observacao %}<br><small>“{{ a.observacao }}”</small>{% endif %}</td>
         <td data-rotulo="Serviço">{{ a.servico.nome }}</td>
         <td data-rotulo="Status"><span class="selo selo-{{ a.status }}">{{ a.status_rotulo }}</span></td>

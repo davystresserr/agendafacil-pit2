@@ -127,3 +127,30 @@ def test_horarios_do_dia_marcam_ocupado_como_indisponivel(dados):
     svc.agendar(dados["cliente"], dados["profissional"], dados["corte"], em(10), AGORA)
     horarios = dict(svc.horarios_do_dia(dados["profissional"], dados["corte"], TERCA, AGORA))
     assert horarios[em(10)] is False and horarios[em(11)] is True
+
+
+def test_agendar_sem_conta_gera_token_e_formata_telefone(dados):
+    ag = svc.agendar_sem_conta("Bruno Visitante", "43999991111", dados["profissional"], dados["corte"], em(10), AGORA)
+    assert ag.cliente is None and ag.nome_do_cliente == "Bruno Visitante"
+    assert ag.telefone_do_cliente == "(43) 99999-1111" and len(ag.token) >= 40
+    assert svc.pelo_token(ag.token) is ag and svc.pelos_tokens([ag.token, "outro"]) == [ag]
+    assert svc.pelo_token("") is None and svc.pelos_tokens([]) == []
+
+
+def test_agendar_sem_conta_valida_nome_telefone_e_horario(dados):
+    with pytest.raises(RegraNegocioError) as e:
+        svc.agendar_sem_conta("B", "", dados["profissional"], dados["corte"], em(10), AGORA)
+    assert set(e.value.erros) == {"nome", "telefone"}
+    svc.agendar(dados["cliente"], dados["profissional"], dados["corte"], em(10), AGORA)
+    with pytest.raises(RegraNegocioError, match="ocupado"):
+        svc.agendar_sem_conta("Bruno", "43999991111", dados["profissional"], dados["corte"], em(10), AGORA)
+
+
+def test_cancelar_pelo_link_respeita_2_horas(dados):
+    ag = svc.agendar_sem_conta("Bruno", "43999991111", dados["profissional"], dados["corte"], em(9, 30, dia=AGORA.date()), AGORA)
+    with pytest.raises(RegraNegocioError, match="2 horas"):
+        svc.cancelar_pelo_link(ag, AGORA)
+    ag2 = svc.agendar_sem_conta("Bruno", "43999991111", dados["profissional"], dados["corte"], em(10), AGORA)
+    assert svc.cancelar_pelo_link(ag2, AGORA).status == StatusAgendamento.CANCELADO
+    with pytest.raises(RegraNegocioError, match="não pode mais"):
+        svc.cancelar_pelo_link(ag2, AGORA)

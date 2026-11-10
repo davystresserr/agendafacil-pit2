@@ -17,7 +17,7 @@ pytest -m e2e                    # só os testes ponta a ponta
 
 | Métrica | Resultado |
 |---|---|
-| Testes executados | **87** |
+| Testes executados | **87** (versão 1.0.0; após as melhorias dos testes dos colegas: 108, com 107 aprovados e 1 de PostgreSQL pulado sem banco configurado, cobertura de 96%) |
 | Aprovados | **87** |
 | Reprovados | 0 |
 | Cobertura de código (linhas) | **97%** (meta: > 70%) |

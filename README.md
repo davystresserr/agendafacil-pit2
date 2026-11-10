@@ -14,7 +14,7 @@ Sistema web de agendamento para salões e barbearias, desenvolvido no **PIT Enge
 
 ## Funcionalidades
 
-- **Cliente:** cadastro, login, catálogo de serviços (preço e duração), agendamento em 4 passos com horários livres calculados, "Meus agendamentos" e cancelamento com até 2 horas de antecedência.
+- **Cliente:** agendamento sem cadastro (só nome e celular, com link privado), cadastro opcional, login, catálogo de serviços (preço e duração), agendamento em 4 passos com horários livres calculados, "Meus agendamentos" e cancelamento com até 2 horas de antecedência.
 - **Profissional:** agenda de atendimentos, concluir/cancelar atendimentos, cadastro dos horários de trabalho.
 - **Administrador:** cadastro, edição e ativação/desativação de serviços, cadastro de profissionais e visão de todos os agendamentos.
 - **Regras garantidas em duas camadas:** no serviço (Python) e no PostgreSQL (`CHECK`, `UNIQUE` e `EXCLUDE` contra sobreposição de horários).
@@ -85,7 +85,7 @@ pytest -m e2e                          # só os testes ponta a ponta
 PG_TEST_URL=postgresql+psycopg://agendafacil:agendafacil@localhost:5432/agendafacil_teste pytest -m pg
 ```
 
-Última execução: **87 testes aprovados, cobertura de 97%**. Ver [`docs/situacao-2/relatorio-testes.md`](docs/situacao-2/relatorio-testes.md).
+Última execução: **107 testes aprovados (e 1 de PostgreSQL, que roda com `PG_TEST_URL`), cobertura de 96%**. Ver [`docs/situacao-2/relatorio-testes.md`](docs/situacao-2/relatorio-testes.md).
 
 Scripts auxiliares:
 

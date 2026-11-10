@@ -70,7 +70,10 @@ Reserva de um intervalo de tempo de um profissional para um serviço de um clien
 | Coluna | Tipo | Obrig. | Domínio / faixa | Chave | Descrição |
 |---|---|---|---|---|---|
 | id | SERIAL | Sim | automático | PK | Identificador do agendamento |
-| cliente_id | INTEGER | Sim | id existente em `usuarios` | FK | Cliente que agendou |
+| cliente_id | INTEGER | Não | id existente em `usuarios`; nulo no agendamento sem conta | FK | Cliente cadastrado que agendou |
+| cliente_nome | VARCHAR(100) | Não | obrigatório quando `cliente_id` é nulo; 2 a 100 caracteres | | Nome de quem agendou sem conta (RF15) |
+| cliente_telefone | VARCHAR(20) | Não | obrigatório quando `cliente_id` é nulo; formato (DD) NNNNN-NNNN | | Celular de quem agendou sem conta |
+| token | VARCHAR(64) | Não | único; obrigatório quando `cliente_id` é nulo; aleatório (`secrets.token_urlsafe`) | UK | Chave do link privado `/a/<token>` (RN08) |
 | profissional_id | INTEGER | Sim | id existente em `profissionais` | FK | Profissional que atenderá |
 | servico_id | INTEGER | Sim | id existente em `servicos` | FK | Serviço agendado |
 | inicio | TIMESTAMP | Sim | data/hora futura no momento do agendamento, dentro da jornada | | Início do atendimento (horário local) |
@@ -80,4 +83,4 @@ Reserva de um intervalo de tempo de um profissional para um serviço de um clien
 | criado_em | TIMESTAMP | Sim | padrão = agora | | Momento em que foi criado |
 | cancelado_em | TIMESTAMP | Não | preenchido se e somente se status = `cancelado` | | Momento do cancelamento |
 
-**Restrições compostas de `agendamentos`:** `EXCLUDE USING gist (profissional_id WITH =, tsrange(inicio, fim) WITH &&) WHERE status = 'agendado'` impede sobreposição (RN02). O índice único parcial `(profissional_id, inicio) WHERE status = 'agendado'` é a mesma proteção em versão portável.
+**Restrições compostas de `agendamentos`:** `ck_ag_cliente` exige `cliente_id` ou o trio nome, telefone e token (RF15). `EXCLUDE USING gist (profissional_id WITH =, tsrange(inicio, fim) WITH &&) WHERE status = 'agendado'` impede sobreposição (RN02). O índice único parcial `(profissional_id, inicio) WHERE status = 'agendado'` é a mesma proteção em versão portável.

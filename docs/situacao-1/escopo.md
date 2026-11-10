@@ -67,6 +67,7 @@ Salões de beleza e barbearias de pequeno porte costumam controlar a agenda em c
 | RF05 | O sistema deve exibir apenas horários livres, considerando a jornada do profissional, a duração do serviço e os agendamentos existentes. | Cliente | Alta |
 | RF06 | O sistema deve impedir dois agendamentos sobrepostos para o mesmo profissional. | Sistema | Alta |
 | RF07 | O sistema deve listar os agendamentos do cliente ("Meus agendamentos"). | Cliente | Alta |
+| RF15 | O sistema deve permitir agendar sem cadastro, informando apenas nome e celular, e dar um link privado para ver e cancelar o agendamento; o aparelho usado lembra esses agendamentos em "Meus agendamentos". | Visitante | Média |
 | RF08 | O sistema deve permitir ao cliente cancelar um agendamento com pelo menos 2 horas de antecedência. | Cliente | Alta |
 | RF09 | O sistema deve exibir ao profissional sua agenda de atendimentos. | Profissional | Alta |
 | RF10 | O sistema deve permitir ao profissional cadastrar e remover seus horários disponíveis. | Profissional | Média |
@@ -86,6 +87,7 @@ Salões de beleza e barbearias de pequeno porte costumam controlar a agenda em c
 | RN05 | O e-mail do usuário é único. |
 | RN06 | Não é possível agendar no passado nem fora da jornada cadastrada do profissional. |
 | RN07 | O profissional só pode ser agendado para serviços que ele realiza. |
+| RN08 | Um agendamento sem cadastro só pode ser visto e cancelado por quem tem o seu link privado (token aleatório); as demais regras (RN02, RN03, RN06, RN07) valem igualmente. |
 
 ## 7. Requisitos não funcionais
 

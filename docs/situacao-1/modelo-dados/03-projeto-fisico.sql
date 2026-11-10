@@ -90,7 +90,10 @@ CREATE TABLE horarios_disponiveis (
 -- -----------------------------------------------------------------------------
 CREATE TABLE agendamentos (
     id               SERIAL        PRIMARY KEY,
-    cliente_id       INTEGER       NOT NULL,
+    cliente_id       INTEGER,                -- NULL quando agendado sem conta (RF15)
+    cliente_nome     VARCHAR(100),           -- agendamento sem conta
+    cliente_telefone VARCHAR(20),            -- agendamento sem conta
+    token            VARCHAR(64),            -- link privado do agendamento sem conta (RN08)
     profissional_id  INTEGER       NOT NULL,
     servico_id       INTEGER       NOT NULL,
     inicio           TIMESTAMP     NOT NULL,
@@ -105,6 +108,10 @@ CREATE TABLE agendamentos (
     CONSTRAINT ck_ag_status   CHECK (status IN ('agendado', 'cancelado', 'concluido')),
     CONSTRAINT ck_ag_periodo  CHECK (fim > inicio),
     CONSTRAINT ck_ag_cancelado CHECK ((status = 'cancelado') = (cancelado_em IS NOT NULL)),
+    -- RF15: ou o agendamento é de um cliente cadastrado, ou tem nome, telefone e token.
+    CONSTRAINT ck_ag_cliente  CHECK (cliente_id IS NOT NULL OR
+                                     (cliente_nome IS NOT NULL AND cliente_telefone IS NOT NULL AND token IS NOT NULL)),
+    CONSTRAINT uq_ag_token    UNIQUE (token),
     -- RN02: nenhum par de agendamentos ATIVOS do mesmo profissional pode se sobrepor.
     CONSTRAINT ex_ag_sem_sobreposicao EXCLUDE USING gist (
         int4range(profissional_id, profissional_id, '[]') WITH =,

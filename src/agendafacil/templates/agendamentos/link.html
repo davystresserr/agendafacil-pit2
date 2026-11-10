@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block titulo %}Seu agendamento{% endblock %}
+{% block conteudo %}
+<h1>Seu agendamento</h1>
+<div class="caixa">
+  <p><strong>{{ a.servico.nome }}</strong> com {{ a.profissional.nome }}</p>
+  <p>{{ a.inicio|datahora }} ({{ a.inicio|dia_semana }}) · {{ a.servico.duracao_min }} min · {{ a.servico.preco_formatado }}</p>
+  <p>Cliente: {{ a.nome_do_cliente }} · {{ a.telefone_do_cliente }}</p>
+  {% if a.observacao %}<p>Observação: {{ a.observacao }}</p>{% endif %}
+  <p>Status: <span class="selo selo-{{ a.status }}">{{ a.status_rotulo }}</span></p>
+  <p>
+    {% if a.ativo and a.inicio > agora_ %}
+      <a class="link-agenda" href="{{ a|google_agenda }}" target="_blank" rel="noopener">📅 Adicionar ao Google Agenda</a>
+    {% endif %}
+    {% if a.pode_ser_cancelado_por_cliente(agora_) %}
+      {% include "_cancelar.html" %}
+    {% elif a.ativo %}
+      <small class="muted">Cancelamento indisponível (menos de 2h). Fale com o salão.</small>
+    {% endif %}
+  </p>
+</div>
+<p class="muted">Guarde este link para ver ou cancelar o agendamento de outro aparelho: quem tiver o link consegue cancelar.</p>
+<p><input class="link-privado" readonly value="{{ url_for('agendamentos.pelo_link', token=a.token, _external=True) }}" onclick="this.select()" aria-label="Link do agendamento"></p>
+<p><a href="{{ url_for('agendamentos.meus') }}">Meus agendamentos</a> · <a href="{{ url_for('agendamentos.agendar') }}">Novo agendamento</a></p>
+{% endblock %}

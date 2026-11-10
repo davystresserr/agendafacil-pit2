@@ -46,7 +46,7 @@ def test_login_redireciona_por_papel_e_next(client, dados):
 
 
 def test_rota_protegida_exige_login(client, dados):
-    r = client.get("/meus-agendamentos")
+    r = client.get("/profissional/")
     assert r.status_code == 302 and "/login" in r.headers["Location"]
 
 

@@ -6,7 +6,7 @@
 
 | Indicador | Valor |
 |---|---|
-| Casos de teste automatizados | 99 executados, 98 aprovados e 1 pulado (o de PostgreSQL, que roda só com banco configurado) ([relatório](../situacao-2/relatorio-testes.md)) |
+| Casos de teste automatizados | 108 executados, 107 aprovados e 1 pulado (o de PostgreSQL, que roda só com banco configurado) ([relatório](../situacao-2/relatorio-testes.md)) |
 | Cobertura de código | 96% |
 | Casos de teste do plano (CT-01 a CT-37) | 37 aprovados ([plano](plano-testes.md)) |
 | Defeitos encontrados na verificação interna | 4 (todos corrigidos), seção 3 |
@@ -74,7 +74,7 @@ Defeitos reais encontrados por mim durante a verificação (revisões, `flask db
 | Nome | Theo Nicoleli |
 | Data do teste e dispositivo | 29/10/2026 · iPhone |
 | O que testou e funcionou | A1 a A8, A12, A14 e A15 OK. "Tudo que testei funcionou." |
-| O que testou e não funcionou, e o que deve ser corrigido | Nenhuma falha. Sugestão: simplificar o cadastro, usando apenas o número de telefone. |
+| O que testou e não funcionou, e o que deve ser corrigido | Nenhuma falha. Sugestão: simplificar o cadastro, usando apenas o número de telefone (aplicada como agendamento sem cadastro, ver changelog). |
 | Funcionalidade não testada, e por quê | A9, A10, A11 e A13 e a Parte B: "queria testar como cliente do barbeiro". |
 | Evidências (prints) | Sem prints. |
 

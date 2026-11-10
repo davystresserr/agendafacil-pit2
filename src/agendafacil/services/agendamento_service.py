@@ -1,12 +1,13 @@
 """Regras de negócio do agendamento (RN01, RN02, RN03, RN06, RN07)."""
+import secrets
 from datetime import date, datetime, timedelta
 
 from sqlalchemy.exc import IntegrityError
 
 from ..extensions import db
 from ..models import Agendamento, Profissional, Servico, StatusAgendamento, Usuario
-from .erros import AcessoNegadoError, RegraNegocioError
-from .validacao import limpar
+from .erros import AcessoNegadoError, RegraNegocioError, ValidacaoError
+from .validacao import limpar, validar_nome, validar_telefone
 
 PASSO_MIN = 30  # intervalo entre inícios de horários oferecidos ao cliente
 
@@ -62,6 +63,25 @@ def agendar(cliente: Usuario, profissional: Profissional, servico: Servico, inic
             agora: datetime, observacao: str | None = None) -> Agendamento:
     if not cliente.is_cliente:
         raise AcessoNegadoError("Apenas clientes podem fazer agendamentos.")
+    return _criar({"cliente": cliente}, profissional, servico, inicio, agora, observacao)
+
+
+def agendar_sem_conta(nome: str, telefone: str, profissional: Profissional, servico: Servico, inicio: datetime,
+                      agora: datetime, observacao: str | None = None) -> Agendamento:
+    """Agendamento sem cadastro: o cliente informa nome e celular e recebe um link privado (token)."""
+    erros = {}
+    nome = validar_nome(nome, erros)
+    telefone = validar_telefone(telefone, erros)
+    if not telefone and "telefone" not in erros:
+        erros["telefone"] = "Preencha o campo celular."
+    if erros:
+        raise ValidacaoError(erros)
+    dono = {"cliente_nome": nome, "cliente_telefone": telefone, "token": secrets.token_urlsafe(32)}
+    return _criar(dono, profissional, servico, inicio, agora, observacao)
+
+
+def _criar(dono: dict, profissional: Profissional, servico: Servico, inicio: datetime,
+           agora: datetime, observacao: str | None) -> Agendamento:
     if not servico.ativo:
         raise RegraNegocioError("Este serviço não está disponível.")
     if not profissional.ativo or not profissional.realiza(servico):
@@ -75,7 +95,7 @@ def agendar(cliente: Usuario, profissional: Profissional, servico: Servico, inic
     if _ocupados(profissional.id, inicio, fim):
         raise RegraNegocioError(MSG_OCUPADO)
 
-    agendamento = Agendamento(cliente=cliente, profissional=profissional, servico=servico,
+    agendamento = Agendamento(**dono, profissional=profissional, servico=servico,
                               inicio=inicio, fim=fim, observacao=limpar(observacao)[:255] or None)
     db.session.add(agendamento)
     try:
@@ -106,6 +126,28 @@ def cancelar(agendamento: Agendamento, usuario: Usuario, agora: datetime) -> Age
     agendamento.cancelado_em = agora
     db.session.commit()
     return agendamento
+
+
+def cancelar_pelo_link(agendamento: Agendamento, agora: datetime) -> Agendamento:
+    """Cancelamento por quem tem o link do agendamento sem conta (o token já foi conferido)."""
+    if not agendamento.ativo:
+        raise RegraNegocioError("Este agendamento não pode mais ser cancelado.")
+    if not agendamento.pode_ser_cancelado_por_cliente(agora):
+        raise RegraNegocioError(MSG_CANCELAMENTO_TARDIO)
+    agendamento.status = StatusAgendamento.CANCELADO
+    agendamento.cancelado_em = agora
+    db.session.commit()
+    return agendamento
+
+
+def pelo_token(token: str) -> Agendamento | None:
+    return Agendamento.query.filter_by(token=token).first() if token else None
+
+
+def pelos_tokens(tokens: list[str]):
+    if not tokens:
+        return []
+    return Agendamento.query.filter(Agendamento.token.in_(tokens)).order_by(Agendamento.inicio.desc()).all()
 
 
 def concluir(agendamento: Agendamento, usuario: Usuario, agora: datetime) -> Agendamento:

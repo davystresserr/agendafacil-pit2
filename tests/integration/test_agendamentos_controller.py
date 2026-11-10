@@ -135,3 +135,51 @@ def test_link_google_agenda_em_meus_agendamentos(client, dados):
     assert "dates=20261020T100000%2F20261020T" in html and "ctz=America%2FSao_Paulo" in html
     client.post(f"/agendamentos/{Agendamento.query.one().id}/cancelar")
     assert "calendar.google.com" not in client.get("/meus-agendamentos").get_data(as_text=True)
+
+
+def agendar_sem_conta(client, dados, inicio="2026-10-20T10:00", telefone="(43) 99999-1111"):
+    return client.post("/agendar", data={"servico_id": dados["corte"].id, "profissional_id": dados["profissional"].id,
+                                         "inicio": inicio, "nome": "Bruno Visitante", "telefone": telefone})
+
+
+def test_visitante_agenda_sem_conta_e_ve_pelo_link(client, dados):
+    assert client.get(f"/agendar?servico_id={dados['corte'].id}").status_code == 200
+    r = agendar_sem_conta(client, dados)
+    ag = Agendamento.query.one()
+    assert r.status_code == 302 and r.headers["Location"] == f"/a/{ag.token}"
+    html = client.get(f"/a/{ag.token}").get_data(as_text=True)
+    assert "Bruno Visitante" in html and "calendar.google.com" in html and "Cancelar" in html
+    assert "Corte masculino" in client.get("/meus-agendamentos").get_data(as_text=True)  # lembrado neste aparelho
+
+
+def test_visitante_cancela_pelo_link_e_outro_aparelho_nao_ve(app, client, dados):
+    agendar_sem_conta(client, dados)
+    ag = Agendamento.query.one()
+    outro = app.test_client()
+    assert "Corte masculino" not in outro.get("/meus-agendamentos").get_data(as_text=True)
+    assert outro.get("/a/token-invalido").status_code == 404
+    r = outro.post(f"/a/{ag.token}/cancelar", follow_redirects=True)  # quem tem o link pode cancelar
+    assert "Agendamento cancelado" in r.get_data(as_text=True) and ag.status == StatusAgendamento.CANCELADO
+
+
+def test_visitante_com_dados_invalidos_nao_agenda(client, dados):
+    r = agendar_sem_conta(client, dados, telefone="((((((((")
+    assert r.status_code == 302 and Agendamento.query.count() == 0
+    assert "Telefone inválido" in client.get(r.headers["Location"]).get_data(as_text=True)
+
+
+def test_profissional_e_admin_veem_nome_do_visitante(client, dados):
+    agendar_sem_conta(client, dados)
+    login(client, "carlos@teste.com")
+    assert "Bruno Visitante" in client.get("/profissional/").get_data(as_text=True)
+    assert client.get("/agendar").status_code == 403
+    client.post("/logout")
+    login(client, "admin@teste.com")
+    assert "(sem cadastro)" in client.get("/admin/agendamentos").get_data(as_text=True)
+
+
+def test_login_mantem_agendamentos_sem_conta_do_aparelho(client, dados):
+    agendar_sem_conta(client, dados)
+    login(client, "ana@teste.com")
+    with client.session_transaction() as s:
+        assert s["links"] == [Agendamento.query.one().token]

@@ -10,7 +10,7 @@
   {% for a in agendamentos %}
     <tr data-testid="agendamento">
       <td data-rotulo="Data/hora">{{ a.inicio|datahora }}</td>
-      <td data-rotulo="Cliente">{{ a.cliente.nome }}</td>
+      <td data-rotulo="Cliente">{{ a.nome_do_cliente }}{% if not a.cliente %} <small class="muted">(sem cadastro)</small>{% endif %}</td>
       <td data-rotulo="Profissional">{{ a.profissional.nome }}</td>
       <td data-rotulo="Serviço">{{ a.servico.nome }}</td>
       <td data-rotulo="Status"><span class="selo selo-{{ a.status }}">{{ a.status_rotulo }}</span></td>
