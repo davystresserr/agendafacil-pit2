@@ -77,3 +77,12 @@ def test_telefone_sem_digitos_suficientes_e_recusado(entrada):
 def test_telefone_valido_e_formatado(entrada, esperado):
     erros = {}
     assert v.validar_telefone(entrada, erros) == esperado and not erros
+
+
+@pytest.mark.parametrize("nome, foto", [
+    ("Corte + barba", "1647140655214"), ("Corte feminino", "1700760934268"), ("Escova", "1562322140"),
+    ("Barba", "1599011176306"), ("Corte masculino", "1593702275687"), ("Hidratação", "1503951914875"),
+])
+def test_foto_do_servico_pelo_nome(nome, foto):
+    from agendafacil.filtros import foto_servico
+    assert foto in foto_servico(nome) and foto_servico(nome).startswith("https://images.unsplash.com/")

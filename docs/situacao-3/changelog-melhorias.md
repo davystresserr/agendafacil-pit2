@@ -22,6 +22,8 @@ Testes feitos por 4 colegas pelo Google Forms entre 28 e 31/10/2026 (laudo, seç
 
 - Identidade visual de barbearia (tema "Vintage"): papel creme, marrom couro e vermelho tijolo; faixa do poste de barbeiro no topo; títulos em letra de letreiro (Bebas Neue e Oswald); página inicial com destaque "Tradição em cada corte" e serviços em formato de cardápio; botões e horários arredondados. Escolhido entre três prévias (`docs/previas-design.html` e `docs/previas-design.png`). Só CSS e textos dos templates; nenhuma regra mudou.
 
+- Foto ilustrativa em cada serviço da página inicial (em moldura redonda, no estilo do tema), escolhida pelo tipo de serviço: corte masculino, barba, corte + barba, corte feminino e escova; serviços novos cadastrados pelo admin recebem uma foto geral de barbearia. Fotos do Unsplash (licença livre), com créditos no README. Teste: `test_foto_do_servico_pelo_nome`.
+
 ### Esclarecido
 - C-02 (Colega 4, Arthur Furtado): relatou acesso ao administrador no passo A13. Não era defeito: sem login, `/admin/` leva à tela de login, e foi ela que o colega viu. O texto do passo A13 no formulário passou a dizer que o teste deve ser feito logado como cliente.
 

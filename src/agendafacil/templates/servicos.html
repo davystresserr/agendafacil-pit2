@@ -14,6 +14,7 @@
 <div class="cards">
   {% for s in servicos %}
   <article class="card" data-testid="servico">
+    <img class="foto" src="{{ s.nome|foto_servico }}" alt="Foto ilustrativa: {{ s.nome }}" width="480" height="360" loading="lazy">
     <h3>{{ s.nome }}</h3>
     {% if s.descricao %}<p class="muted">{{ s.descricao }}</p>{% endif %}
     <p class="preco">{{ s.preco_formatado }}<span class="duracao">{{ s.duracao_min }} min</span></p>

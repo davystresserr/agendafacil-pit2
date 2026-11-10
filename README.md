@@ -97,3 +97,7 @@ python scripts/gerar_evidencias.py     # prints das telas em docs/evidencias/
 ## Deploy
 
 Vercel ([`vercel.json`](vercel.json)) + banco no Neon + domínio no Cloudflare: passo a passo em [`docs/deploy.md`](docs/deploy.md).
+
+## Créditos das fotos
+
+Fotos dos serviços do [Unsplash](https://unsplash.com), sob a [licença Unsplash](https://unsplash.com/license) (uso livre), carregadas direto do Unsplash: Mr Shave (barba), Michael DeMoya (corte masculino), Nate Johnston (corte + barba), Farhad Ibrahimzade (corte feminino), Adam Winger (escova) e Allef Vinicius (demais serviços).

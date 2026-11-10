@@ -52,12 +52,13 @@ button.link{background:none;border:0;color:var(--primaria);cursor:pointer;font:i
 /* Cards */
 /* Serviços como cardápio de barbearia */
 .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:0 40px;max-width:900px;margin:0 auto}
-.card{display:grid;grid-template-columns:1fr auto;align-items:center;gap:2px 16px;padding:16px 4px;border-bottom:1px dashed #a07d5c}
-.card h3{margin:0;font-size:1.1rem}
-.card .muted{grid-column:1;margin:0;font-size:.9rem}
-.card .preco{grid-column:2;grid-row:1;margin:0;text-align:right;font-family:var(--rotulo);font-weight:600;color:var(--primaria);font-size:1.15rem;white-space:nowrap}
+.card{display:grid;grid-template-columns:92px 1fr auto;align-items:center;gap:2px 16px;padding:16px 4px;border-bottom:1px dashed #a07d5c}
+.card .foto{grid-column:1;grid-row:1/span 2;width:92px;height:92px;object-fit:cover;border-radius:50%;border:3px solid var(--couro);outline:2px dashed #a07d5c;outline-offset:3px;background:var(--borda)}
+.card h3{grid-column:2;margin:0;font-size:1.1rem}
+.card .muted{grid-column:2;margin:0;font-size:.9rem}
+.card .preco{grid-column:3;grid-row:1;margin:0;text-align:right;font-family:var(--rotulo);font-weight:600;color:var(--primaria);font-size:1.15rem;white-space:nowrap}
 .card .preco .duracao{display:block;font-family:Inter,system-ui,sans-serif;font-weight:400;color:var(--muted);font-size:.8rem;text-align:right}
-.card .botao{grid-column:2;margin:4px 0 0;justify-self:end}
+.card .botao{grid-column:3;grid-row:2;margin:4px 0 0;justify-self:end}
 .preco{font-size:1.05rem}
 
 /* Formulários */
@@ -144,6 +145,7 @@ dialog .acoes{justify-content:flex-end}
   .menu{display:none;width:100%;flex-direction:column;align-items:stretch;padding-bottom:8px}
   h1{font-size:2.2rem}.hero h1{font-size:2.6rem}
   .cards{grid-template-columns:1fr}
+  .card{grid-template-columns:68px 1fr auto;gap:2px 12px}.card .foto{width:68px;height:68px;border-width:2px}
   .menu.aberto{display:flex}
   .grade-2{grid-template-columns:1fr}
   .passos{flex-wrap:wrap}.passos li{flex:1 1 45%}

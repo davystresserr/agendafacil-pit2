@@ -7,7 +7,37 @@ from .models.horario import DIAS_SEMANA
 from .relogio import agora
 
 
+# Fotos do Unsplash (licença livre), escolhidas pelo tipo de serviço; créditos no README.
+FOTOS = {
+    "combo": "1647140655214-e4a2d914971f",      # Nate Johnston
+    "feminino": "1700760934268-8aa0ef52ce0a",   # Farhad Ibrahimzade
+    "escova": "1562322140-8baeececf3df",        # Adam Winger
+    "barba": "1599011176306-4a96f1516d4d",      # Mr Shave
+    "masculino": "1593702275687-f8b402bf1fb5",  # Michael DeMoya
+    "geral": "1503951914875-452162b0f3f1",      # Allef Vinicius
+}
+
+
+def foto_servico(nome: str) -> str:
+    n = (nome or "").lower()
+    if "barba" in n and ("corte" in n or "combo" in n):
+        tipo = "combo"
+    elif "feminino" in n:
+        tipo = "feminino"
+    elif "escova" in n:
+        tipo = "escova"
+    elif "barba" in n:
+        tipo = "barba"
+    elif "corte" in n or "masculino" in n:
+        tipo = "masculino"
+    else:  # serviço novo cadastrado pelo admin
+        tipo = "geral"
+    return f"https://images.unsplash.com/photo-{FOTOS[tipo]}?w=480&h=360&fit=crop&auto=format&q=70"
+
+
 def registrar_filtros(app):
+    app.add_template_filter(foto_servico, "foto_servico")
+
     @app.template_filter("datahora")
     def datahora(valor):
         return valor.strftime("%d/%m/%Y %H:%M") if valor else ""
