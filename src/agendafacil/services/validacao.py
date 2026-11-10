@@ -32,9 +32,15 @@ def validar_email(email: str, erros: dict) -> str:
 
 def validar_telefone(telefone: str, erros: dict) -> str | None:
     telefone = limpar(telefone)
-    if telefone and not TELEFONE_RE.match(telefone):
-        erros["telefone"] = "Telefone inválido. Use apenas números, espaços, +, ( ) e -."
-    return telefone or None
+    if not telefone:
+        return None
+    digitos = re.sub(r"\D", "", telefone)
+    if digitos.startswith("55") and len(digitos) in (12, 13):
+        digitos = digitos[2:]  # remove o código do Brasil
+    if not TELEFONE_RE.match(telefone) or len(digitos) not in (10, 11):
+        erros["telefone"] = "Telefone inválido. Informe DDD e número, ex.: (43) 99999-0000."
+        return telefone
+    return f"({digitos[:2]}) {digitos[2:-4]}-{digitos[-4:]}"
 
 
 def validar_senha(senha: str, confirmacao: str | None, erros: dict) -> str:

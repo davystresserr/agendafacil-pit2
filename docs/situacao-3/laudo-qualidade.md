@@ -10,8 +10,8 @@
 | Cobertura de código | 97% |
 | Casos de teste do plano (CT-01 a CT-37) | 37 aprovados ([plano](plano-testes.md)) |
 | Defeitos encontrados na verificação interna | 4 (todos corrigidos), seção 3 |
-| Testes de aceitação com colegas | 0 de 5 realizados, seção 4 [PENDENTE: aguardando teste real] |
-| Defeitos encontrados pelos colegas | [PENDENTE: aguardando teste real] |
+| Testes de aceitação com colegas | 4 de 5 realizados, seção 4 (colega 5: [PENDENTE: aguardando teste real]) |
+| Defeitos apontados pelos colegas | 2: C-01 corrigido; C-02 em análise (seção 5) |
 
 **Escala de severidade**
 
@@ -54,51 +54,51 @@ Defeitos reais encontrados por mim durante a verificação (revisões, `flask db
 
 ## 4. Testes de aceitação com colegas
 
-> Cada colega seguiu o roteiro do [formulário](formulario-colegas.md). Os prints enviados ficam em `docs/evidencias/colegas/`.
+> Cada colega seguiu o roteiro do [formulário](formulario-colegas.md), respondido pelo Google Forms entre 28 e 31/10/2026. As respostas abaixo resumem o que cada um escreveu; trechos entre aspas são literais.
 
 ### 4.1 Colega 1
 
 | Campo | Resposta |
 |---|---|
-| Nome | [PENDENTE: aguardando teste real] |
-| Data do teste | [PENDENTE: aguardando teste real] |
-| O que testou e funcionou | [PENDENTE: aguardando teste real] |
-| O que testou e não funcionou, e o que deve ser corrigido | [PENDENTE: aguardando teste real] |
-| Funcionalidade não testada, e por quê | [PENDENTE: aguardando teste real] |
-| Evidências (prints) | [PENDENTE: aguardando teste real] |
+| Nome | Andrew |
+| Data do teste e dispositivo | 28/10/2026 · celular Android + Chrome |
+| O que testou e funcionou | Parte A completa (A1 a A15): todos OK. "Tudo funcionando." |
+| O que testou e não funcionou, e o que deve ser corrigido | O cadastro aceitava telefone só com símbolos, como "((((((((". Sugeriu aceitar só números e formatar como (xx) xxxxx-xxxx. Registrado como C-01. |
+| Funcionalidade não testada, e por quê | Parte B (profissional e administrador): testou apenas como cliente. |
+| Evidências (prints) | Sem prints. |
 
 ### 4.2 Colega 2
 
 | Campo | Resposta |
 |---|---|
-| Nome | [PENDENTE: aguardando teste real] |
-| Data do teste | [PENDENTE: aguardando teste real] |
-| O que testou e funcionou | [PENDENTE: aguardando teste real] |
-| O que testou e não funcionou, e o que deve ser corrigido | [PENDENTE: aguardando teste real] |
-| Funcionalidade não testada, e por quê | [PENDENTE: aguardando teste real] |
-| Evidências (prints) | [PENDENTE: aguardando teste real] |
+| Nome | Theo Nicoleli |
+| Data do teste e dispositivo | 29/10/2026 · iPhone |
+| O que testou e funcionou | A1 a A8, A12, A14 e A15 OK. "Tudo que testei funcionou." |
+| O que testou e não funcionou, e o que deve ser corrigido | Nenhuma falha. Sugestão: simplificar o cadastro, usando apenas o número de telefone. |
+| Funcionalidade não testada, e por quê | A9, A10, A11 e A13 e a Parte B: "queria testar como cliente do barbeiro". |
+| Evidências (prints) | Sem prints. |
 
 ### 4.3 Colega 3
 
 | Campo | Resposta |
 |---|---|
-| Nome | [PENDENTE: aguardando teste real] |
-| Data do teste | [PENDENTE: aguardando teste real] |
-| O que testou e funcionou | [PENDENTE: aguardando teste real] |
-| O que testou e não funcionou, e o que deve ser corrigido | [PENDENTE: aguardando teste real] |
-| Funcionalidade não testada, e por quê | [PENDENTE: aguardando teste real] |
-| Evidências (prints) | [PENDENTE: aguardando teste real] |
+| Nome | Davi Inoue |
+| Data do teste e dispositivo | 31/10/2026 · notebook Windows + Chrome |
+| O que testou e funcionou | Partes A e B completas (A1 a A15 e B1 a B4): todos OK. "Bem intuitivo e responsivo." |
+| O que testou e não funcionou, e o que deve ser corrigido | Nenhuma falha. Sugestões: enviar WhatsApp ou e-mail com os dados do agendamento e integrar com o Google Agenda. |
+| Funcionalidade não testada, e por quê | Nenhuma. |
+| Evidências (prints) | 1 print enviado pelo Google Forms (pasta do formulário no Google Drive). |
 
 ### 4.4 Colega 4
 
 | Campo | Resposta |
 |---|---|
-| Nome | [PENDENTE: aguardando teste real] |
-| Data do teste | [PENDENTE: aguardando teste real] |
-| O que testou e funcionou | [PENDENTE: aguardando teste real] |
-| O que testou e não funcionou, e o que deve ser corrigido | [PENDENTE: aguardando teste real] |
-| Funcionalidade não testada, e por quê | [PENDENTE: aguardando teste real] |
-| Evidências (prints) | [PENDENTE: aguardando teste real] |
+| Nome | Arthur Furtado |
+| Data do teste e dispositivo | 31/10/2026 · iPhone + Safari |
+| O que testou e funcionou | A1 a A12, A14 e A15 OK. "Tudo." |
+| O que testou e não funcionou, e o que deve ser corrigido | A13 marcado como Falhou: "Eu consegui acessar com o admin". Registrado como C-02. Sugestão: horários disponíveis em azul e indisponíveis em cinza. |
+| Funcionalidade não testada, e por quê | Parte B: "não recebi acesso". |
+| Evidências (prints) | Sem prints. |
 
 ### 4.5 Colega 5
 
@@ -115,7 +115,8 @@ Defeitos reais encontrados por mim durante a verificação (revisões, `flask db
 
 | ID | Descrição | Encontrado por | Evidência (`docs/evidencias/colegas/`) | Severidade | Correção aplicada | Status |
 |---|---|---|---|---|---|---|
-| C-01 | [PENDENTE: aguardando teste real] | | | | | |
+| C-01 | O campo telefone do cadastro aceitava valores sem número algum, como "((((((((" ou "--------", porque a validação só conferia os caracteres permitidos. | Colega 1 (Andrew) | Relato no formulário (passo A3) | Média | O servidor passou a exigir DDD e número (10 ou 11 dígitos, aceitando +55) e grava o telefone sempre no formato (43) 99999-0000; o campo do formulário recusa o valor antes do envio. Testes: `test_telefone_sem_digitos_suficientes_e_recusado`, `test_telefone_valido_e_formatado`. | Corrigido |
+| C-02 | Passo A13 marcado como Falhou com o comentário "Eu consegui acessar com o admin". | Colega 4 (Arthur Furtado) | Relato no formulário (passo A13) | [PENDENTE: confirmar com o colega] | Não reproduzido: logado como cliente, `/admin/` responde "Acesso negado" (403) e, sem login, redireciona para o login (CT-06, `test_auth_controller.py::test_controle_de_acesso_por_papel`). [PENDENTE: confirmar com o colega como entrou como administrador] | Em análise |
 
 > Para cada defeito: reproduzir, criar um teste automatizado que falhe, corrigir, rodar `pytest` e registrar a correção no [changelog](changelog-melhorias.md).
 

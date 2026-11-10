@@ -4,7 +4,23 @@ Formato baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/). 
 
 ## [Não lançado]: correções após os testes dos colegas
 
-[PENDENTE: aguardando teste real]
+Testes feitos por 4 colegas pelo Google Forms entre 28 e 31/10/2026 (laudo, seção 4). Colega 5: [PENDENTE: aguardando teste real].
+
+### Corrigido
+- C-01 (Colega 1, Andrew): o telefone do cadastro aceitava valores sem número, como "((((((((". O servidor passou a exigir DDD e número (10 ou 11 dígitos, aceitando +55) e o campo do formulário recusa o valor antes do envio. Testes: `test_telefone_sem_digitos_suficientes_e_recusado`, `test_telefone_valido_e_formatado`.
+
+### Melhorado
+- Telefone salvo sempre no formato (43) 99999-0000, qualquer que seja a forma digitada (sugestão do Colega 1, Andrew).
+
+### Em análise
+- C-02 (Colega 4, Arthur Furtado): relatou acesso ao administrador no passo A13. Não reproduzido (CT-06). [PENDENTE: confirmar com o colega]
+
+### Não aplicado
+- Integração com o Google Agenda (Colega 3, Davi Inoue) — motivo: fora do escopo desta versão (depende de login com Google e da API do Google Calendar).
+- Aviso por WhatsApp ou e-mail após agendar (Colega 3, Davi Inoue) — motivo: fora do escopo; exige serviço pago de envio de mensagens.
+- Cadastro e login próprios para profissional (Colega 1, Andrew) — motivo: conflita com a regra de negócio; o profissional é cadastrado pelo administrador do salão (RF13).
+- Agendar só com o telefone, sem conta (Colega 2, Theo Nicoleli) — motivo: conflita com a regra de negócio; a conta é o que permite ver e cancelar os próprios agendamentos.
+- Horários disponíveis em azul e indisponíveis em cinza (Colega 4, Arthur Furtado) — motivo: [PENDENTE: decidir se será aplicado]
 
 Modelo de registro:
 

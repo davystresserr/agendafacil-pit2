@@ -12,7 +12,7 @@
     <input id="email" name="email" type="email" required maxlength="120" autocomplete="email" value="{{ dados.get('email', '') }}" class="{{ 'invalido' if erros.email }}">
     {% if erros.email %}<small class="erro-campo">{{ erros.email }}</small>{% endif %}
     <label for="telefone">Telefone</label>
-    <input id="telefone" name="telefone" type="tel" maxlength="20" pattern="[0-9 +()\-]{8,20}" autocomplete="tel" placeholder="(43) 99999-0000" value="{{ dados.get('telefone', '') }}" class="{{ 'invalido' if erros.telefone }}">
+    <input id="telefone" name="telefone" type="tel" maxlength="20" pattern="(?=(?:[^0-9]*[0-9]){10,13}[^0-9]*$)[0-9 +\(\)\-]{8,20}" title="DDD e número, ex.: (43) 99999-0000" autocomplete="tel" placeholder="(43) 99999-0000" value="{{ dados.get('telefone', '') }}" class="{{ 'invalido' if erros.telefone }}">
     {% if erros.telefone %}<small class="erro-campo">{{ erros.telefone }}</small>{% endif %}
     <label for="senha">Senha * <small class="muted">(mínimo 8 caracteres)</small></label>
     <input id="senha" name="senha" type="password" required minlength="8" autocomplete="new-password" class="{{ 'invalido' if erros.senha }}">

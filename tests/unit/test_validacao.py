@@ -58,3 +58,22 @@ def test_conversores():
     assert v.converter_datahora("2026-10-20T10:00") == datetime(2026, 10, 20, 10, 0)
     assert v.converter_datahora("ontem") is None
     assert v.converter_int("7") == 7 and v.converter_int("x") is None
+
+
+@pytest.mark.parametrize("entrada", ["((((((((", "--------", "+++ +++ ++", "( ) - ( ) -", "1234567", "123456789012"])
+def test_telefone_sem_digitos_suficientes_e_recusado(entrada):
+    # C-01: antes, um telefone só com símbolos passava na validação
+    erros = {}
+    v.validar_telefone(entrada, erros)
+    assert "telefone" in erros
+
+
+@pytest.mark.parametrize("entrada, esperado", [
+    ("43999991111", "(43) 99999-1111"),
+    ("(43) 99999-1111", "(43) 99999-1111"),
+    ("43 3333-4444", "(43) 3333-4444"),
+    ("+55 43 99999-1111", "(43) 99999-1111"),
+])
+def test_telefone_valido_e_formatado(entrada, esperado):
+    erros = {}
+    assert v.validar_telefone(entrada, erros) == esperado and not erros
