@@ -21,7 +21,7 @@ Sistema web de agendamento para salões e barbearias, desenvolvido no **PIT Enge
 
 ## Stack
 
-Python 3.12 · Flask · Flask-SQLAlchemy · Flask-Migrate (Alembic) · PostgreSQL 16 · Jinja2 + HTML5/CSS3/JavaScript puro · pytest + pytest-cov + Playwright · Render (hospedagem) + Cloudflare (domínio)
+Python 3.12 · Flask · Flask-SQLAlchemy · Flask-Migrate (Alembic) · PostgreSQL · Jinja2 + HTML5/CSS3/JavaScript puro · pytest + pytest-cov + Playwright · Render (hospedagem) + Neon (PostgreSQL) + Cloudflare (domínio)
 
 ## Arquitetura (MVC + serviços)
 
@@ -96,4 +96,4 @@ python scripts/gerar_evidencias.py     # prints das telas em docs/evidencias/
 
 ## Deploy
 
-Render via Blueprint ([`render.yaml`](render.yaml)) + domínio no Cloudflare: passo a passo em [`docs/deploy.md`](docs/deploy.md).
+Render via Blueprint ([`render.yaml`](render.yaml)) + banco no Neon + domínio no Cloudflare: passo a passo em [`docs/deploy.md`](docs/deploy.md).
