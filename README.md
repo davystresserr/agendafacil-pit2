@@ -7,7 +7,7 @@ Sistema web de agendamento para salões e barbearias, desenvolvido no **PIT Enge
 | | |
 |---|---|
 | Aplicação em funcionamento | https://agendafacil-wine.vercel.app |
-| Vídeo de apresentação | [PENDENTE] |
+| Vídeo de apresentação | https://youtu.be/P9mzZGVTqsM |
 | Repositório | https://github.com/davystresserr/agendafacil-pit2 |
 
 > **Sobre o PIT I:** os documentos originais do PIT I não estavam disponíveis. O planejamento (escopo, UML, IHC e dados) foi **reconstruído do zero** a partir da ideia original e revisado conforme o material do PIT II. Ver [`docs/situacao-1/escopo.md`](docs/situacao-1/escopo.md).
